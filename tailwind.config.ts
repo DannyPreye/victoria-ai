@@ -15,7 +15,8 @@ const config: Config = {
       },
       fontFamily: {
         poppins: [ 'Poppins', "sans-serif" ],
-        inter: [ "Inter", "sans-serif" ]
+        inter: [ "Inter", "sans-serif" ],
+        "plus-jakarta": [ "Plus Jakarta Sans", "sans-serif" ]
       },
       colors: {
         "gray-600": "#475467",
@@ -26,7 +27,9 @@ const config: Config = {
         "base-primary-yellow": "#E2BB53",
         "base-white": "#FFFFFF",
         "primary-yellow": "#E1AE25",
-        "gray-iron-500": "#70707B"
+        "gray-iron-500": "#70707B",
+        "neutrals-500": "#E3E4E4",
+        "success-600": "#039855"
 
       }
     },

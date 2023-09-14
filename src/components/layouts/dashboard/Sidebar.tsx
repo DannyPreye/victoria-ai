@@ -13,7 +13,7 @@ const dashboardLinks = [
         link: "/dashboard/my-cover-letters",
     },
     {
-        title: "My Cover Letters",
+        title: "Settings",
         icon: "/assets/icons/settings.png",
         link: "/dashboard/settings",
     },
