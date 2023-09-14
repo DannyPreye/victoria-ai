@@ -20,6 +20,7 @@ export default function RootLayout({
             <body className='font-poppins'>
                 {/* <LandingPageLayout> */}
                 {children}
+                <div id='portal'></div>
                 {/* </LandingPageLayout> */}
             </body>
         </html>

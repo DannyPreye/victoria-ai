@@ -5,7 +5,7 @@ interface Props {
 }
 const DashboardHeader = ({ setMinimizeSideBar }: Props) => {
     return (
-        <header className='flex items-center shadow-md justify-between py-[11px] px-[16px]'>
+        <header className='lg:flex hidden items-center shadow-md justify-between py-[11px] px-[16px]'>
             <div
                 onClick={() => setMinimizeSideBar((prev) => !prev)}
                 className='p-[4px] cursor-pointer'

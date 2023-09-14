@@ -10,7 +10,7 @@ interface Props {
 const DashboardLayout = ({ children }: Props) => {
     const [minimizeSideBar, setMinimizeSideBar] = useState(false);
     return (
-        <div className='flex'>
+        <div className='flex lg:flex-row flex-col'>
             <Sidebar minimizeSideBar={minimizeSideBar} />
             <div className='flex-1'>
                 <DashboardHeader setMinimizeSideBar={setMinimizeSideBar} />

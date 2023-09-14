@@ -29,7 +29,8 @@ const config: Config = {
         "primary-yellow": "#E1AE25",
         "gray-iron-500": "#70707B",
         "neutrals-500": "#E3E4E4",
-        "success-600": "#039855"
+        "success-600": "#039855",
+        "gray-25": "#FCFCFC"
 
       }
     },

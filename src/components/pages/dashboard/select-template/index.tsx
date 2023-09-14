@@ -7,7 +7,7 @@ const SelectTemplatePage = () => {
             <h1 className='text-base-secondary-text text-[24px] font-[500] leading-[28.8px]'>
                 Select Cover Letter Template
             </h1>
-            <section className='mt-[44px] grid grid-cols-3 gap-[24px]'>
+            <section className='mt-[44px] grid grid-cols-1 lg:grid-cols-3 gap-[24px]'>
                 {coverLetterTemplates.map((template, id) => (
                     <div
                         key={`template_${id}`}

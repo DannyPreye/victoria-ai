@@ -1,5 +1,11 @@
+import Modal from "@/components/shared/Modal";
+import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { BsGrid3X3GapFill } from "react-icons/bs";
+import { AiOutlineClose } from "react-icons/ai";
+import { FiLifeBuoy } from "react-icons/fi";
+import { LuLogOut } from "react-icons/lu";
 
 const dashboardLinks = [
     {
@@ -23,10 +29,20 @@ interface Props {
     minimizeSideBar: boolean;
 }
 const Sidebar = ({ minimizeSideBar }: Props) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     return (
-        <aside className='min-h-screen w-fit flex-shrink-0 bg-base-secondary-text py-[32px] px-[16px]'>
-            <img src='/dashboard-logo.png' alt='quick apply' />
-            <div className='mt-[40.08px] grid '>
+        <aside
+            className='lg:min-h-screen lg:w-fit flex justify-between
+        items-center lg:block flex-shrink-0 bg-base-secondary-text py-[32px] px-[16px]'
+        >
+            <Image
+                priority
+                width={180}
+                height={26.92349}
+                src='/dashboard-logo.png'
+                alt='quick apply'
+            />
+            <div className='mt-[40.08px] hidden lg:grid '>
                 {dashboardLinks.map((navLink, id) => (
                     <Link
                         href={navLink.link}
@@ -45,8 +61,110 @@ const Sidebar = ({ minimizeSideBar }: Props) => {
                     </Link>
                 ))}
             </div>
+            <div
+                onClick={() => setIsMenuOpen(true)}
+                className='lg:hidden cursor-pointer p-[4px] text-white rounded-[4px] bg-[rgba(255,255,255,0.10)]'
+            >
+                <BsGrid3X3GapFill size={24} />
+            </div>
+            <MobileMenu setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} />
         </aside>
     );
 };
 
 export default Sidebar;
+
+interface MobileMenuProps {
+    setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isMenuOpen: boolean;
+}
+const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
+    return (
+        <Modal>
+            <div
+                className={`fixed flex left-0 top-0 w-screen h-screen duration-700 ${
+                    isMenuOpen ? "left-0" : "left-[-100%]"
+                } items-start`}
+            >
+                <div className='bg-base-secondary-text h-full flex-1 py-[24px] flex flex-col justify-between'>
+                    <div className='px-[24px]'>
+                        <Image
+                            priority
+                            width={180}
+                            height={26.92349}
+                            src='/dashboard-logo.png'
+                            alt='quick apply'
+                        />
+                        <div className='mt-[42px] grid '>
+                            {dashboardLinks.map((navLink, id) => (
+                                <Link
+                                    href={navLink.link}
+                                    className='p-[8px] rounded-[3px] hover:bg-primary-yellow
+                                     focus:bg-primary-yellow flex gap-[12px] items-center'
+                                    key={id}
+                                >
+                                    <img src={navLink.icon} alt='' />
+
+                                    <span
+                                        className='text-white font-inter
+                        text-[14px] font-[600] leading-[20px]'
+                                    >
+                                        {navLink.title}
+                                    </span>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className='px-[20px]'>
+                            <Link
+                                href={"/dashboard/notification"}
+                                className='p-[8px] rounded-[3px] hover:bg-primary-yellow
+                                     focus:bg-primary-yellow text-white  flex gap-[12px] items-center'
+                            >
+                                <FiLifeBuoy size={24} />
+                                <span
+                                    className='font-inter
+                        text-[14px] font-[600] leading-[20px]'
+                                >
+                                    Notification
+                                </span>
+                            </Link>
+                        </div>
+                        <div className='px-[8px]'>
+                            <div className='py-[24px] px-[8px] border-t-[1px] mt-[20px] flex  justify-between items-start'>
+                                <div className='flex gap-[12px] items-center text-white'>
+                                    <Image
+                                        width={40}
+                                        height={40}
+                                        src='/assets/images/dashboard/avatar-ai.png'
+                                        alt=''
+                                        className='rounded-full overflow-hidden'
+                                    />
+                                    <div className='leading-[20px] text-[14px] font-inter'>
+                                        <h4 className='font-[500] '>
+                                            John Doe
+                                        </h4>
+                                        <p className='font-[400]'>
+                                            johdoe@gmail.com
+                                        </p>
+                                    </div>
+                                </div>
+                                <LuLogOut className='text-gray-500' size={20} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='bg-gray-500 py-[12] h-full'>
+                    <div
+                        onClick={() => setIsMenuOpen(false)}
+                        className='p-8 text-white'
+                    >
+                        <AiOutlineClose size={24} />
+                    </div>
+                </div>
+            </div>
+        </Modal>
+    );
+};
