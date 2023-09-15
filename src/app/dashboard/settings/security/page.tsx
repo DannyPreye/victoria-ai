@@ -1,12 +1,13 @@
 import Button from "@/components/shared/Button";
 import React from "react";
 import { IconType } from "react-icons";
+import { ImPencil } from "react-icons/im";
 import { VscKey } from "react-icons/vsc";
 
 const page = () => {
     return (
-        <div>
-            <div className='flex justify-between'>
+        <div className=''>
+            <div className='flex flex-col gap-[24px] lg:flex-row lg:justify-between'>
                 <div className='text-base-secondary-text'>
                     <h1 className='font-[600] text-[30px] leading-[42px]  '>
                         Security
@@ -15,6 +16,16 @@ const page = () => {
                         Lorem ipsum dolor sit ametis ipsum dolor sit ametis
                     </p>
                 </div>
+                <button
+                    style={{
+                        boxShadow: "0px 1px 2px 0px rgba(43, 37, 17, 0.05)",
+                    }}
+                    className=' p-[16px] w-[192px] rounded-[8px] border-neutrals-500
+                flex gap-[8px] text-[14px] font-[500] leading-[120% border-[1px] bg-white items-center '
+                >
+                    <ImPencil />
+                    <span>Change Language</span>
+                </button>
             </div>
 
             <form className='mt-[48px] grid gap-[32px]'>
@@ -55,7 +66,7 @@ interface InputProps {
 }
 const InputElement = ({ label, placeholder, Icon, id }: InputProps) => {
     return (
-        <div className='grid gap-[12px]'>
+        <div className='grid gap-[12px] w-full'>
             <label
                 className='text-base-secondary-text text-[16px] font-[500] leading-[20px]'
                 htmlFor={id}
@@ -65,7 +76,7 @@ const InputElement = ({ label, placeholder, Icon, id }: InputProps) => {
             <div
                 className='border-[1px] rounded-[8px] py-[16px] px-[14px]
             flex items-center gap-[12px] text-gray-500 text-[16px]
-            font-[400] leading-[24px] font-inter'
+            font-[400] w-full leading-[24px] font-inter'
             >
                 <Icon size={20} />
                 <input

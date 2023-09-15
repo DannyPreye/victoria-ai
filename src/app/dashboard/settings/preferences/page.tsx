@@ -13,7 +13,7 @@ const planBenefit = [
 const page = () => {
     return (
         <div>
-            <div className='flex justify-between'>
+            <div className='flex flex-col gap-[24px] lg:flex-row lg:justify-between'>
                 <div className='text-base-secondary-text'>
                     <h1 className='font-[600] text-[30px] leading-[42px]  '>
                         Preferences
@@ -26,8 +26,8 @@ const page = () => {
                     style={{
                         boxShadow: "0px 1px 2px 0px rgba(43, 37, 17, 0.05)",
                     }}
-                    className=' p-[16px] rounded-[8px] border-neutrals-500
-                flex gap-[8px] border-[1px] bg-white items-center '
+                    className=' p-[16px] w-[192px] rounded-[8px] border-neutrals-500
+                flex gap-[8px] text-[14px] font-[500] leading-[120% border-[1px] bg-white items-center '
                 >
                     <ImPencil />
                     <span>Change Plan</span>

@@ -9,7 +9,7 @@ const GetRoute = () => {
 
     const paths = pathnames.split("/dashboard")[1].split("/");
 
-    console.log(pathnames.split("/dashboard")[1]);
+   
 
     return (
         <div className='hidden lg:flex gap-[8px] mb-[4px]'>

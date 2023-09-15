@@ -83,7 +83,7 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
         <Modal>
             <div
                 className={`fixed flex left-0 top-0 w-screen h-screen duration-700 ${
-                    isMenuOpen ? "left-0" : "left-[-100%]"
+                    isMenuOpen ? "left-0" : "left-[-110%]"
                 } items-start`}
             >
                 <div className='bg-base-secondary-text h-full flex-1 py-[24px] flex flex-col justify-between'>
@@ -159,7 +159,7 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                 <div className='bg-gray-500 py-[12] h-full'>
                     <div
                         onClick={() => setIsMenuOpen(false)}
-                        className='p-8 text-white'
+                        className='p-8 cursor-pointer text-white'
                     >
                         <AiOutlineClose size={24} />
                     </div>

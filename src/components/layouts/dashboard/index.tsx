@@ -14,8 +14,10 @@ const DashboardLayout = ({ children }: Props) => {
             <Sidebar minimizeSideBar={minimizeSideBar} />
             <div className='flex-1'>
                 <DashboardHeader setMinimizeSideBar={setMinimizeSideBar} />
-                <main className='px-[24px] py-[38px]'>
-                    <GetRoute />
+                <main className='lg:py-[38px]'>
+                    <div className='px-[24px] '>
+                        <GetRoute />
+                    </div>
                     {children}
                 </main>
             </div>
