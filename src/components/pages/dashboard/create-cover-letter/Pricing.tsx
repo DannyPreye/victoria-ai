@@ -12,8 +12,8 @@ const Pricing = ({ isModalOpen, setIsModalOpen }: PricingProps) => {
         <Modal>
             <div
                 onClick={() => setIsModalOpen(false)}
-                className={`fixed top-0 left-0 lg:px-[58px] lg:py-[58px] flex-col flex justify-center
-                h-screen w-screen items-center  bg-[rgba(51,51,51,0.25)] ${
+                className={`fixed top-0 left-0 lg:px-[58px] flex-col flex justify-center
+                h-screen w-screen bg-[rgba(51,51,51,0.25)] ${
                     isModalOpen ? "block" : "hidden"
                 }`}
             >

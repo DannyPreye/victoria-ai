@@ -9,11 +9,9 @@ const GetRoute = () => {
 
     const paths = pathnames.split("/dashboard")[1].split("/");
 
-   
-
     return (
         <div className='hidden lg:flex gap-[8px] mb-[4px]'>
-            <Link href={"/"} className='flex items-center gap-[4px]'>
+            <Link href={"/dashboard"} className='flex items-center gap-[4px]'>
                 <GoHomeFill className='text-base-primary-green' />
                 <span className='text-[14px] text-gray-iron-500 font-[400] leading-[20px] font-inter'>
                     Home

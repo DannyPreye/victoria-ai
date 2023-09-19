@@ -34,9 +34,7 @@ const Sidebar = ({ minimizeSideBar }: Props) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
 
-    const checkEdit = pathname.includes(
-        "/dashboard/create-cover-letter/cover-letter-edit"
-    );
+    const checkEdit = pathname.includes("/dashboard/create-cover-letter/edit");
 
     return (
         <aside
