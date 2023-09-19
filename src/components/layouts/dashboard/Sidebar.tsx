@@ -1,3 +1,4 @@
+"use client";
 import Modal from "@/components/shared/Modal";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,12 +7,13 @@ import { BsGrid3X3GapFill } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiLifeBuoy } from "react-icons/fi";
 import { LuLogOut } from "react-icons/lu";
+import { usePathname } from "next/navigation";
 
 const dashboardLinks = [
     {
         title: "Cover Letters",
         icon: "/assets/icons/dashboard.png",
-        link: "/dashboard/cover-letter",
+        link: "/dashboard/create-cover-letter",
     },
     {
         title: "My Cover Letters",
@@ -30,6 +32,12 @@ interface Props {
 }
 const Sidebar = ({ minimizeSideBar }: Props) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const pathname = usePathname();
+
+    const checkEdit = pathname.includes(
+        "/dashboard/create-cover-letter/cover-letter-edit"
+    );
+
     return (
         <aside
             className='lg:min-h-screen lg:w-fit flex justify-between
@@ -43,7 +51,7 @@ const Sidebar = ({ minimizeSideBar }: Props) => {
                     src='/logo.png'
                     alt='insta apply'
                 />
-                {!minimizeSideBar && (
+                {!minimizeSideBar || !checkEdit ? (
                     <Image
                         priority
                         width={110}
@@ -51,6 +59,8 @@ const Sidebar = ({ minimizeSideBar }: Props) => {
                         src='/logo-text.png'
                         alt='insta apply'
                     />
+                ) : (
+                    ""
                 )}
             </div>
             <div className='mt-[40.08px] hidden lg:grid '>
@@ -61,13 +71,15 @@ const Sidebar = ({ minimizeSideBar }: Props) => {
                         key={id}
                     >
                         <img src={navLink.icon} alt='' />
-                        {!minimizeSideBar && (
+                        {!minimizeSideBar || !checkEdit ? (
                             <span
                                 className='text-white font-inter
                         text-[14px] font-[600] leading-[20px]'
                             >
                                 {navLink.title}
                             </span>
+                        ) : (
+                            ""
                         )}
                     </Link>
                 ))}
