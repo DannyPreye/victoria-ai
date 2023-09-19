@@ -18,10 +18,10 @@ export default function RootLayout({
     return (
         <html lang='en'>
             <body className='font-poppins'>
-                {/* <LandingPageLayout> */}
-                {children}
-                <div id='portal'></div>
-                {/* </LandingPageLayout> */}
+                <LandingPageLayout>
+                    {children}
+                    <div id='portal'></div>
+                </LandingPageLayout>
             </body>
         </html>
     );

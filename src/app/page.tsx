@@ -4,10 +4,8 @@ import Image from "next/image";
 
 export default function Home() {
     return (
-        <LandingPageLayout>
-            <main className='container px-[80px] mt-[84px]'>
-                <HomePage />
-            </main>
-        </LandingPageLayout>
+        <main className='container px-[80px] mt-[84px]'>
+            <HomePage />
+        </main>
     );
 }

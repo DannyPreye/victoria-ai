@@ -35,13 +35,24 @@ const Sidebar = ({ minimizeSideBar }: Props) => {
             className='lg:min-h-screen lg:w-fit flex justify-between
         items-center lg:block flex-shrink-0 bg-base-secondary-text py-[32px] px-[16px]'
         >
-            <Image
-                priority
-                width={180}
-                height={26.92349}
-                src='/dashboard-logo.png'
-                alt='quick apply'
-            />
+            <div className='flex  gap-2 items-center'>
+                <Image
+                    priority
+                    width={31.928}
+                    height={31.928}
+                    src='/logo.png'
+                    alt='insta apply'
+                />
+                {!minimizeSideBar && (
+                    <Image
+                        priority
+                        width={110}
+                        height={17.34}
+                        src='/logo-text.png'
+                        alt='insta apply'
+                    />
+                )}
+            </div>
             <div className='mt-[40.08px] hidden lg:grid '>
                 {dashboardLinks.map((navLink, id) => (
                     <Link
@@ -87,7 +98,7 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                 } items-start`}
             >
                 <div className='bg-base-secondary-text h-full flex-1 py-[24px] flex flex-col justify-between'>
-                    <div className='px-[24px]'>
+                    <div className='px-[24px] flex'>
                         <Image
                             priority
                             width={180}

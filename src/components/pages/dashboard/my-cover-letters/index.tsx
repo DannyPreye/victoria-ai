@@ -5,7 +5,7 @@ import React from "react";
 const MyCoverLetterPage = () => {
     return (
         <div>
-            <DashboardHeading title='  My Cover Letters' />
+            <DashboardHeading title='My Cover Letters' />
             <section className='mt-[44px] px-[16px] lg:px-[24px]  grid grid-cols-1 lg:grid-cols-3 gap-[24px]'>
                 {coverLetterTemplates.map((template, id) => (
                     <div
