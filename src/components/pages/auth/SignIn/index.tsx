@@ -1,10 +1,13 @@
+"use client";
 import React from "react";
 import InputElement from "../Shared/InputElement";
 import Button from "../Shared/Button";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const SignInPage = () => {
+    const router = useRouter();
     return (
         <div className='flex flex-col items-center '>
             <div className='flex flex-col lg:max-w-[500px] w-full mx-auto lg:mt-auto'>
@@ -44,7 +47,11 @@ const SignInPage = () => {
                     </div>
                     <Link href={"#"}>Forgot Password</Link>
                 </div>
-                <Button title='Login' className='mt-[24px] bg-primary-yellow' />
+                <Button
+                    onClick={() => router.push("/dashboard")}
+                    title='Login'
+                    className='mt-[24px] bg-primary-yellow'
+                />
                 <Button
                     title='Sign up with Google'
                     Icon={

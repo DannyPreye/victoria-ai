@@ -30,7 +30,7 @@ const AuthCarousel = ({ slides }: AuthCarouselProps) => {
     return (
         <div
             className='hidden lg:flex flex-col
-            justify-center px-[32px] items-center
+            justify-center  items-center
              lg:w-[50%] gap-[72px]  bg-gray-iron-50 overflow-x-hidden'
         >
             <div
@@ -38,12 +38,12 @@ const AuthCarousel = ({ slides }: AuthCarouselProps) => {
                     transform: `translateX(-${currentSlide * 100}%)`,
                     transition: "all  2s ",
                 }}
-                className='w-full duration-500 flex items-center'
+                className='w-full duration-500 flex   items-center'
             >
                 {slides.map((slide, id) => (
                     <div
                         key={id}
-                        className='flex-shrink-0 w-full flex flex-col items-center'
+                        className='flex-shrink-0 w-full  flex  flex-col items-center'
                     >
                         <Image
                             src={slide.image}

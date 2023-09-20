@@ -23,12 +23,16 @@ const LetterContent = ({ currentSection }: Props) => {
                                 </p>
                             </div>
                         ) : text.section == "Sub Header" ? (
-                            <div className='mt-[28px] mb-[32px] text-[16px] font-[600] text-base-primary-green'>
+                            <div
+                                contentEditable
+                                className='mt-[28px] mb-[32px] text-[16px] font-[600] text-base-primary-green'
+                            >
                                 <p> {text.body.heading}</p>
                                 <p>{text.body.p}</p>
                             </div>
                         ) : text.section !== "Signature" ? (
                             <div
+                                contentEditable
                                 className={`py-[8px] lg:py-[12px]
                             px-[16px] lg:px-[24px] ${
                                 currentSection == text.section
@@ -44,7 +48,10 @@ const LetterContent = ({ currentSection }: Props) => {
                                 </p>
                             </div>
                         ) : (
-                            <div className='mt-[28px] px-[16px] mb-[32px] text-[16px] font-[600] text-base-primary-green'>
+                            <div
+                                contentEditable
+                                className='mt-[28px] px-[16px] mb-[32px] text-[16px] font-[600] text-base-primary-green'
+                            >
                                 <p> {text.body.heading}</p>
                                 <p>{text.body.p}</p>
                             </div>

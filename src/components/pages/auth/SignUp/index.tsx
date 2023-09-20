@@ -1,10 +1,13 @@
+"use client";
 import Link from "next/link";
 import React from "react";
 import Button from "../Shared/Button";
 import Image from "next/image";
 import InputElement from "../Shared/InputElement";
+import { useRouter } from "next/navigation";
 
 const SignUpPage = () => {
+    const router = useRouter();
     return (
         <div className='flex flex-col items-center '>
             <div className='flex flex-col max-w-[500px] w-full mx-auto lg:mt-auto'>
@@ -47,7 +50,11 @@ const SignUpPage = () => {
                         moreInfo='Must be at least 8 characters.'
                     />
                 </div>
-                <Button title='Get Started' className='mt-[24px]' />
+                <Button
+                    onClick={() => router.push("/dashboard")}
+                    title='Get Started'
+                    className='mt-[24px]'
+                />
                 <Button
                     title='Sign up with Google'
                     Icon={
