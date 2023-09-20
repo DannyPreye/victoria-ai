@@ -15,7 +15,7 @@ interface Props {
 const AuthLayout = ({ children, slides }: Props) => {
     return (
         <div className='flex'>
-            <div className='bg-white  p-[16px] lg:p-[32px] lg:w-[50%] min-h-screen flex flex-col justify-between '>
+            <div className='bg-white  p-[16px] lg:p-[32px] w-full lg:w-[50%] min-h-screen flex flex-col justify-between '>
                 <div className='lg:p-[32px] p-[16px] mb-[32px] lg:mb-0 flex justify-center lg:justify-start '>
                     <Image
                         alt='instaletter'

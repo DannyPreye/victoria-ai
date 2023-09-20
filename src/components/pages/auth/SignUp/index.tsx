@@ -53,7 +53,13 @@ const SignUpPage = () => {
                 <Button
                     onClick={() => router.push("/dashboard")}
                     title='Get Started'
-                    className='mt-[24px]'
+                    className='mt-[24px] lg:block hidden'
+                />
+                {/* This should only show on mobile screen */}
+                <Button
+                    onClick={() => router.push("/auth/onboarding")}
+                    title='Get Started'
+                    className='mt-[24px] block lg:hidden'
                 />
                 <Button
                     title='Sign up with Google'

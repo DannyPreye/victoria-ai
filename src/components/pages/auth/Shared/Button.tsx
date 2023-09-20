@@ -13,7 +13,7 @@ const Button = ({ title, type, Icon, className, onClick }: Props) => {
             onClick={onClick}
             className={`h-[53px] border-[1px] py-[12px]
         rounded-[8px] gap-[12px] flex text-base-secondary-text
-        justify-center items-center text-[24px]
+        justify-center items-center w-full text-[24px]
          font-[600] leading-[120%] ${className}`}
         >
             {Icon} <span> {title}</span>
@@ -21,7 +21,8 @@ const Button = ({ title, type, Icon, className, onClick }: Props) => {
     ) : (
         <button
             onClick={onClick}
-            className={`h-[53px] text-white text-[24px] font-[600] leading-[120%] py-[12px] rounded-[8px]
+            className={`h-[53px] w-full text-white
+             text-[24px] font-[600] leading-[120%] py-[12px] rounded-[8px]
          bg-base-primary-green ${className}`}
         >
             {title}

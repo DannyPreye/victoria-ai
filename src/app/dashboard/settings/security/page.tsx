@@ -6,7 +6,7 @@ import { VscKey } from "react-icons/vsc";
 
 const page = () => {
     return (
-        <div className=''>
+        <div className='pb-[117px] lg:pb-0'>
             <div className='flex flex-col gap-[24px] lg:flex-row lg:justify-between'>
                 <div className='text-base-secondary-text'>
                     <h1 className='font-[600] text-[30px] leading-[42px]  '>
@@ -16,7 +16,7 @@ const page = () => {
                         Lorem ipsum dolor sit ametis ipsum dolor sit ametis
                     </p>
                 </div>
-                <button
+                {/* <button
                     style={{
                         boxShadow: "0px 1px 2px 0px rgba(43, 37, 17, 0.05)",
                     }}
@@ -25,7 +25,7 @@ const page = () => {
                 >
                     <ImPencil />
                     <span>Change Language</span>
-                </button>
+                </button> */}
             </div>
 
             <form className='mt-[48px] grid gap-[32px]'>

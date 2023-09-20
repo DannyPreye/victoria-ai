@@ -22,7 +22,6 @@ const SignInPage = () => {
                         Let&apos;s get back to where we left
                     </p>
                 </div>
-
                 <div className='grid gap-[20px] mt-[32px] '>
                     <InputElement
                         value=''
@@ -46,7 +45,7 @@ const SignInPage = () => {
                         <p className=''>Remember me</p>
                     </div>
                     <Link
-                        className='text-base-primary-green text-[14px] font-[600] leading-[20px] font-inter'
+                        className='text-base-primary-green font-inter text-[14px] leading-[20px] font-[600]'
                         href={"#"}
                     >
                         Forgot Password
@@ -55,7 +54,12 @@ const SignInPage = () => {
                 <Button
                     onClick={() => router.push("/dashboard")}
                     title='Login'
-                    className='mt-[24px] bg-primary-yellow'
+                    className='mt-[24px] hidden lg:block bg-primary-yellow'
+                />
+                <Button
+                    onClick={() => router.push("/auth/onboarding")}
+                    title='Login'
+                    className='mt-[24px] lg:hidden block bg-primary-yellow'
                 />
                 <Button
                     title='Sign up with Google'
@@ -72,7 +76,7 @@ const SignInPage = () => {
                 <p className='text-center mt-[32px] text-gray-600 font-inter text-[14px] leading-[20px] font-[400]'>
                     Already have an account?{" "}
                     <Link
-                        className='text-base-primary-green text-[14px] font-[600] leading-[20px] font-inter'
+                        className='text-base-primary-green font-inter text-[14px] leading-[20px] font-[600]'
                         href={"/auth/sign-up"}
                     >
                         Sign Up
