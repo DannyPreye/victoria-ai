@@ -45,7 +45,12 @@ const SignInPage = () => {
                         <input type='checkbox' />
                         <p className=''>Remember me</p>
                     </div>
-                    <Link href={"#"}>Forgot Password</Link>
+                    <Link
+                        className='text-base-primary-green text-[14px] font-[600] leading-[20px] font-inter'
+                        href={"#"}
+                    >
+                        Forgot Password
+                    </Link>
                 </div>
                 <Button
                     onClick={() => router.push("/dashboard")}
@@ -67,7 +72,7 @@ const SignInPage = () => {
                 <p className='text-center mt-[32px] text-gray-600 font-inter text-[14px] leading-[20px] font-[400]'>
                     Already have an account?{" "}
                     <Link
-                        className='text-base-primary-green'
+                        className='text-base-primary-green text-[14px] font-[600] leading-[20px] font-inter'
                         href={"/auth/sign-up"}
                     >
                         Sign Up

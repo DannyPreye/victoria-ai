@@ -1,12 +1,15 @@
 import { coverLetterEdit } from "@/lib/dummyData";
 import React from "react";
+import { WiStars } from "react-icons/wi";
+import { TfiReload } from "react-icons/tfi";
+import { LuPenLine } from "react-icons/lu";
 
 interface Props {
     currentSection: string;
 }
 const LetterContent = ({ currentSection }: Props) => {
     return (
-        <div className='flex flex-col bg-gray-iron-50 py-[32px] px-[16px] lg:px-0  w-full  items-center'>
+        <div className='flex flex-col lg:px-[24px] lg:py-[32px]  bg-gray-iron-50 py-[32px] px-[16px]  w-full  items-center'>
             <div className='max-w-[732px] '>
                 {coverLetterEdit?.map((text, id) => (
                     <>
@@ -34,21 +37,21 @@ const LetterContent = ({ currentSection }: Props) => {
                             <div
                                 contentEditable
                                 className={`py-[8px] lg:py-[12px]
-                            px-[16px] lg:px-[24px] relative ${
-                                currentSection == text.section
-                                    ? "border-r-[2px] border-primary-yellow bg-[rgba(226,187,83,0.10)]"
-                                    : ""
-                            }`}
+                             relative `}
                             >
                                 <p
-                                    className='text-justify text-base-secondary-text
-                                 font-inter font-[400] text-[16px] leading-[24px]'
+                                    className={`text-justify  text-base-secondary-text
+                                 font-inter font-[400] text-[16px] px-[16px] lg:px-[24px] leading-[24px] ${
+                                     currentSection == text.section
+                                         ? "border-r-[2px] border-primary-yellow bg-[rgba(226,187,83,0.10)]"
+                                         : ""
+                                 }`}
                                 >
                                     {text.body.p}{" "}
                                 </p>
                                 {/* Edit buttons */}
                                 {currentSection == text.section && (
-                                    <div className='absolute right-0'></div>
+                                    <EditButtons />
                                 )}
                             </div>
                         ) : (
@@ -68,3 +71,43 @@ const LetterContent = ({ currentSection }: Props) => {
 };
 
 export default LetterContent;
+
+const EditButtons = () => {
+    return (
+        <div className=' gap-[16px]  justify-end absolute  right-[-8.5%] top-[20%] flex flex-col'>
+            <button
+                style={{
+                    boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",
+                }}
+                className='p-[14px] grid place-items-center bg-base-primary-green text-white rounded-full'
+            >
+                <WiStars size={24} />
+            </button>
+            <button
+                style={{
+                    boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",
+                }}
+                className='p-[14px] relative grid place-items-center bg-white border-[1px] rounded-full'
+            >
+                <TfiReload size={24} />
+                <span
+                    style={{
+                        aspectRatio: "1/1",
+                    }}
+                    className='w-[16px] text-[8px] leading-[120%] font-[500]   absolute top-0 right-0 bg-base-primary-green
+                 rounded-full grid text-white place-items-center'
+                >
+                    2
+                </span>
+            </button>
+            <button
+                style={{
+                    boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",
+                }}
+                className='p-[14px] grid place-items-center bg-white border-[1px] rounded-full'
+            >
+                <LuPenLine size={24} />
+            </button>
+        </div>
+    );
+};
