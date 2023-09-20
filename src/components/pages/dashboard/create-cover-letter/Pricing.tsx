@@ -19,7 +19,8 @@ const Pricing = ({ isModalOpen, setIsModalOpen }: PricingProps) => {
             >
                 <div
                     onClick={(e) => e.stopPropagation()}
-                    className='bg-white overflow-auto py-[16px] lg:py-[48px] px-[16px] lg:px-[32px]'
+                    className='bg-white overflow-auto py-[16px]
+                     lg:py-[48px] px-[16px] lg:px-[32px]'
                 >
                     <div className='text-center grid gap-[16px]'>
                         <h3

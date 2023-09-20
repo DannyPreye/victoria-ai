@@ -54,7 +54,7 @@ const CreateCoverLetterPage = () => {
                         </div>
                     </FileUploader>
 
-                    <div className='flex flex-wrap gap-[24px] mt-[24px] '>
+                    <div className='flex flex-wrap gap-[24px] w-full mt-[24px] '>
                         <UrlComponent
                             title='Job Listing Url'
                             placeholder='Paste Job Listing URL here'

@@ -34,7 +34,11 @@ export const WhichRadioButton = ({
                 >
                     {title}
                 </label>
-                <p className='text-gray-600 duration-500 group-hover:text-[18px] group-hover:font-[500] leading-[24px] font-[400] text-[16px]'>
+                <p
+                    className='text-gray-600 duration-500
+                 group-hover:text-[18px] group-hover:font-[500]
+                 leading-[24px] font-[400] text-[16px]'
+                >
                     {description}
                 </p>
             </div>
