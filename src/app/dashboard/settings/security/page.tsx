@@ -20,7 +20,7 @@ const page = () => {
                     style={{
                         boxShadow: "0px 1px 2px 0px rgba(43, 37, 17, 0.05)",
                     }}
-                    className=' p-[16px] w-[192px] rounded-[8px] border-neutrals-500
+                    className='lg:hidden p-[16px] w-[192px] rounded-[8px] border-neutrals-500
                 flex gap-[8px] text-[14px] font-[500] leading-[120% border-[1px] bg-white items-center '
                 >
                     <ImPencil />
