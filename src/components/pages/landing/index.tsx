@@ -3,6 +3,7 @@ import HeroSection from "./HeroSection";
 import AboutSection from "./AboutSection";
 import WhyUs from "./WhyUs";
 import AtAGlance from "./AtAGlance";
+import CustomerStories from "./CustomerStories";
 
 const HomePage = () => {
     return (
@@ -11,6 +12,7 @@ const HomePage = () => {
             <AboutSection />
             <WhyUs />
             <AtAGlance />
+            <CustomerStories />
         </>
     );
 };

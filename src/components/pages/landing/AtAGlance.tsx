@@ -30,7 +30,7 @@ const AtAGlance = () => {
                         plan free for 30 days.
                     </p>
                 </div>
-                <div className='flex text-center flex-wrap gap-[48px] justify-center lg:mt-[80px] '>
+                <div className='flex text-center flex-wrap gap-[24px] lg:gap-[48px] justify-center mt-[32px] lg:mt-[80px] '>
                     {atAGlanceSection.map((item, id) => (
                         <div
                             className='flex w-full max-w-[405.333px] flex-col items-center'
@@ -42,10 +42,10 @@ const AtAGlance = () => {
                                 width={250}
                                 height={192}
                             />
-                            <p className='text-black mt-[20px] text-[24px] font-[500] leading-[120%]'>
+                            <p className='text-black mt-[20px] text-[20px] lg:text-[24px] font-[500] leading-[140%] lg:leading-[120%]'>
                                 {item.title}
                             </p>
-                            <p className='text-center text-gray-600 text-[20px] font-[400] leading-[140%]'>
+                            <p className='text-center mt-[12px] text-gray-600 text-[16px] lg:text-[20px] font-[400] leading-[140%]'>
                                 {item.paragraph}
                             </p>
                         </div>

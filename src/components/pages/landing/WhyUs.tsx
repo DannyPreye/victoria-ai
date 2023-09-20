@@ -21,7 +21,7 @@ const WhyUs = () => {
                     </p>
                     <h2
                         className=' text-base-secondary-text lg:text-[36px]
-                font-[600]  leading-[120%] lg:leading-[140%] mt-[8px] lg:mt-[12px] mb-[16px] lg:mb-[20px]'
+                font-[600] text-[24px]  leading-[120%] lg:leading-[140%] mt-[8px] lg:mt-[12px] mb-[16px] lg:mb-[20px]'
                     >
                         Why we are the best way to create a Cover Letter
                     </h2>

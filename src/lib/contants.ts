@@ -112,3 +112,22 @@ export const atAGlanceSection = [
         `
     },
 ];
+
+export const stats = [
+    {
+        title: "Projects completed",
+        number: "400+"
+    },
+    {
+        title: "Return on investment",
+        number: "600%"
+    },
+    {
+        title: "Global Downloads",
+        number: "10k"
+    },
+    {
+        title: "5-star reviews",
+        number: "200+"
+    },
+];
