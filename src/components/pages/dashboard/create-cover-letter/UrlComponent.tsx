@@ -17,7 +17,7 @@ export const UrlComponent = ({
     placeholder,
 }: UrlComponentProps) => {
     return (
-        <div className='grid gap-[12px]'>
+        <div className='grid gap-[12px] w-full '>
             <label
                 className='text-[16px] font-[500] leading-[20px]
                  text-base-secondary-text'
@@ -26,7 +26,7 @@ export const UrlComponent = ({
                 {title}
             </label>
             <div
-                className='py-[16px] px-[14px] w-[386px] h-[56px]
+                className='py-[16px] px-[14px] w-full lg:w-[386px] h-[56px]
              rounded-[8px] border-[1px] border-gray-300
              flex gap-[12px] items-center text-gray-500'
             >

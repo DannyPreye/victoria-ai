@@ -61,3 +61,20 @@ export const editCoverLetterSections = [
     "Call to Action",
     "Signature"
 ];
+
+
+export const whyUsSectionLandingPage = [
+    {
+        title: "Powerful Builder Software",
+        paragraph: "Whether you have a team of 2 or 200, our shared team inboxes keep everyone on the same page and in the loop.",
+    },
+    {
+        title: "Job-Winning Examples",
+        paragraph: "An all-in-one customer service platform that helps you balance everything your customers need to be happy.",
+    },
+    {
+        title: "Expert Writing Guides",
+        paragraph: "Measure what matters with Untitled’s easy-to-use reports. You can filter, export, and drilldown on the data in a couple clicks.",
+    },
+];
+

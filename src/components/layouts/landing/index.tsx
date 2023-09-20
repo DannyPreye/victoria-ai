@@ -21,7 +21,9 @@ const LandingPageLayout = ({ children }: Props) => {
             {pathname.includes("/dashboard") || pathname.includes("/auth") ? (
                 ""
             ) : (
-                <Header />
+                <div className=' bg-gray-50'>
+                    <Header />
+                </div>
             )}
             {children}
         </>
