@@ -1,8 +1,11 @@
+"use client";
 import DashboardHeading from "@/components/shared/DashboardHeading";
 import { coverLetterTemplates } from "@/lib/dummyData";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const MyCoverLetterPage = () => {
+    const router = useRouter();
     return (
         <div>
             <DashboardHeading title='My Cover Letters' />
@@ -20,6 +23,11 @@ const MyCoverLetterPage = () => {
                         <div className='group-hover:grid h-full overflow-hidden hidden duration-700  w-full place-items-center bg-[rgba(0,0,0,0.25)] '>
                             <div className='flex flex-col items-center gap-[8px]'>
                                 <button
+                                    onClick={() =>
+                                        router.push(
+                                            "/dashboard/create-cover-letter/edit"
+                                        )
+                                    }
                                     className='p-[16px] rounded-[8px] text-white text-[14px] font-[600] leading-[20px]
                              w-[250px] bg-base-primary-green'
                                 >

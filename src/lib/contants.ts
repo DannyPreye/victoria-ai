@@ -47,3 +47,17 @@ export const navMenu = [
     }
 
 ];
+
+
+export const editCoverLetterSections = [
+    "Header/Contact Info",
+    "Sub Header",
+    "Greetings",
+    "Opener",
+    "Body 1",
+    "Body 2",
+    "Body 3",
+    "Conclusion",
+    "Call to Action",
+    "Signature"
+];

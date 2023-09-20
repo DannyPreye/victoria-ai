@@ -17,13 +17,15 @@ const Button = ({ title, isTransparent, onClick, Icon, hasBorder }: Props) => {
                     ? "0px 1px 2px 0px rgba(16, 24, 40, 0.05)"
                     : "",
             }}
-            className={`px-[18px] py-[10px] rounded-[8px] items-center justify-center text-[16px] flex gap-[12px] font-[600] leading-[24px] ${
-                !isTransparent
-                    ? "bg-base-primary-green   text-base-white"
-                    : `bg-transparent  ${
-                          hasBorder ? "border-[1px] border-gray-300" : ""
-                      }`
-            }`}
+            className={`px-[18px] py-[10px] rounded-[8px]
+             items-center justify-center text-[16px] flex gap-[12px]
+              font-[600] leading-[24px] ${
+                  !isTransparent
+                      ? "bg-base-primary-green   text-base-white"
+                      : `bg-transparent  ${
+                            hasBorder ? "border-[1px] border-gray-300" : ""
+                        }`
+              }`}
         >
             <span>{title}</span>
             {Icon && Icon}
