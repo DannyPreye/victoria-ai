@@ -7,7 +7,7 @@ import Link from "next/link";
 const SignInPage = () => {
     return (
         <div className='flex flex-col items-center '>
-            <div className='flex flex-col max-w-[500px] w-full mx-auto lg:mt-auto'>
+            <div className='flex flex-col lg:max-w-[500px] w-full mx-auto lg:mt-auto'>
                 <div className='text-center'>
                     <h1
                         className='leading-[120%] mt-[12px] lg:leading-[140%] text-[24px] lg:text-[36px] text-base-secondary-text

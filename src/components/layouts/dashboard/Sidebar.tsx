@@ -108,17 +108,18 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                 } items-start`}
             >
                 <div className='bg-base-secondary-text h-full flex-1 py-[24px] flex flex-col justify-between'>
-                    <div className='px-[24px] flex'>
+                    <div className='px-[24px] '>
                         <Image
                             priority
                             width={180}
                             height={26.92349}
-                            src='/dashboard-logo.png'
+                            src='/InstaLetter-logo-white.png'
                             alt='quick apply'
                         />
                         <div className='mt-[42px] grid '>
                             {dashboardLinks.map((navLink, id) => (
                                 <Link
+                                onClick={()=>setIsMenuOpen(false)}
                                     href={navLink.link}
                                     className='p-[8px] rounded-[3px] hover:bg-primary-yellow
                                      focus:bg-primary-yellow flex gap-[12px] items-center'
