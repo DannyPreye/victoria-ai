@@ -9,6 +9,8 @@ const GetRoute = () => {
 
     const paths = pathnames.split("/dashboard")[1].split("/");
 
+    console.log("This is the path", paths);
+
     return (
         <div className='hidden lg:flex gap-[8px] mb-[4px]'>
             <Link href={"/dashboard"} className='flex items-center gap-[4px]'>
@@ -33,7 +35,9 @@ const GetRoute = () => {
                                         ? "font-[500] text-gray-iron-600"
                                         : ""
                                 }`}
-                                href={`/dashboard/${path}`}
+                                href={`/dashboard/${paths
+                                    .slice(0, id + 1)
+                                    .join("")}`}
                             >
                                 {path.replace(/-/g, " ")}
                             </Link>

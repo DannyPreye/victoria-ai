@@ -34,7 +34,7 @@ const LetterContent = ({ currentSection }: Props) => {
                             <div
                                 contentEditable
                                 className={`py-[8px] lg:py-[12px]
-                            px-[16px] lg:px-[24px] ${
+                            px-[16px] lg:px-[24px] relative ${
                                 currentSection == text.section
                                     ? "border-r-[2px] border-primary-yellow bg-[rgba(226,187,83,0.10)]"
                                     : ""
@@ -46,6 +46,10 @@ const LetterContent = ({ currentSection }: Props) => {
                                 >
                                     {text.body.p}{" "}
                                 </p>
+                                {/* Edit buttons */}
+                                {currentSection == text.section && (
+                                    <div className='absolute right-0'></div>
+                                )}
                             </div>
                         ) : (
                             <div
