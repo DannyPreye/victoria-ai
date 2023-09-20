@@ -11,7 +11,10 @@ const LetterContent = ({ currentSection }: Props) => {
                 {coverLetterEdit?.map((text, id) => (
                     <>
                         {text.section == "Header/Contact Info" ? (
-                            <div className='grid gap-[12px] pb-[24px] border-b-[1px] border-gray-iron-200'>
+                            <div
+                                contentEditable
+                                className='grid gap-[12px] pb-[24px] border-b-[1px] border-gray-iron-200'
+                            >
                                 <h2 className='text-base-primary-green text-[20px] lg:text-[30px] font-[600] leading-[30px] lg:leading-[140%]'>
                                     {text.body.heading}
                                 </h2>

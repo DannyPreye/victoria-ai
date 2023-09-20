@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export interface AuthCarouselProps {
     slides: {
@@ -12,6 +12,21 @@ export interface AuthCarouselProps {
 const AuthCarousel = ({ slides }: AuthCarouselProps) => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const slidesCount = Array.from({ length: slides.length });
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            if (!(currentSlide >= slidesCount.length - 1)) {
+                setCurrentSlide((prev) => prev + 1);
+            } else {
+                setCurrentSlide(0);
+            }
+        }, 5000);
+
+        return () => {
+            clearInterval(timer);
+        };
+    }, [currentSlide]);
+
     return (
         <div
             className='hidden lg:flex flex-col
@@ -21,8 +36,9 @@ const AuthCarousel = ({ slides }: AuthCarouselProps) => {
             <div
                 style={{
                     transform: `translateX(-${currentSlide * 100}%)`,
+                    transition: "all  2s ",
                 }}
-                className='w-full duration-300 flex items-center'
+                className='w-full duration-500 flex items-center'
             >
                 {slides.map((slide, id) => (
                     <div
