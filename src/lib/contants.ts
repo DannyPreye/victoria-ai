@@ -138,7 +138,7 @@ export const testimonials = [
         stars: 5,
         comment: "Love the simplicity of the service and the prompt customer support. We can’t imagine working without it.",
         name: "—Renee Wells",
-        designation:"Product Designer, Quotient"
+        designation: "Product Designer, Quotient"
     },
     {
         stars: 5,
@@ -153,4 +153,141 @@ export const testimonials = [
         designation: "Product Designer, Quotient"
     }
 
+];
+
+
+export const faqs = [
+    {
+        question: "Is there a free trial available?",
+        answer: "Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible."
+    },
+    {
+        question: "Can I change my plan later?",
+        answer: "Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible."
+    },
+    {
+        question: "What is your cancellation policy?",
+        answer: "Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible."
+    },
+    {
+        question: "Can other info be added to an invoice?",
+        answer: "Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible."
+    },
+    {
+        question: "How does billing work?",
+        answer: "Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible."
+    },
+    {
+        question: "How do I change my account email?",
+        answer: "Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible."
+    },
+];
+
+
+export const footerSections = [
+    {
+        title: "Product",
+        sectionLinks: [
+            {
+                title: "Overview",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "Features",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "Solutions",
+                link: "",
+                isNew: true
+            },
+            {
+                title: "Tutorials",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "Pricing",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "Releases",
+                link: "",
+                isNew: false
+            },
+        ]
+    },
+    {
+        title: "Company",
+        sectionLinks: [
+            {
+                title: "About us",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "Careers",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "Press",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "News",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "Media Kit",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "Contact",
+                link: "",
+                isNew: false
+            },
+        ]
+    },
+    {
+        title: "Lega",
+        sectionLinks: [
+            {
+                title: "Terms",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "Privacy",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "Cookies",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "Licences",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "Settings",
+                link: "",
+                isNew: false
+            },
+            {
+                title: "Contact",
+                link: "",
+                isNew: false
+            },
+        ]
+    },
 ];

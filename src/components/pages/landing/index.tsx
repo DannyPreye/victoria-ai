@@ -5,6 +5,8 @@ import WhyUs from "./WhyUs";
 import AtAGlance from "./AtAGlance";
 import CustomerStories from "./CustomerStories";
 import Testimonial from "./Testimonial";
+import Support from "./Support";
+import Newsletter from "./Newsletter";
 
 const HomePage = () => {
     return (
@@ -15,6 +17,8 @@ const HomePage = () => {
             <AtAGlance />
             <CustomerStories />
             <Testimonial />
+            <Support />
+            <Newsletter />
         </>
     );
 };

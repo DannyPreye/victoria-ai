@@ -1,7 +1,11 @@
+"use client";
+import { testimonials } from "@/lib/contants";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
 const Testimonial = () => {
+    const [currentSlide, setCurrentSlide] = useState(0);
     return (
         <section>
             <div
@@ -19,12 +23,70 @@ const Testimonial = () => {
                 </div>
 
                 <div className='flex mt-[48px] overflow-x-hidden rounded-[24px] flex-col lg:flex-row '>
-                    <div className='flex-1 bg-base-primary-green p-[64px]'>
-                        <p>
-                            Love the simplicity of the service and the prompt
-                            customer support. We can&apos;t imagine working
-                            without it.
-                        </p>
+                    <div className='flex-1 overflow-x-hidden bg-base-primary-green'>
+                        <div
+                            style={{
+                                transform: `translateX(-${
+                                    currentSlide * 100
+                                }%)`,
+                                transition: "all 2s",
+                            }}
+                            className='flex w-full  '
+                        >
+                            {testimonials.map((testimonial, id) => (
+                                <div
+                                    key={`testimonial_${id}`}
+                                    className='w-full px-[16px] pt-[32px] lg:px-[64px] lg:pt-[64px] flex-shrink-0'
+                                >
+                                    <div className='flex '>
+                                        {[1, 2, 3, 4, 5].map((star) => (
+                                            <>
+                                                {star <= testimonial.stars ? (
+                                                    <AiFillStar
+                                                        size={24}
+                                                        className='text-primary-yellow'
+                                                        key={star}
+                                                    />
+                                                ) : (
+                                                    <AiOutlineStar
+                                                        size={24}
+                                                        className='text-white'
+                                                    />
+                                                )}
+                                            </>
+                                        ))}
+                                    </div>
+
+                                    <p className='mt-[24px] text-[30px] lg:text-[36px] text-white font-[500] leading-[140%] lg:leading-[44px] lg:tracking-[-0.72px]'>
+                                        {testimonial.comment}
+                                    </p>
+                                    <div className='mt-[32px] text-white font-inter text-[18px]  font-[600] leading-[28px]'>
+                                        <p>{testimonial.name}</p>
+                                        <p
+                                            className='text-gray-200 font-inter
+                                        font-[400] text-[16px] leading-[24px]'
+                                        >
+                                            {testimonial.designation}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <div className='px-[16px] lg:px-[64px] pb-[32px] lg:pb-[64px] mt-[32px] items-center gap-[16px] flex'>
+                            {Array.from({ length: testimonials.length }).map(
+                                (_, id) => (
+                                    <span
+                                        onClick={() => setCurrentSlide(id)}
+                                        key={id}
+                                        className={`w-[10px] cursor-pointer h-[10px] rounded-full ${
+                                            currentSlide == id
+                                                ? "bg-white"
+                                                : "bg-gray-500"
+                                        }`}
+                                    />
+                                )
+                            )}
+                        </div>
                     </div>
                     <Image
                         src={"/assets/images/landing/testimonial-image.png"}

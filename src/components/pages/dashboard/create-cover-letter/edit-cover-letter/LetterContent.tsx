@@ -16,6 +16,7 @@ const LetterContent = ({ currentSection, setCurrentSection }: Props) => {
                     <>
                         {text.section == "Header/Contact Info" ? (
                             <div
+                                id={`${text.section.split(" ")[0]}`}
                                 contentEditable
                                 className='grid gap-[12px] pb-[24px] border-b-[1px] border-gray-iron-200'
                             >
@@ -28,6 +29,7 @@ const LetterContent = ({ currentSection, setCurrentSection }: Props) => {
                             </div>
                         ) : text.section == "Sub Header" ? (
                             <div
+                                id={`${text.section.split(" ")[0]}`}
                                 onClick={() => setCurrentSection(text.section)}
                                 contentEditable
                                 className='mt-[28px] mb-[32px] text-[16px] font-[600] text-base-primary-green'
@@ -37,6 +39,7 @@ const LetterContent = ({ currentSection, setCurrentSection }: Props) => {
                             </div>
                         ) : text.section !== "Signature" ? (
                             <div
+                                id={`${text.section.split(" ")[0]}`}
                                 contentEditable
                                 className={`py-[8px] lg:py-[12px]
                              relative `}
@@ -61,6 +64,7 @@ const LetterContent = ({ currentSection, setCurrentSection }: Props) => {
                             </div>
                         ) : (
                             <div
+                                id={`${text.section.split(" ")[0]}`}
                                 contentEditable
                                 className='mt-[28px] px-[16px] mb-[32px] text-[16px] font-[600] text-base-primary-green'
                             >

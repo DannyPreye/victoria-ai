@@ -2,6 +2,7 @@
 import React, { ReactNode } from "react";
 import Header from "./Header";
 import { usePathname } from "next/navigation";
+import Footer from "./Footer";
 
 interface Props {
     children: ReactNode;
@@ -26,6 +27,14 @@ const LandingPageLayout = ({ children }: Props) => {
                 </div>
             )}
             {children}
+
+            {pathname.includes("/dashboard") || pathname.includes("/auth") ? (
+                ""
+            ) : (
+                <div className=' bg-gray-50'>
+                    <Footer />
+                </div>
+            )}
         </>
     );
 };

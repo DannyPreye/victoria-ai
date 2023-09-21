@@ -7,6 +7,8 @@ import { IoMdTime } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { TbWorld } from "react-icons/tb";
 import LetterContent from "./LetterContent";
+import Link from "next/link";
+import MobileModal from "./MobileModal";
 
 const EditCoverLetterPage = () => {
     const [currentSection, setCurrentSection] = useState("");
@@ -31,20 +33,23 @@ const EditCoverLetterPage = () => {
                 </div>
                 <div className='mt-[24px]  py-[18px] hidden lg:grid'>
                     {editCoverLetterSections.map((item) => (
-                        <div
-                            onClick={() => setCurrentSection(item)}
+                        <Link
+                            href={`#${item.split(" ")[0]}`}
                             key={item}
+                            onClick={() => setCurrentSection(item)}
                             className={`lg:max-w-[280px] w-full rounded-[3px]
                               cursor-pointer px-[12px]
-                             text-[14px] leading-[20px] font-[500] ${
-                                 item == currentSection
-                                     ? "text-white bg-primary-yellow"
-                                     : ""
-                             }
-                              text-gray-700 py-[10px]`}
+                             text-[14px] leading-[20px] focus:text-white focus:bg-primary-yellow font-[500]
+                              text-gray-700 py-[10px]
+                              ${
+                                  currentSection == item
+                                      ? "bg-primary-yellow text-white"
+                                      : ""
+                              }
+                              `}
                         >
                             {item}
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>
@@ -98,6 +103,12 @@ const EditCoverLetterPage = () => {
                     currentSection={currentSection}
                 />
             </div>
+
+            <MobileModal
+                setCurrentSection={setCurrentSection}
+                openSection={openSections}
+                setOpenSections={setOpenSections}
+            />
         </div>
     );
 };
