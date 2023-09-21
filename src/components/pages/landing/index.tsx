@@ -4,6 +4,7 @@ import AboutSection from "./AboutSection";
 import WhyUs from "./WhyUs";
 import AtAGlance from "./AtAGlance";
 import CustomerStories from "./CustomerStories";
+import Testimonial from "./Testimonial";
 
 const HomePage = () => {
     return (
@@ -13,6 +14,7 @@ const HomePage = () => {
             <WhyUs />
             <AtAGlance />
             <CustomerStories />
+            <Testimonial />
         </>
     );
 };

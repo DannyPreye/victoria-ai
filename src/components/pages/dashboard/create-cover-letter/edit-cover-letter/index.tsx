@@ -93,7 +93,10 @@ const EditCoverLetterPage = () => {
                         )}
                     </div>
                 </div>
-                <LetterContent currentSection={currentSection} />
+                <LetterContent
+                    setCurrentSection={setCurrentSection}
+                    currentSection={currentSection}
+                />
             </div>
         </div>
     );

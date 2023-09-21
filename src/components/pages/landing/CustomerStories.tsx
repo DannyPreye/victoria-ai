@@ -53,10 +53,10 @@ interface StatsProps {
 const Stats = ({ number, title }: StatsProps) => {
     return (
         <div className='max-w-[264px] w-full px-[24px] border-l-[2px] border-gray-200'>
-            <p className='text-primary-yellow text-[48px] font-[600] leading-[140%]'>
+            <p className='text-primary-yellow text-[36px] lg:text-[48px] font-[600] leading-[140%]'>
                 {number}
             </p>
-            <p className='font-inter text-[18px] font-[600] leading-[20px]'>
+            <p className='font-inter text-[16px] lg:text-[18px] font-[600] leading-[24px] lg:leading-[20px]'>
                 {title}
             </p>
         </div>

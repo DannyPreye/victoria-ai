@@ -6,8 +6,9 @@ import { LuPenLine } from "react-icons/lu";
 
 interface Props {
     currentSection: string;
+    setCurrentSection: React.Dispatch<React.SetStateAction<string>>;
 }
-const LetterContent = ({ currentSection }: Props) => {
+const LetterContent = ({ currentSection, setCurrentSection }: Props) => {
     return (
         <div className='flex flex-col lg:px-[24px] lg:py-[32px]  bg-gray-iron-50 py-[32px] px-[16px]  w-full  items-center'>
             <div className='max-w-[732px] '>
@@ -27,6 +28,7 @@ const LetterContent = ({ currentSection }: Props) => {
                             </div>
                         ) : text.section == "Sub Header" ? (
                             <div
+                                onClick={() => setCurrentSection(text.section)}
                                 contentEditable
                                 className='mt-[28px] mb-[32px] text-[16px] font-[600] text-base-primary-green'
                             >
@@ -40,8 +42,11 @@ const LetterContent = ({ currentSection }: Props) => {
                              relative `}
                             >
                                 <p
+                                    onClick={() =>
+                                        setCurrentSection(text.section)
+                                    }
                                     className={`text-justify  text-base-secondary-text
-                                 font-inter font-[400] text-[16px] px-[16px] lg:px-[24px] leading-[24px] ${
+                                 font-inter font-[400] text-[16px] py-[8px] px-[16px] lg:px-[24px] leading-[24px] ${
                                      currentSection == text.section
                                          ? "border-r-[2px] border-primary-yellow bg-[rgba(226,187,83,0.10)]"
                                          : ""
@@ -74,7 +79,7 @@ export default LetterContent;
 
 const EditButtons = () => {
     return (
-        <div className=' gap-[16px]  justify-end absolute  right-[-8.5%] top-[20%] flex flex-col'>
+        <div className=' gap-[16px]  justify-end absolute right-0 lg:right-[-8.5%] top-[20%] flex flex-col'>
             <button
                 style={{
                     boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",
