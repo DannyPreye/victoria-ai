@@ -1,11 +1,26 @@
 "use client";
 import { testimonials } from "@/lib/contants";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
 const Testimonial = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            if (!(currentSlide >= testimonials.length - 1)) {
+                setCurrentSlide((prev) => prev + 1);
+            } else {
+                setCurrentSlide(0);
+            }
+        }, 5000);
+
+        return () => {
+            clearInterval(timer);
+        };
+    }, [currentSlide]);
+
     return (
         <section>
             <div
@@ -13,10 +28,10 @@ const Testimonial = () => {
           py-[32px] px-[16px] lg:pt-[41px]'
             >
                 <div className='flex flex-col items-center'>
-                    <h2 className='text-base-secondary-text text-[36px] leading-[140%] font-[600]'>
+                    <h2 className='text-base-secondary-text text-center text-[24px] lg:text-[36px] leading-[120%] lg:leading-[140%] font-[600]'>
                         Don&apos;t just take our word for it
                     </h2>
-                    <p className='text-[#475467] text-center text-[20px] font-[400] leading-[30px]'>
+                    <p className='text-[#475467] text-center text-[16px] lg:text-[20px] font-[400] leading-[24px] lg:leading-[30px]'>
                         Hear from some of our amazing customers who are building
                         faster.
                     </p>

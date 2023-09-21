@@ -48,7 +48,7 @@ const MobileModal = ({
                                             setCurrentSection(item);
                                             setOpenSections(false);
                                         }}
-                                        href={`#${item.split(" ")[0]}`}
+                                        href={`#${item.split(" ").join("-")}`}
                                         key={item}
                                         className={`py-[10px] px-[12px] w-full rounded-[3px]
                               cursor-pointer text-[14px] leading-[20px] hover:bg-primary-yellow

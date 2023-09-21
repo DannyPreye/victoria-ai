@@ -34,7 +34,7 @@ const EditCoverLetterPage = () => {
                 <div className='mt-[24px]  py-[18px] hidden lg:grid'>
                     {editCoverLetterSections.map((item) => (
                         <Link
-                            href={`#${item.split(" ")[0]}`}
+                            href={`#${item.split(" ").join("-")}`}
                             key={item}
                             onClick={() => setCurrentSection(item)}
                             className={`lg:max-w-[280px] w-full rounded-[3px]
