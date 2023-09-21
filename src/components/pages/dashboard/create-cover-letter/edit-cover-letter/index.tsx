@@ -49,8 +49,10 @@ const EditCoverLetterPage = () => {
                 </div>
             </div>
             <div className='l flex-1'>
-                <GetRoute />
-                <div className='flex g:px-[24px] lg:py-[32px] gap-[12px] p-[16px] border-b-[1px] lg:border-none  lg:flex-row flex-col justify-between items'>
+                <div className='lg:px-[24px]  lg:pt-[32px] '>
+                    <GetRoute />
+                </div>
+                <div className='flex lg:px-[24px]  gap-[12px] lg:p-0 p-[16px] lg:pb-[32px] border-b-[1px] lg:border-none  lg:flex-row flex-col justify-between items'>
                     <h1
                         className='text-base-secondary-text
              lg:px-[0]   lg:py-0
