@@ -83,22 +83,14 @@ export default LetterContent;
 
 const EditButtons = () => {
     return (
-        <div className=' gap-[16px]  justify-end absolute right-0 lg:right-[-8.5%] top-[20%] flex flex-col'>
+        <div className=' gap-[16px] border-b-[1px] py-[16px] justify-end absolute right-0 lg:right-[-8.5%] top-[20%] flex flex-col'>
             <button
                 style={{
                     boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",
                 }}
-                className='p-[14px] grid place-items-center bg-base-primary-green text-white rounded-full'
+                className='p-[14px] relative grid place-items-center border-white border-[1px]  text-primary-yellow rounded-full'
             >
                 <WiStars size={24} />
-            </button>
-            <button
-                style={{
-                    boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",
-                }}
-                className='p-[14px] relative grid place-items-center bg-white border-[1px] rounded-full'
-            >
-                <TfiReload size={24} />
                 <span
                     style={{
                         aspectRatio: "1/1",
@@ -106,9 +98,17 @@ const EditButtons = () => {
                     className='w-[16px] text-[8px] leading-[120%] font-[500]   absolute top-0 right-0 bg-base-primary-green
                  rounded-full grid text-white place-items-center'
                 >
-                    2
+                    1
                 </span>
             </button>
+            {/* <button
+                style={{
+                    boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",
+                }}
+                className='p-[14px] relative grid place-items-center bg-white border-[1px] rounded-full'
+            >
+                <TfiReload size={24} />
+            </button> */}
             <button
                 style={{
                     boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",

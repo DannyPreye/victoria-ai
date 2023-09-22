@@ -18,7 +18,7 @@ export const WhichRadioButton = ({
     onChange,
 }: WhichRadioButtonProps) => {
     return (
-        <div className='flex w-fit items-start group gap-[12px]'>
+        <div className='flex w-full items-start group gap-[12px]'>
             <input
                 onChange={onChange}
                 type='radio'
@@ -30,13 +30,16 @@ export const WhichRadioButton = ({
             <div className='grid gap-[16px]  '>
                 <label
                     htmlFor={id}
-                    className='text-gray-900  text-[14px]  font-[500]'
+                    className='text-gray-900  text-[14px] gap-2 font-[500] flex items-center'
                 >
-                    {title}
+                    <span> {title}</span>
+                    <span className='h-[16px] w-[16px] text-[8px] leading-[120%] font-[500] grid place-items-center bg-base-primary-green rounded-full text-white '>
+                        ?
+                    </span>
                 </label>
                 <p
                     className='text-gray-600 duration-500
-                 group-hover:text-[18px] group-hover:font-[500]
+               hidden group-hover:block
                  leading-[24px] font-[400] text-[16px]'
                 >
                     {description}

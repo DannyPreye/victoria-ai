@@ -67,7 +67,7 @@ const CreateCoverLetterPage = () => {
                         />
                     </div>
 
-                    <div className='grid mt-[24px]  gap-[12px]'>
+                    <div className=' w-full max-w-[796px] grid mt-[24px]  gap-[12px]'>
                         <h3 className='text-base-secondary-text text-[16px] leading-[20px] font-[500]'>
                             Which Describes you Best?
                         </h3>
@@ -81,11 +81,13 @@ const CreateCoverLetterPage = () => {
                             <WhichRadioButton
                                 name='which'
                                 id='another'
+                                description='I am applying for a position in my current field, where I have already gained some or substantial experience that aligns with the requirements listed for this role.'
                                 title='Entering the Workforce After Education, with Some Related Experience'
                             />
                             <WhichRadioButton
                                 name='which'
                                 id='yet-another'
+                                description='I am applying for a position in my current field, where I have already gained some or substantial experience that aligns with the requirements listed for this role.'
                                 title='Transitioning Careers, Leveraging Professional Experience'
                             />
                         </div>
