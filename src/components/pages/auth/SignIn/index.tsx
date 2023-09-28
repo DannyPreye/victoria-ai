@@ -26,14 +26,15 @@ const SignInPage = () => {
                     <InputElement
                         value=''
                         className='w-full col-span-2'
-                        label='Phone Number'
-                        placeholder='Enter your phone number'
+                        label='Email'
+                        placeholder='Enter your email'
+                        type='email'
                     />
                     <InputElement
                         value=''
                         required
                         type='password'
-                        placeholder='Create a password'
+                        placeholder='Enter your password'
                         className='w-full col-span-2'
                         label='Password'
                         moreInfo='Must be at least 8 characters.'
