@@ -9,6 +9,7 @@ import { FiLifeBuoy } from "react-icons/fi";
 import { LuLogOut } from "react-icons/lu";
 import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { signIn, signOut } from "next-auth/react";
 
 const dashboardLinks = [
     {
@@ -177,7 +178,8 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                                 </div>
                                 <LuLogOut
                                     onClick={() => {
-                                        Cookies.remove("jwt-token");
+                                        // Cookies.remove("jwt-token");
+                                        signOut();
                                         router.push("/auth/sign-in");
                                     }}
                                     className='text-gray-500'

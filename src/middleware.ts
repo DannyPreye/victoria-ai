@@ -1,18 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
-import Cookies from "js-cookie";
-export default function middleware(req: NextRequest)
-{
-    const jwt = req.cookies.get("jwt-token")?.value;
+import { withAuth } from "next-auth/middleware";
 
-    if (req.nextUrl.pathname.startsWith("/dashboard")) {
+export default withAuth(
+    function middleware(req: NextRequest)
+    {
+        // const jwt = req.cookies.get("jwt-token")?.value;
+        // const requestHeaders = new Headers(req.headers);
 
-        if (!jwt) {
-            return NextResponse.redirect(new URL("/auth/sign-in", req.url));
+        // if (req.nextUrl.pathname.startsWith("/dashboard")) {
+
+        //     if (!jwt) {
+        //         return NextResponse.redirect(new URL("/auth/sign-in", req.url));
+        //     }
+
+        // }
+        // if (!req.nextUrl.pathname.startsWith("/auth")) {
+        //     if (jwt) {
+        //         requestHeaders.set("Authorization", `Bearer ${jwt}`);
+        //     }
+        // }
+
+        // return NextResponse.next();
+    },
+    {
+        callbacks: {
+            authorized: ({ req, token }) =>
+            {
+                if (
+                    req.nextUrl.pathname.startsWith('/dashboard') &&
+                    token === null
+                ) {
+                    return false;
+                }
+                return true;
+            }
         }
-
     }
-
-    return NextResponse.next();
-}
+)
 
 

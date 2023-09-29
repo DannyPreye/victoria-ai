@@ -13,13 +13,14 @@ declare module "next-auth" {
     }
     interface Session
     {
-
-        id: string | null;
-        last_name: string;
-        first_name: string;
-        role: string;
-        profile_picture: string;
-        email: string;
+        user: {
+            id: string | null;
+            last_name: string;
+            first_name: string;
+            role: string;
+            profile_picture: string;
+            email: string;
+        };
 
 
     }

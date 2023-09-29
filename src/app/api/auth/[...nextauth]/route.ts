@@ -12,17 +12,17 @@ const handler = NextAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
         }),
         Credentials({
-            name: "credentials",
+            name: "Credentials",
             id: "credentials",
             credentials: {},
             authorize: async (credentials, req) =>
             {
-
-                console.log("This is the credentials", credentials);
                 const { email, password } = credentials as {
                     email: string,
                     password: string;
                 };
+
+                console.log(credentials);
 
                 let res = await fetch(
                     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/local`,
@@ -38,10 +38,14 @@ const handler = NextAuth({
                     }
                 );
 
+                // console.log("Thi is the response-----", await res.json());
+
                 const data = await res.json();
-                console.log(res);
+
 
                 const user = { ...data.user, jwt: data.jwt };
+
+                console.log("THis iis the user-------", user);
                 if (user) {
                     return user;
                 } else {
@@ -59,18 +63,27 @@ const handler = NextAuth({
     callbacks: {
         session: async ({ user, session, token }) =>
         {
+
+
+
             session.user = token as any;
-            // session.user.id = user ? user.id : null;
+            session.user.id = user ? user.id : null;
+
+            // console.log("This is from session", user);
             return Promise.resolve(session);
 
         },
         jwt: async ({ token, user, account }) =>
         {
             const isSignIn = user ? true : false;
-            if (isSignIn) {
-                const { data } = await axios.get(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/api/auth/${account?.provider}/callback?access_token=${account?.access_token}`);
-                token.jwt = data.jwt;
-                token.id = data.id;
+
+
+            if (account?.provider !== "credentials") {
+                if (isSignIn) {
+                    const { data } = await axios.get(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/${account?.provider}/callback?access_token=${account?.access_token}`);
+                    token.jwt = data.jwt;
+                    token.id = data.id;
+                }
             }
             return Promise.resolve(token);
         }
@@ -80,7 +93,8 @@ const handler = NextAuth({
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
         signIn: "/auth/sign-in"
-    }
+    },
+
 });
 
 

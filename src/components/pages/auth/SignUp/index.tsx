@@ -8,12 +8,14 @@ import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Cookie from "js-cookie";
+import { signIn, useSession } from "next-auth/react";
 
 const SignUpPage = () => {
     const router = useRouter();
+    const { status } = useSession();
     const jwt = Cookie.get("jwt-token");
 
-    if (jwt) {
+    if (status == "authenticated") {
         router.push("/dashboard");
     }
 
@@ -46,7 +48,7 @@ const SignUpPage = () => {
             const data: any = await res.json();
             if (data?.user) {
                 console.log(data);
-                Cookie.set("jwt-token", data.jwt);
+                router.push("/auth/sign-in");
             }
         },
     });
@@ -129,6 +131,9 @@ const SignUpPage = () => {
                 />
                 <Button
                     title='Sign up with Google'
+                    onClick={() => {
+                        signIn("google");
+                    }}
                     Icon={
                         <Image
                             alt='google'

@@ -4,6 +4,7 @@ import { LiaBellSolid } from "react-icons/lia";
 import { LuLogOut } from "react-icons/lu";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 interface Props {
     setMinimizeSideBar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,7 +34,8 @@ const DashboardHeader = ({ setMinimizeSideBar }: Props) => {
                 ></div>
                 <LuLogOut
                     onClick={() => {
-                        Cookies.remove("jwt-token");
+                        // Cookies.remove("jwt-token");
+                        signOut();
                         router.push("/auth/sign-in");
                     }}
                     className='text-gray-500 cursor-pointer'

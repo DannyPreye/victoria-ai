@@ -17,7 +17,7 @@ const SignInPage = () => {
     const { status } = useSession();
     const jwt = Cookies.get("jwt-token");
 
-    if (jwt) router.push("/dashboard");
+    if (status == "authenticated") router.push("/dashboard");
 
     const validationSchema = yup.object({
         email: yup
@@ -33,25 +33,30 @@ const SignInPage = () => {
             password: "",
         },
         onSubmit: async (values) => {
-            let res = await fetch(
-                `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/local`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        identifier: values.email,
-                        password: values.password,
-                    }),
-                }
-            );
+            const res = await signIn("credentials", {
+                ...values,
+                callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/dashboard`,
+                redirect: true,
+            });
+            // let res = await fetch(
+            //     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/local`,
+            //     {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //         },
+            //         body: JSON.stringify({
+            //             identifier: values.email,
+            //             password: values.password,
+            //         }),
+            //     }
+            // );
 
-            const data: any = await res.json();
-            if (data?.user) {
-                console.log(data);
-                Cookies.set("jwt-token", data.jwt);
-            }
+            // const data: any = await res.json();
+            // if (data?.user) {
+            //     console.log(data);
+            //     Cookies.set("jwt-token", data.jwt);
+            // }
         },
         validationSchema,
     });
@@ -125,6 +130,13 @@ const SignInPage = () => {
                     className='mt-[24px] lg:hidden block bg-primary-yellow'
                 />
                 <Button
+                    type='button'
+                    onClick={() => {
+                        signIn("google");
+                        // router.push(
+                        //     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/connect/google/callback`
+                        // );
+                    }}
                     title='Sign up with Google'
                     Icon={
                         <Image
