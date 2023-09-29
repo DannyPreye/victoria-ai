@@ -3,7 +3,8 @@ import React, { ReactNode, useState } from "react";
 import Sidebar from "./Sidebar";
 import DashboardHeader from "./DashboardHeader";
 import GetRoute from "@/components/pages/dashboard/GetRoute";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 interface Props {
     children: ReactNode;
@@ -11,6 +12,12 @@ interface Props {
 const DashboardLayout = ({ children }: Props) => {
     const [minimizeSideBar, setMinimizeSideBar] = useState(false);
     const pathname = usePathname();
+    const router = useRouter();
+    const jwt = Cookies.get("jwt-token");
+
+    if (!jwt) {
+        router.push("/auth/sign-in");
+    }
 
     const checkEdit = pathname.includes("/dashboard/create-cover-letter/edit");
 

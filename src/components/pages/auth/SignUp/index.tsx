@@ -5,12 +5,58 @@ import Button from "../Shared/Button";
 import Image from "next/image";
 import InputElement from "../Shared/InputElement";
 import { useRouter } from "next/navigation";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import Cookie from "js-cookie";
 
 const SignUpPage = () => {
     const router = useRouter();
+    const jwt = Cookie.get("jwt-token");
+
+    if (jwt) {
+        router.push("/dashboard");
+    }
+
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            first_name: "",
+            last_name: "",
+            password: "",
+            confirm_password: "",
+        },
+        onSubmit: async (values) => {
+            let res = await fetch(
+                `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/local/register`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: values.email,
+                        password: values.password,
+                        first_name: values.first_name,
+                        last_name: values.last_name,
+                        username: `${values.first_name}`,
+                    }),
+                }
+            );
+
+            const data: any = await res.json();
+            if (data?.user) {
+                console.log(data);
+                Cookie.set("jwt-token", data.jwt);
+            }
+        },
+    });
+
     return (
         <div className='flex flex-col items-center '>
-            <div className='flex flex-col max-w-[500px] w-full mx-auto lg:mt-auto'>
+            <form
+                onSubmit={formik.handleSubmit}
+                className='flex flex-col max-w-[500px] w-full mx-auto lg:mt-auto'
+            >
                 <div className='text-center'>
                     <h1
                         className='leading-[120%] lg:leading-[140%] text-[24px] lg:text-[36px] text-base-secondary-text
@@ -24,40 +70,60 @@ const SignUpPage = () => {
                 </div>
 
                 <div className='grid grid-cols-2 gap-[20px] mt-[32px] '>
-                    <InputElement value='' required label='First Name' />
-                    <InputElement value='' required label='Last Name' />
+                    <InputElement
+                        id='first_name'
+                        value={formik.values.first_name}
+                        required
+                        label='First Name'
+                        onChange={formik.handleChange}
+                    />
+                    <InputElement
+                        value={formik.values.last_name}
+                        onChange={formik.handleChange}
+                        id='last_name'
+                        required
+                        label='Last Name'
+                    />
 
                     <InputElement
-                        value=''
+                        value={formik.values.email}
                         type='email'
                         className='w-full col-span-2'
                         label='Email'
+                        id='email'
+                        onChange={formik.handleChange}
                     />
                     <InputElement
-                        value=''
+                        value={formik.values.password}
                         required
+                        id='password'
+                        onChange={formik.handleChange}
                         type='password'
                         className='w-full lg:col-span-1 col-span-2'
                         label='Password'
                         moreInfo='Must be at least 8 characters.'
                     />
                     <InputElement
-                        value=''
+                        value={formik.values.confirm_password}
                         required
                         type='password'
+                        onChange={formik.handleChange}
+                        id='confirm_password'
                         className='w-full lg:col-span-1 col-span-2 '
                         label='Confirm Password'
                         moreInfo='Must be at least 8 characters.'
                     />
                 </div>
                 <Button
-                    onClick={() => router.push("/dashboard")}
+                    // onClick={() => router.push("/dashboard")}
+                    type='submit'
                     title='Get Started'
                     className='mt-[24px] lg:block hidden'
                 />
                 {/* This should only show on mobile screen */}
                 <Button
-                    onClick={() => router.push("/auth/onboarding")}
+                    // onClick={() => router.push("/auth/onboarding")}
+                    type='submit'
                     title='Get Started'
                     className='mt-[24px] block lg:hidden'
                 />
@@ -82,7 +148,7 @@ const SignUpPage = () => {
                         Log in
                     </Link>
                 </p>
-            </div>
+            </form>
         </div>
     );
 };

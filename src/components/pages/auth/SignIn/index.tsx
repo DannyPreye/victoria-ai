@@ -1,16 +1,69 @@
 "use client";
 import React from "react";
-import InputElement from "../Shared/InputElement";
-import Button from "../Shared/Button";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { useSession, signIn } from "next-auth/react";
+import { toast, ToastContainer } from "react-toastify";
+import Cookies from "js-cookie";
+
+import InputElement from "../Shared/InputElement";
+import Button from "../Shared/Button";
 
 const SignInPage = () => {
     const router = useRouter();
+    const { status } = useSession();
+    const jwt = Cookies.get("jwt-token");
+
+    if (jwt) router.push("/dashboard");
+
+    const validationSchema = yup.object({
+        email: yup
+            .string()
+            .email("Enter a valid email")
+            .required("Email is required"),
+        password: yup.string().required("Password is required"),
+    });
+
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            password: "",
+        },
+        onSubmit: async (values) => {
+            let res = await fetch(
+                `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/local`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        identifier: values.email,
+                        password: values.password,
+                    }),
+                }
+            );
+
+            const data: any = await res.json();
+            if (data?.user) {
+                console.log(data);
+                Cookies.set("jwt-token", data.jwt);
+            }
+        },
+        validationSchema,
+    });
+
+    console.log(formik.errors);
+
     return (
         <div className='flex flex-col items-center '>
-            <div className='flex flex-col lg:max-w-[500px] w-full mx-auto lg:mt-auto'>
+            <form
+                onSubmit={formik.handleSubmit}
+                className='flex flex-col lg:max-w-[500px] w-full mx-auto lg:mt-auto'
+            >
                 <div className='text-center'>
                     <h1
                         className='leading-[120%] mt-[12px] lg:leading-[140%] text-[24px] lg:text-[36px] text-base-secondary-text
@@ -24,16 +77,23 @@ const SignInPage = () => {
                 </div>
                 <div className='grid gap-[20px] mt-[32px] '>
                     <InputElement
-                        value=''
+                        value={formik.values.email}
+                        required
                         className='w-full col-span-2'
                         label='Email'
                         placeholder='Enter your email'
                         type='email'
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        id='email'
                     />
                     <InputElement
-                        value=''
+                        value={formik.values.password}
                         required
+                        id='password'
                         type='password'
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                         placeholder='Enter your password'
                         className='w-full col-span-2'
                         label='Password'
@@ -53,12 +113,14 @@ const SignInPage = () => {
                     </Link>
                 </div>
                 <Button
-                    onClick={() => router.push("/dashboard")}
+                    // onClick={() => router.push("/dashboard")}
                     title='Login'
+                    type='submit'
                     className='mt-[24px] hidden lg:block bg-primary-yellow'
                 />
                 <Button
-                    onClick={() => router.push("/auth/onboarding")}
+                    type='submit'
+                    // onClick={() => router.push("/auth/onboarding")}
                     title='Login'
                     className='mt-[24px] lg:hidden block bg-primary-yellow'
                 />
@@ -83,7 +145,7 @@ const SignInPage = () => {
                         Sign Up
                     </Link>
                 </p>
-            </div>
+            </form>
         </div>
     );
 };

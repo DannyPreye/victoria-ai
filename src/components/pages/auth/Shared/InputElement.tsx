@@ -9,6 +9,8 @@ interface Props {
     type?: string;
     className?: string;
     moreInfo?: string;
+    onChange?: React.ChangeEventHandler<HTMLInputElement> | undefined;
+    onBlur?: React.FocusEventHandler<HTMLInputElement> | undefined;
 }
 const InputElement = ({
     label,
@@ -19,6 +21,8 @@ const InputElement = ({
     placeholder,
     value,
     moreInfo,
+    onChange,
+    onBlur,
 }: Props) => {
     return (
         <div className={`grid gap-[6px] ${className}`}>
@@ -30,6 +34,9 @@ const InputElement = ({
                 {label} {required && "*"}
             </label>
             <input
+                value={value}
+                onBlur={onBlur}
+                onChange={onChange}
                 style={{
                     boxShadow: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
                 }}
@@ -37,6 +44,7 @@ const InputElement = ({
                 className='px-[14px] py-[10px] w-full h-[44px]
                  rounded-[8px] border-[1px] border-gray-300'
                 placeholder={placeholder}
+                id={id}
             />
             {moreInfo && (
                 <p

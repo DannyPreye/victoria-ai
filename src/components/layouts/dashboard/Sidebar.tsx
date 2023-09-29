@@ -7,7 +7,8 @@ import { BsGrid3X3GapFill } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiLifeBuoy } from "react-icons/fi";
 import { LuLogOut } from "react-icons/lu";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const dashboardLinks = [
     {
@@ -100,6 +101,7 @@ interface MobileMenuProps {
     isMenuOpen: boolean;
 }
 const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
+    const router = useRouter();
     return (
         <Modal>
             <div
@@ -119,7 +121,7 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                         <div className='mt-[42px] grid '>
                             {dashboardLinks.map((navLink, id) => (
                                 <Link
-                                onClick={()=>setIsMenuOpen(false)}
+                                    onClick={() => setIsMenuOpen(false)}
                                     href={navLink.link}
                                     className='p-[8px] rounded-[3px] hover:bg-primary-yellow
                                      focus:bg-primary-yellow flex gap-[12px] items-center'
@@ -173,7 +175,14 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                                         </p>
                                     </div>
                                 </div>
-                                <LuLogOut className='text-gray-500' size={20} />
+                                <LuLogOut
+                                    onClick={() => {
+                                        Cookies.remove("jwt-token");
+                                        router.push("/auth/sign-in");
+                                    }}
+                                    className='text-gray-500'
+                                    size={20}
+                                />
                             </div>
                         </div>
                     </div>
