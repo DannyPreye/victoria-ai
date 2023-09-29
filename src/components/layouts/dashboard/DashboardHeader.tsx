@@ -1,9 +1,16 @@
+"use client";
 import React from "react";
 import { LiaBellSolid } from "react-icons/lia";
+import { LuLogOut } from "react-icons/lu";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+
 interface Props {
     setMinimizeSideBar: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
 const DashboardHeader = ({ setMinimizeSideBar }: Props) => {
+    const router = useRouter();
     return (
         <header className='lg:flex hidden items-center shadow-md justify-between py-[11px] px-[16px]'>
             <div
@@ -24,6 +31,14 @@ const DashboardHeader = ({ setMinimizeSideBar }: Props) => {
                     }}
                     className='w-[32px] h-[32px] rounded-full'
                 ></div>
+                <LuLogOut
+                    onClick={() => {
+                        Cookies.remove("jwt-token");
+                        router.push("/auth/sign-in");
+                    }}
+                    className='text-gray-500 cursor-pointer'
+                    size={20}
+                />
             </div>
         </header>
     );

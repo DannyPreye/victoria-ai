@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import DashboardHeader from "./DashboardHeader";
 import GetRoute from "@/components/pages/dashboard/GetRoute";
@@ -15,9 +15,11 @@ const DashboardLayout = ({ children }: Props) => {
     const router = useRouter();
     const jwt = Cookies.get("jwt-token");
 
-    if (!jwt) {
-        router.push("/auth/sign-in");
-    }
+    // useEffect(() => {
+    //     if (!jwt) {
+    //         router.push("/auth/sign-in");
+    //     }
+    // }, []);
 
     const checkEdit = pathname.includes("/dashboard/create-cover-letter/edit");
 
