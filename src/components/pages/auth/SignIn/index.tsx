@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -16,6 +16,7 @@ const SignInPage = () => {
     const router = useRouter();
     const { status } = useSession();
     const jwt = Cookies.get("jwt-token");
+    const [isLoading, setIsLoading] = useState(false);
 
     if (status == "authenticated") router.push("/dashboard");
 
@@ -33,35 +34,21 @@ const SignInPage = () => {
             password: "",
         },
         onSubmit: async (values) => {
-            const res = await signIn("credentials", {
-                ...values,
-                callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/dashboard`,
-                redirect: true,
-            });
-            // let res = await fetch(
-            //     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/local`,
-            //     {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //         },
-            //         body: JSON.stringify({
-            //             identifier: values.email,
-            //             password: values.password,
-            //         }),
-            //     }
-            // );
-
-            // const data: any = await res.json();
-            // if (data?.user) {
-            //     console.log(data);
-            //     Cookies.set("jwt-token", data.jwt);
-            // }
+            setIsLoading(true);
+            try {
+                const res = await signIn("credentials", {
+                    ...values,
+                    callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/dashboard`,
+                    // redirect: true,
+                });
+                console.log("This is the respoons", res);
+                setIsLoading(false);
+            } catch (error) {
+                setIsLoading(false);
+            }
         },
         validationSchema,
     });
-
-    console.log(formik.errors);
 
     return (
         <div className='flex flex-col items-center '>
@@ -119,11 +106,13 @@ const SignInPage = () => {
                 </div>
                 <Button
                     // onClick={() => router.push("/dashboard")}
+                    isloading={isLoading}
                     title='Login'
                     type='submit'
                     className='mt-[24px] hidden lg:block bg-primary-yellow'
                 />
                 <Button
+                    isloading={isLoading}
                     type='submit'
                     // onClick={() => router.push("/auth/onboarding")}
                     title='Login'
@@ -132,7 +121,9 @@ const SignInPage = () => {
                 <Button
                     type='button'
                     onClick={() => {
-                        signIn("google");
+                        signIn("google", {
+                            callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/dashboard`,
+                        });
                         // router.push(
                         //     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/connect/google/callback`
                         // );
@@ -158,6 +149,8 @@ const SignInPage = () => {
                     </Link>
                 </p>
             </form>
+
+            <ToastContainer />
         </div>
     );
 };

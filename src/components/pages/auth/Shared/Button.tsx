@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import { Oval } from "react-loader-spinner";
 
 interface Props {
     title: string;
@@ -6,8 +7,16 @@ interface Props {
     Icon?: ReactNode;
     className?: string;
     onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+    isloading?: boolean;
 }
-const Button = ({ title, type, Icon, className, onClick }: Props) => {
+const Button = ({
+    title,
+    type,
+    Icon,
+    isloading,
+    className,
+    onClick,
+}: Props) => {
     return Icon ? (
         <button
             onClick={onClick}
@@ -17,7 +26,26 @@ const Button = ({ title, type, Icon, className, onClick }: Props) => {
         justify-center items-center w-full text-[24px]
          font-[600] leading-[120%] ${className}`}
         >
-            {Icon} <span> {title}</span>
+            {isloading ? (
+                <span className='w-full h-full grid place-items-center'>
+                    <Oval
+                        height={24}
+                        width={24}
+                        color='#4fa94d'
+                        wrapperStyle={{}}
+                        wrapperClass=''
+                        visible={true}
+                        ariaLabel='oval-loading'
+                        secondaryColor='#E1AE25'
+                        strokeWidth={2}
+                        strokeWidthSecondary={2}
+                    />
+                </span>
+            ) : (
+                <>
+                    {Icon} <span> {title}</span>
+                </>
+            )}
         </button>
     ) : (
         <button
@@ -27,7 +55,24 @@ const Button = ({ title, type, Icon, className, onClick }: Props) => {
              text-[24px] font-[600] leading-[120%] py-[12px] rounded-[8px]
          bg-base-primary-green ${className}`}
         >
-            {title}
+            {isloading ? (
+                <span className='w-full h-full grid place-items-center '>
+                    <Oval
+                        height={24}
+                        width={24}
+                        color='#4fa94d'
+                        wrapperStyle={{}}
+                        wrapperClass=''
+                        visible={true}
+                        ariaLabel='oval-loading'
+                        secondaryColor='#E1AE25'
+                        strokeWidth={2}
+                        strokeWidthSecondary={2}
+                    />
+                </span>
+            ) : (
+                title
+            )}
         </button>
     );
 };

@@ -23,32 +23,34 @@ const handler = NextAuth({
                 };
 
                 console.log(credentials);
+                try {
 
-                let res = await fetch(
-                    `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/local`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            identifier: email,
-                            password: password,
-                        }),
+                    let res = await fetch(
+                        `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/local`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                identifier: email,
+                                password: password,
+                            }),
+                        }
+                    );
+
+                    const data = await res.json();
+
+
+                    const user = { ...data.user, jwt: data.jwt };
+
+
+                    if (user) {
+                        return user;
+                    } else {
+                        return null;
                     }
-                );
-
-                // console.log("Thi is the response-----", await res.json());
-
-                const data = await res.json();
-
-
-                const user = { ...data.user, jwt: data.jwt };
-
-                console.log("THis iis the user-------", user);
-                if (user) {
-                    return user;
-                } else {
+                } catch (error) {
                     return null;
                 }
 

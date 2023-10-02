@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import Button from "../Shared/Button";
 import Image from "next/image";
 import InputElement from "../Shared/InputElement";
@@ -9,11 +9,13 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Cookie from "js-cookie";
 import { signIn, useSession } from "next-auth/react";
+import { ToastContainer, toast } from "react-toastify";
 
 const SignUpPage = () => {
     const router = useRouter();
     const { status } = useSession();
     const jwt = Cookie.get("jwt-token");
+    const [isLoading, setIsLoading] = useState(false);
 
     if (status == "authenticated") {
         router.push("/dashboard");
@@ -28,27 +30,36 @@ const SignUpPage = () => {
             confirm_password: "",
         },
         onSubmit: async (values) => {
-            let res = await fetch(
-                `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/local/register`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        email: values.email,
-                        password: values.password,
-                        first_name: values.first_name,
-                        last_name: values.last_name,
-                        username: `${values.first_name}`,
-                    }),
-                }
-            );
+            setIsLoading(true);
+            try {
+                let res = await fetch(
+                    `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/local/register`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            email: values.email,
+                            password: values.password,
+                            first_name: values.first_name,
+                            last_name: values.last_name,
+                            username: `${values.first_name}`,
+                        }),
+                    }
+                );
 
-            const data: any = await res.json();
-            if (data?.user) {
-                console.log(data);
-                router.push("/auth/sign-in");
+                const data: any = await res.json();
+                setIsLoading(false);
+                if (data?.user) {
+                    console.log(data);
+                    router.push("/auth/sign-in");
+                }
+            } catch (error) {
+                setIsLoading(false);
+                toast.error("An error occured please try again", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                });
             }
         },
     });
@@ -117,6 +128,7 @@ const SignUpPage = () => {
                     />
                 </div>
                 <Button
+                    isloading={isLoading}
                     // onClick={() => router.push("/dashboard")}
                     type='submit'
                     title='Get Started'
@@ -124,6 +136,7 @@ const SignUpPage = () => {
                 />
                 {/* This should only show on mobile screen */}
                 <Button
+                    isloading={isLoading}
                     // onClick={() => router.push("/auth/onboarding")}
                     type='submit'
                     title='Get Started'
