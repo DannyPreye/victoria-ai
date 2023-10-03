@@ -83,14 +83,14 @@ export default LetterContent;
 
 const EditButtons = () => {
     return (
-        <div className=' gap-[16px] border-b-[1px] py-[16px] justify-end absolute right-0 lg:right-[-8.5%] top-[20%] flex flex-col'>
+        <div className=' gap-[16px] border-b-[1px] py-[16px] justify-end absolute right-[-6%] lg:right-[-8.5%] top-[20%] flex flex-col'>
             <button
                 style={{
                     boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",
                 }}
-                className='p-[14px] relative grid place-items-center border-white border-[1px]  text-primary-yellow rounded-full'
+                className='p-[10px] lg:p-[14px] text-[18px] lg:text-[24px] relative bg-white grid place-items-center border-white border-[1px]  text-primary-yellow rounded-full'
             >
-                <WiStars size={24} />
+                <WiStars />
                 <span
                     style={{
                         aspectRatio: "1/1",
@@ -113,9 +113,9 @@ const EditButtons = () => {
                 style={{
                     boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",
                 }}
-                className='p-[14px] grid place-items-center bg-white border-[1px] rounded-full'
+                className='p-[10px] lg:p-[14px] text-[18px] lg:text-[24px] grid place-items-center bg-white border-[1px] rounded-full'
             >
-                <LuPenLine size={24} />
+                <LuPenLine />
             </button>
         </div>
     );

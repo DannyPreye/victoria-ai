@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss';
-
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -36,7 +35,6 @@ const config: Config = {
         "neutrals-500": "#E3E4E4",
         "success-600": "#039855",
         "gray-25": "#FCFCFC"
-
       }
     },
   },

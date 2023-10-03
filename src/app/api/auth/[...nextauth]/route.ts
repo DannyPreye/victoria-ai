@@ -22,7 +22,6 @@ const handler = NextAuth({
                     password: string;
                 };
 
-                console.log(credentials);
                 try {
 
                     let res = await fetch(
@@ -86,6 +85,9 @@ const handler = NextAuth({
                     token.jwt = data.jwt;
                     token.id = data.id;
                 }
+            } else {
+                console.log("-----token", token);
+                console.log("-----user", user);
             }
             return Promise.resolve(token);
         }
