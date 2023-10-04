@@ -4,7 +4,7 @@ import { LiaBellSolid } from "react-icons/lia";
 import { LuLogOut } from "react-icons/lu";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 interface Props {
     setMinimizeSideBar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,6 +12,7 @@ interface Props {
 
 const DashboardHeader = ({ setMinimizeSideBar }: Props) => {
     const router = useRouter();
+    const { data: session } = useSession();
     return (
         <header className='lg:flex hidden items-center shadow-md justify-between py-[11px] px-[16px]'>
             <div
@@ -25,8 +26,10 @@ const DashboardHeader = ({ setMinimizeSideBar }: Props) => {
                 <LiaBellSolid className='' size={24} />
                 <div
                     style={{
-                        background:
-                            "url('/assets/images/dashboard/avatar-ai.png') no-repeat",
+                        background: `url('${
+                            session?.user?.profile_picture ||
+                            "https://agcnwo.com/wp-content/uploads/2020/09/avatar-placeholder.png"
+                        }') no-repeat`,
                         backgroundPosition: "center",
                         backgroundSize: "cover",
                     }}

@@ -51,7 +51,6 @@ export const authOptions: NextAuthOptions = {
                 }
             }
         })
-
     ],
     session: {
         strategy: "jwt",
@@ -60,18 +59,21 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         session: async ({ user, session, token }) =>
         {
+
             session.user = token as any;
             session.user.id = user ? user.id : null;
+            session.jwt = token.jwt as string;
+
+
             return Promise.resolve(session);
 
         },
         jwt: async ({ token, user, account }) =>
         {
             const isSignIn = user ? true : false;
-            console.log("This is the user", user);
+
 
             if (account?.provider !== "credentials") {
-                console.log("This is the account", account);
                 if (isSignIn) {
                     const { data } = await axios.get(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/${account?.provider}/callback?access_token=${account?.access_token}`);
                     token.jwt = data.jwt;
@@ -82,7 +84,9 @@ export const authOptions: NextAuthOptions = {
                 token.jwt = user.jwt;
                 token.id = user.id;
                 token.name = user.username;
-
+                token.first_name = user.first_name;
+                token.last_name = user.last_name;
+                token.picture = user.profile_picture;
             }
             return Promise.resolve(token);
         }

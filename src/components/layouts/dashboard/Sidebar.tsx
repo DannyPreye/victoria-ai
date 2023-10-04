@@ -8,8 +8,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { FiLifeBuoy } from "react-icons/fi";
 import { LuLogOut } from "react-icons/lu";
 import { usePathname, useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import { signIn, signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 const dashboardLinks = [
     {
@@ -103,6 +102,7 @@ interface MobileMenuProps {
 }
 const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
     const router = useRouter();
+    const { data: session } = useSession();
     return (
         <Modal>
             <div
@@ -163,23 +163,27 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                                     <Image
                                         width={40}
                                         height={40}
-                                        src='/assets/images/dashboard/avatar-ai.png'
-                                        alt=''
+                                        src={
+                                            session?.user.profile_picture ||
+                                            '/assets/images/dashboard/avatar-ai.png "https://agcnwo.com/wp-content/uploads/2020/09/avatar-placeholder.png'
+                                        }
+                                        alt={session?.user.first_name as string}
                                         className='rounded-full overflow-hidden'
                                     />
                                     <div className='leading-[20px] text-[14px] font-inter'>
                                         <h4 className='font-[500] '>
-                                            John Doe
+                                            {session?.user?.first_name}{" "}
+                                            {session?.user.last_name}
                                         </h4>
                                         <p className='font-[400]'>
-                                            johdoe@gmail.com
+                                            {session?.user.email}
                                         </p>
                                     </div>
                                 </div>
                                 <LuLogOut
-                                    onClick={async() => {
+                                    onClick={async () => {
                                         // Cookies.remove("jwt-token");
-                                       await signOut();
+                                        await signOut();
                                         router.push("/auth/sign-in");
                                     }}
                                     className='text-gray-500'

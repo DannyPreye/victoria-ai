@@ -1,8 +1,12 @@
 import Image from "next/image";
 import React from "react";
 import { ImPencil } from "react-icons/im";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 
-const page = () => {
+const page = async () => {
+    const session = await getServerSession(authOptions);
+
     return (
         <div>
             <div className='flex flex-col gap-[24px] lg:flex-row lg:justify-between'>
@@ -29,16 +33,19 @@ const page = () => {
                 <Image
                     width={160}
                     height={160}
-                    src='/assets/images/dashboard/tim-cook-avatar.png'
-                    alt=''
-                    className='rounded-[8px] overflow-hidden'
+                    src={
+                        session?.user?.profile_picture ||
+                        "https://agcnwo.com/wp-content/uploads/2020/09/avatar-placeholder.png"
+                    }
+                    alt={session?.user?.first_name || "user profile"}
+                    className='rounded-[8px] object-contain overflow-hidden'
                 />
                 <div className='grid gap-[16px]'>
                     <h3 className='text-[24px] font-[600] leading-[28.8px]'>
-                        Tim Cook
+                        {session?.user?.first_name} {session?.user?.last_name}
                     </h3>
                     <p className='font-inter text-[18px] leading-[28px] font-[400]'>
-                        usernamem@mail.com
+                        {session?.user?.email}
                     </p>
                 </div>
             </div>
