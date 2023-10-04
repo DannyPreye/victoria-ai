@@ -2,10 +2,11 @@ import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import axios from "axios";
+import { string } from "yup";
+import { NextAuthOptions } from "next-auth";
 
 
-
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -23,8 +24,7 @@ const handler = NextAuth({
                 };
 
                 try {
-
-                    let res = await fetch(
+                    const res = await fetch(
                         `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/local`,
                         {
                             method: "POST",
@@ -40,19 +40,16 @@ const handler = NextAuth({
 
                     const data = await res.json();
 
-
-                    const user = { ...data.user, jwt: data.jwt };
-
-
-                    if (user) {
-                        return user;
+                    if (data?.error?.status === 400) {
+                        throw new Error(data?.error.message);
                     } else {
-                        return null;
+                        return { ...data?.user, jwt: data.jwt };
                     }
-                } catch (error) {
-                    return null;
-                }
 
+                } catch (error) {
+
+                    throw new Error(String(error));
+                }
             }
         })
 
@@ -64,20 +61,15 @@ const handler = NextAuth({
     callbacks: {
         session: async ({ user, session, token }) =>
         {
-
-
-
             session.user = token as any;
             session.user.id = user ? user.id : null;
-
-            // console.log("This is from session", user);
             return Promise.resolve(session);
 
         },
         jwt: async ({ token, user, account }) =>
         {
             const isSignIn = user ? true : false;
-
+            console.log("This is the user", user);
 
             if (account?.provider !== "credentials") {
                 if (isSignIn) {
@@ -86,8 +78,10 @@ const handler = NextAuth({
                     token.id = data.id;
                 }
             } else {
-                console.log("-----token", token);
-                console.log("-----user", user);
+                token.jwt = user.jwt;
+                token.id = user.id;
+                token.name = user.username;
+
             }
             return Promise.resolve(token);
         }
@@ -99,7 +93,9 @@ const handler = NextAuth({
         signIn: "/auth/sign-in"
     },
 
-});
+};
+
+const handler = NextAuth(authOptions);
 
 
 export { handler as GET, handler as POST };

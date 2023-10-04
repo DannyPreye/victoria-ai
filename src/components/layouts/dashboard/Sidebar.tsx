@@ -177,9 +177,9 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                                     </div>
                                 </div>
                                 <LuLogOut
-                                    onClick={() => {
+                                    onClick={async() => {
                                         // Cookies.remove("jwt-token");
-                                        signOut();
+                                       await signOut();
                                         router.push("/auth/sign-in");
                                     }}
                                     className='text-gray-500'

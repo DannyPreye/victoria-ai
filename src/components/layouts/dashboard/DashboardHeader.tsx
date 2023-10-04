@@ -33,9 +33,9 @@ const DashboardHeader = ({ setMinimizeSideBar }: Props) => {
                     className='w-[32px] h-[32px] rounded-full'
                 ></div>
                 <LuLogOut
-                    onClick={() => {
+                    onClick={async () => {
                         // Cookies.remove("jwt-token");
-                        signOut();
+                        await signOut();
                         router.push("/auth/sign-in");
                     }}
                     className='text-gray-500 cursor-pointer'

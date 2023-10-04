@@ -18,7 +18,7 @@ const SignInPage = () => {
     const jwt = Cookies.get("jwt-token");
     const [isLoading, setIsLoading] = useState(false);
 
-    if (status == "authenticated") router.push("/dashboard");
+    // if (status == "authenticated") router.push("/dashboard");
 
     const validationSchema = yup.object({
         email: yup
@@ -38,8 +38,16 @@ const SignInPage = () => {
             try {
                 const res = await signIn("credentials", {
                     ...values,
-                    callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/dashboard`,
-                    // redirect: true,
+                    // callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/dashboard`,
+                    redirect: false,
+                }).then((res) => {
+                    console.log("This is the resoins", res);
+                    if (!res?.error) {
+                        // window.location.replace("/dashboard");
+                    } else {
+                        console.log(res?.error);
+                        toast.error(res?.error);
+                    }
                 });
                 console.log("This is the respoons", res);
                 setIsLoading(false);

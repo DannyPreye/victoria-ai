@@ -9,7 +9,8 @@ declare module "next-auth" {
         role: string;
         profile_picture: string;
         email: string;
-
+        jwt: string;
+        username: string;
     }
     interface Session
     {
