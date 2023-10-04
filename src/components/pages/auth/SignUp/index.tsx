@@ -10,7 +10,7 @@ import * as yup from "yup";
 import Cookie from "js-cookie";
 import { signIn, useSession } from "next-auth/react";
 import { ToastContainer, toast } from "react-toastify";
-import {v4 as uuid} from "uuid"
+import { v4 as uuid } from "uuid";
 
 const SignUpPage = () => {
     const router = useRouter();
@@ -78,6 +78,7 @@ const SignUpPage = () => {
                 });
             }
         },
+        validationSchema: validationSchema,
     });
 
     return (
@@ -105,6 +106,7 @@ const SignUpPage = () => {
                         required
                         label='First Name'
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                         isError={
                             formik.touched.first_name &&
                             Boolean(formik.errors.first_name)
@@ -117,6 +119,7 @@ const SignUpPage = () => {
                         id='last_name'
                         required
                         label='Last Name'
+                        onBlur={formik.handleBlur}
                         isError={
                             formik.touched.last_name &&
                             Boolean(formik.errors.last_name)
@@ -128,6 +131,7 @@ const SignUpPage = () => {
                         value={formik.values.email}
                         type='email'
                         className='w-full col-span-2'
+                        onBlur={formik.handleBlur}
                         label='Email'
                         id='email'
                         onChange={formik.handleChange}
@@ -145,6 +149,7 @@ const SignUpPage = () => {
                         className='w-full lg:col-span-1 col-span-2'
                         label='Password'
                         moreInfo='Must be at least 8 characters.'
+                        onBlur={formik.handleBlur}
                         isError={
                             formik.touched.password &&
                             Boolean(formik.errors.password)
@@ -156,6 +161,7 @@ const SignUpPage = () => {
                         required
                         type='password'
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                         id='confirm_password'
                         className='w-full lg:col-span-1 col-span-2 '
                         label='Confirm Password'
