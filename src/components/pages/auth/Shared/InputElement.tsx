@@ -1,5 +1,6 @@
 import React from "react";
-
+import { FormField } from "@/components/ui/form";
+import Input from "postcss/lib/input";
 interface Props {
     value: string;
     label: string;
@@ -11,6 +12,8 @@ interface Props {
     moreInfo?: string;
     onChange?: React.ChangeEventHandler<HTMLInputElement> | undefined;
     onBlur?: React.FocusEventHandler<HTMLInputElement> | undefined;
+    isError?: boolean;
+    errorMessage?: string | undefined;
 }
 const InputElement = ({
     label,
@@ -23,6 +26,8 @@ const InputElement = ({
     moreInfo,
     onChange,
     onBlur,
+    isError,
+    errorMessage,
 }: Props) => {
     return (
         <div className={`grid gap-[6px] ${className}`}>
@@ -46,6 +51,11 @@ const InputElement = ({
                 placeholder={placeholder}
                 id={id}
             />
+            {isError && errorMessage && (
+                <p className='text-red-500 font-inter text-[12px] '>
+                    {errorMessage}
+                </p>
+            )}
             {moreInfo && (
                 <p
                     className='font-inter text-gray-600

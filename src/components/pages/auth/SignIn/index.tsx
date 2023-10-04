@@ -25,7 +25,10 @@ const SignInPage = () => {
             .string()
             .email("Enter a valid email")
             .required("Email is required"),
-        password: yup.string().required("Password is required"),
+        password: yup
+            .string()
+            .min(8, "Password must be atleast 8 character")
+            .required("Password is required"),
     });
 
     const formik = useFormik({
@@ -38,18 +41,16 @@ const SignInPage = () => {
             try {
                 const res = await signIn("credentials", {
                     ...values,
-                    // callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/dashboard`,
                     redirect: false,
                 }).then((res) => {
-                    console.log("This is the resoins", res);
                     if (!res?.error) {
-                        // window.location.replace("/dashboard");
+                        window.location.replace("/dashboard");
                     } else {
-                        console.log(res?.error);
-                        toast.error(res?.error);
+                        toast.error("Error: invalid email or password", {
+                            position: toast.POSITION.BOTTOM_CENTER,
+                        });
                     }
                 });
-                console.log("This is the respoons", res);
                 setIsLoading(false);
             } catch (error) {
                 setIsLoading(false);
@@ -86,6 +87,10 @@ const SignInPage = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         id='email'
+                        isError={
+                            formik.touched.email && Boolean(formik.errors.email)
+                        }
+                        errorMessage={formik.errors.email}
                     />
                     <InputElement
                         value={formik.values.password}
@@ -98,6 +103,11 @@ const SignInPage = () => {
                         className='w-full col-span-2'
                         label='Password'
                         moreInfo='Must be at least 8 characters.'
+                        isError={
+                            formik.touched.password &&
+                            Boolean(formik.errors.password)
+                        }
+                        errorMessage={formik.errors.password}
                     />
                 </div>
                 <div className='flex  mt-[24px]  items-center justify-between text-[14px] font-[500]  leading-[20px] font-inter'>

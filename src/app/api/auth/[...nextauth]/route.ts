@@ -1,8 +1,7 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import axios from "axios";
-import { string } from "yup";
+import axios from "axios";;
 import { NextAuthOptions } from "next-auth";
 
 
@@ -72,10 +71,12 @@ export const authOptions: NextAuthOptions = {
             console.log("This is the user", user);
 
             if (account?.provider !== "credentials") {
+                console.log("This is the account", account);
                 if (isSignIn) {
                     const { data } = await axios.get(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/${account?.provider}/callback?access_token=${account?.access_token}`);
                     token.jwt = data.jwt;
                     token.id = data.id;
+                    token.picture = user.profile_picture;
                 }
             } else {
                 token.jwt = user.jwt;
