@@ -1,13 +1,19 @@
+"use client";
 import Modal from "@/components/shared/Modal";
-import { pricing } from "@/lib/dummyData";
+import { pricing } from "@/config/subscription";
 import React from "react";
-import { HiOutlineCheckCircle } from "react-icons/hi";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { EachPricing } from "./EachPricing";
+import { useSession } from "next-auth/react";
 
 interface PricingProps {
     isModalOpen: boolean;
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const Pricing = ({ isModalOpen, setIsModalOpen }: PricingProps) => {
+    const { data: session } = useSession();
+    const subcriptionPlan = async () => await getUserSubscriptionPlan();
+
     return (
         <Modal>
             <div
@@ -36,7 +42,16 @@ const Pricing = ({ isModalOpen, setIsModalOpen }: PricingProps) => {
                     </div>
                     <div className='flex lg:flex-nowrap flex-wrap justify-center gap-[32px]'>
                         {pricing.map((item, id) => (
-                            <EachPricing {...item} key={`pricing_${id}`} />
+                            <EachPricing
+                                plan={item}
+                                // isCurrentPlan={
+                                //     plan.stripeSubscriptionId ==
+                                //     item.stripePriceId
+                                // }
+                                user={session?.user}
+                                subscriptionPlan={subcriptionPlan}
+                                key={`pricing_${id}`}
+                            />
                         ))}
                     </div>
                 </div>
@@ -46,70 +61,3 @@ const Pricing = ({ isModalOpen, setIsModalOpen }: PricingProps) => {
 };
 
 export default Pricing;
-
-interface EachPricingProps {
-    priceName: string;
-    price: number;
-    pricingBenefits: string[];
-    color: string;
-    subTitle: string;
-}
-const EachPricing = ({
-    price,
-    priceName,
-    pricingBenefits,
-    color,
-    subTitle,
-}: EachPricingProps) => {
-    return (
-        <div
-            className='w-full max-w-[384px] py-[40px]
-         px-[32px] border-[1px] flex flex-col items-center shadow-md rounded-[8px]'
-        >
-            <button
-                style={{
-                    background: color,
-                }}
-                className={`w-fit  leading-[20px]
-             font-inter text-white rounded-[16px]
-             text-[14px] font-[500] px-[12px] py-[4px]`}
-            >
-                {priceName}
-            </button>
-            <h3
-                className='text-[48px] mt-[16px] font-[600] leading-[140%]
-             text-gray-900'
-            >
-                ${price}/mth
-            </h3>
-            <p
-                className='font-inter leading-[24px] text-center
-             font-[400] text-[16px] text-gray-600'
-            >
-                {subTitle}
-            </p>
-            <button
-                style={{
-                    background: color,
-                }}
-                className='mt-[16px] text-[16px] leading-[24px] font-inter
-                font-[600] text-white h-[48px] rounded-[8px] w-full py-[12px]'
-            >
-                Get Started
-            </button>
-            <div className='mt-[32px] grid gap-[16px] border-t-[1px] border-gray-[200] py-[32px]'>
-                {pricingBenefits.map((benefit, id) => (
-                    <div key={id} className='flex gap-[12px] items-center'>
-                        <HiOutlineCheckCircle
-                            size={24}
-                            className='text-success-600'
-                        />
-                        <span className='text-gray-600 leading-[24px] font-inter text-[16px]'>
-                            {benefit}
-                        </span>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};

@@ -19,6 +19,7 @@ const Button = ({
 }: Props) => {
     return Icon ? (
         <button
+            disabled={isloading}
             onClick={onClick}
             type={type}
             className={`h-[53px] border-[1px] py-[12px]
@@ -49,6 +50,7 @@ const Button = ({
         </button>
     ) : (
         <button
+            disabled={isloading}
             type={type}
             onClick={onClick}
             className={`h-[53px] w-full text-white
