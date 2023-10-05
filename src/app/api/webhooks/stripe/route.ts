@@ -36,4 +36,6 @@ export default async function POST(req: Request)
         );
     }
 
+    // We need to store the subscriptionId, stripeCustomerId stripePriceId && stripeCurrentPeriodEnd here
+
 }
