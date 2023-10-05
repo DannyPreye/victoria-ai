@@ -26,29 +26,25 @@ export const EachPricing = ({
     const [isPending, setIsPending] = useState(false);
 
     const handleSubscribe = async () => {
-        setIsPending(true)
-            try {
-                const { data } = await axios.post("/api/stripe-subscription", {
-                    isSubcribed: subscriptionPlan?.isSubscribed,
-                    stripeCustomerId: subscriptionPlan?.stripeSubscriptionId,
-                    isCurrentPlan:
-                        plan.stripePriceId ==
-                        subscriptionPlan.stripeSubscriptionId,
-                    customerEmail: user.email,
-                    stripePriceId: plan.stripePriceId,
-                    userId: user.id,
-                });
-                setIsPending(false)
-                if (data?.url) {
-                    window.location.href = data.url;
-
-                }
-
-            } catch (error) {
-                setIsPending(false)
-                toast.error("An error occured");
+        setIsPending(true);
+        try {
+            const { data } = await axios.post("/api/stripe-subscription", {
+                isSubcribed: subscriptionPlan?.isSubscribed,
+                stripeCustomerId: subscriptionPlan?.stripeSubscriptionId,
+                isCurrentPlan:
+                    plan.stripePriceId == subscriptionPlan.stripeSubscriptionId,
+                customerEmail: user.email,
+                stripePriceId: plan.stripePriceId,
+                userId: user.id,
+            });
+            setIsPending(false);
+            if (data?.url) {
+                window.location.href = data.url;
             }
-
+        } catch (error) {
+            setIsPending(false);
+            toast.error("An error occured");
+        }
     };
     return (
         <div
@@ -84,7 +80,7 @@ export const EachPricing = ({
                     background: plan.color,
                 }}
                 className='mt-[16px] text-[16px] leading-[24px] font-inter
-                font-[600] text-white h-[48px] rounded-[8px] w-full py-[12px] flex items-center'
+                font-[600] text-white h-[48px] rounded-[8px] w-full py-[12px] gap-2 flex justify-center items-center'
             >
                 <span>
                     {plan.stripePriceId == subscriptionPlan.stripeSubscriptionId

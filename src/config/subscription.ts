@@ -2,13 +2,12 @@ export const pricing = [
     {
         id: "basic",
         priceName: "Basic Plan",
-        price: 10,
+        price: 4.99,
         pricingBenefits: [
-            "Access to all basic features",
-            "Basic reporting and analytics",
+            "Up to 2 letters generation",
+            "3 Ai paragraph edits per letter generation",
             "Up to 10 individual users",
-            "20GB individual data each user",
-            "Basic chat and email support"
+            "All document access downloaded, and modified up to 48 hours post-generation",
         ],
         color: "#07397D",
         subTitle: "Our most popular plan.",

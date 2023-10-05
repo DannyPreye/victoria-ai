@@ -4,6 +4,7 @@ import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
+import axios from "axios";
 
 
 export default async function POST(req: Request)
@@ -34,8 +35,36 @@ export default async function POST(req: Request)
         const subscription = await stripe.subscriptions.retrieve(
             session.subscription?.toString() as string
         );
+        const res = await axios.put(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/user/${userSession?.user.id}`, {
+            headers: {
+                "Authorization": `Bearer ${userSession?.jwt}`
+            },
+            data: JSON.stringify({
+                stripeSubscriptionId: subscription.id,
+                stripeCustomerId: subscription.customer as string,
+                stripePriceId: subscription.items.data[ 0 ].price.id,
+                stripeCurrentPeriodEnd: new Date(
+                    subscription.current_period_end * 1000
+                )
+            })
+        });
     }
 
-    // We need to store the subscriptionId, stripeCustomerId stripePriceId && stripeCurrentPeriodEnd here
+    if (event.type == "invoice.payment_succeeded") {
+        const subscription = await stripe.subscriptions.retrieve(
+            session.subscription?.toString() as string
+        );
+        data: JSON.stringify({
+            // stripeSubscriptionId: subscription.id,
+            // stripeCustomerId: subscription.customer as string,
+            stripePriceId: subscription.items.data[ 0 ].price.id,
+            stripeCurrentPeriodEnd: new Date(
+                subscription.current_period_end * 1000
+            )
+        });
+    }
+
+
+    return new Response(null, { status: 200 });
 
 }
