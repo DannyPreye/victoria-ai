@@ -17,7 +17,7 @@ export const pricing = [
         price: 9.99,
         pricingBenefits: [
             "One time purchase for up to 5 downloads",
-            "15 regenerations(3 per page) in the edit feature"
+            "15 regenerations (3 per page) in the edit feature"
         ],
         color: "#139DBC",
         subTitle: "Growing teams up to 20 users.",
@@ -28,8 +28,8 @@ export const pricing = [
         priceName: "(Save $5.96) Executive Edition ",
         price: 18.99,
         pricingBenefits: [
-            "One time purchase, for up to 10 downloads",
-            "30 regenerations(3 per page) in the edit feature"
+            "One time purchase for up to 10 downloads",
+            "30 regenerations (3 per page) in the edit feature"
         ],
         color: "#E2BB53",
         subTitle: "Advanced features + unlimited users.",

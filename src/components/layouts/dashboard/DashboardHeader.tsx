@@ -13,6 +13,7 @@ interface Props {
 const DashboardHeader = ({ setMinimizeSideBar }: Props) => {
     const router = useRouter();
     const { data: session } = useSession();
+
     return (
         <header className='lg:flex hidden items-center shadow-md justify-between py-[11px] px-[16px]'>
             <div

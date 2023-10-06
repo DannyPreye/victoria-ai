@@ -69,12 +69,12 @@ export const EachPricing = ({
             >
                 ${plan.price}/mth
             </h3>
-            <p
+            {/* <p
                 className='font-inter leading-[24px] text-center
              font-[400] text-[16px] text-gray-600'
             >
                 {plan.subTitle}
-            </p>
+            </p> */}
             <button
                 onClick={handleSubscribe}
                 disabled={isPending}

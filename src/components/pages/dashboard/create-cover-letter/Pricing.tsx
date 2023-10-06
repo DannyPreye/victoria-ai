@@ -19,7 +19,7 @@ const Pricing = ({ isModalOpen, setIsModalOpen }: PricingProps) => {
             <div
                 onClick={() => setIsModalOpen(false)}
                 className={`fixed top-0 left-0 lg:px-[58px] flex-col flex justify-center
-                h-screen w-screen bg-[rgba(51,51,51,0.25)] ${
+                h-screen w-screen bg-[rgba(141,172,216,0.25)] ${
                     isModalOpen ? "block" : "hidden"
                 }`}
             >
@@ -35,7 +35,7 @@ const Pricing = ({ isModalOpen, setIsModalOpen }: PricingProps) => {
                         >
                             Simple, transparent pricing
                         </h3>
-                        <p className='text-[20px] text-center text-gray-600 font-[400] leading-[30px] mb-4'>
+                        <p className='text-[20px] text-center text-gray-600 font-[400] leading-[30px] '>
                             Seeking the best value? It is estimated that the
                             average job seeker applies to 20-25 positions before
                             landing an interview! Opt for the Executive Edition
@@ -56,7 +56,7 @@ const Pricing = ({ isModalOpen, setIsModalOpen }: PricingProps) => {
                             />
                         ))}
                     </div>
-                    <p className='text-[20px] text-gray-600 font-[400] leading-[30px] mt-4'>
+                    <p className='text-[20px] text-gray-600 font-[400] leading-[30px] '>
                         <span className='text-bold'> IMPORTANT:</span>
                         Each cover letter stays on your account for 72 hours
                         post-creation. Please edit and publish within this

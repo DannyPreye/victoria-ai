@@ -77,9 +77,13 @@ export const authOptions: NextAuthOptions = {
       session.jwt = token.jwt as string;
       return Promise.resolve(session);
     },
-    jwt: async ({ token, user, account }) =>
+    jwt: async ({ token, user, account, trigger, session }) =>
     {
       const isSignIn = user ? true : false;
+      if (trigger == "update") {
+        console.log("From trigger", token, session);
+        return { ...token, ...session.user };
+      }
 
       if (account?.provider !== "credentials") {
         if (isSignIn) {
