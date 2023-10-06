@@ -82,8 +82,8 @@ export const EditDetailsModal = ({
                     await update({
                         ...session,
                         user: {
-                            first_name: parsed_user_data?.first_name,
-                            last_name: parsed_user_data?.last_name,
+                            first_name: data?.first_name,
+                            last_name: data?.last_name,
                             profile_picture:
                                 parsed_user_data?.profile_picture?.url,
                         },
