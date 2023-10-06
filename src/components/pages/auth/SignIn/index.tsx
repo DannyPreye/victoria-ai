@@ -146,7 +146,7 @@ const SignInPage = () => {
                         //     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/connect/google/callback`
                         // );
                     }}
-                    title='Sign up with Google'
+                    title='Sign in with Google'
                     Icon={
                         <Image
                             alt='google'
