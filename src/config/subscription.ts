@@ -25,7 +25,7 @@ export const pricing = [
     },
     {
         id: "enterprice",
-        priceName: "(Save $5.96) Executive Edition ",
+        priceName: "(Save $5.96) Executive Edition",
         price: 18.99,
         pricingBenefits: [
             "One time purchase for up to 10 downloads",
