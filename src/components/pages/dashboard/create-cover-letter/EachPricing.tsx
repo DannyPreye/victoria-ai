@@ -29,13 +29,15 @@ export const EachPricing = ({
         setIsPending(true);
         try {
             const { data } = await axios.post("/api/stripe-subscription", {
-                isSubcribed: subscriptionPlan?.isSubscribed,
-                stripeCustomerId: subscriptionPlan?.stripeSubscriptionId,
-                isCurrentPlan:
-                    plan.stripePriceId == subscriptionPlan.stripeSubscriptionId,
-                customerEmail: user.email,
-                stripePriceId: plan.stripePriceId,
+                // isSubcribed: subscriptionPlan?.isSubscribed,
+                // stripeCustomerId: subscriptionPlan?.stripeSubscriptionId,
+                // isCurrentPlan:
+                //     plan.stripePriceId == subscriptionPlan.stripeSubscriptionId,
+                // customerEmail: user.email,
+                // stripePriceId: plan.stripePriceId,
                 userId: user.id,
+                amount: plan.price * 100,
+                productName: plan.priceName,
             });
             setIsPending(false);
             if (data?.url) {

@@ -45,13 +45,13 @@ export const authOptions: NextAuthOptions = {
                         throw new Error(data?.error.message);
                     } else {
                         // Trying to populate the profile pics here
-                        const { data: profile_pics } = await axios.get(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/me?populate=`, {
-                            headers: {
-                                "Authorization": `Bearer ${data.jwt}`
-                            }
-                        });
+                        // const { data: profile_pics } = await axios.get(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/me?populate=`, {
+                        //     headers: {
+                        //         "Authorization": `Bearer ${data.jwt}`
+                        //     }
+                        // });
 
-                        console.log("This is  the is the pics", profile_pics);
+                        // console.log("This is  the is the pics", profile_pics);
                         return { ...data?.user, jwt: data.jwt };
                     }
 

@@ -36,8 +36,10 @@ const Pricing = ({ isModalOpen, setIsModalOpen }: PricingProps) => {
                             Simple, transparent pricing
                         </h3>
                         <p className='text-[20px] text-gray-600 font-[400] leading-[30px]'>
-                            We believe Untitled should be accessible to all
-                            companies, no matter the size.
+                            Seeking the best value? It is estimated that the
+                            average job seeker applies to 20-25 positions before
+                            landing an interview! Opt for the Executive Edition
+                            and invest wisely in your job hunt!
                         </p>
                     </div>
                     <div className='flex lg:flex-nowrap flex-wrap justify-center gap-[32px]'>
@@ -54,6 +56,12 @@ const Pricing = ({ isModalOpen, setIsModalOpen }: PricingProps) => {
                             />
                         ))}
                     </div>
+                    <p className='text-[20px] text-gray-600 font-[400] leading-[30px]'>
+                        <span className='text-bold'> IMPORTANT:</span>
+                        Each cover letter stays on your account for 72 hours
+                        post-creation. Please edit and publish within this
+                        period!
+                    </p>
                 </div>
             </div>
         </Modal>
