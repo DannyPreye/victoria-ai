@@ -36,7 +36,7 @@ export const EachPricing = ({
                 // customerEmail: user.email,
                 // stripePriceId: plan.stripePriceId,
                 userId: user.id,
-                amount: Number(plan.price) * 100,
+                amount: plan.price * 100,
                 productName: plan.priceName,
             });
             setIsPending(false);

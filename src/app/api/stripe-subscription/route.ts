@@ -18,7 +18,7 @@ export async function POST(req: Request)
     // })
 
     const stripeSession = await stripe.checkout.sessions.create({
-        success_url: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/dashboard/create-cover-letter`,
+        success_url: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/dashboard/create-cover-letter/edit`,
         mode: "payment",
         payment_method_types: [ "card" ],
         billing_address_collection: "auto",
