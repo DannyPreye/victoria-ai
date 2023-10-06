@@ -35,7 +35,7 @@ const Pricing = ({ isModalOpen, setIsModalOpen }: PricingProps) => {
                         >
                             Simple, transparent pricing
                         </h3>
-                        <p className='text-[20px] text-gray-600 font-[400] leading-[30px]'>
+                        <p className='text-[20px] text-center text-gray-600 font-[400] leading-[30px]'>
                             Seeking the best value? It is estimated that the
                             average job seeker applies to 20-25 positions before
                             landing an interview! Opt for the Executive Edition
