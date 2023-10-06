@@ -160,7 +160,8 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                         <div className='px-[8px]'>
                             <div className='py-[24px] px-[8px] border-t-[1px] mt-[20px] flex  justify-between items-start'>
                                 <div className='flex gap-[12px] items-center text-white'>
-                                    <Image
+                                <div className="w-[40px] h-[40px] rounded-full overflow-hidden ">
+                                        <Image
                                         width={40}
                                         height={40}
                                         src={
@@ -168,8 +169,9 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                                             '/assets/images/dashboard/avatar-ai.png "https://agcnwo.com/wp-content/uploads/2020/09/avatar-placeholder.png'
                                         }
                                         alt={session?.user.first_name as string}
-                                        className='rounded-full overflow-hidden'
+                                        className='rounded-full overflow-hidden object-contain'
                                     />
+                                </div>
                                     <div className='leading-[20px] text-[14px] font-inter'>
                                         <h4 className='font-[500] '>
                                             {session?.user?.first_name}{" "}
