@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
 
                 try {
                     const res = await fetch(
-                        `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/local`,
+                        `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/auth/local?`,
                         {
                             method: "POST",
                             headers: {
@@ -39,9 +39,19 @@ export const authOptions: NextAuthOptions = {
 
                     const data = await res.json();
 
+                    console.log(data);
+
                     if (data?.error?.status === 400) {
                         throw new Error(data?.error.message);
                     } else {
+                        // Trying to populate the profile pics here
+                        const { data: profile_pics } = await axios.get(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/me?populate=`, {
+                            headers: {
+                                "Authorization": `Bearer ${data.jwt}`
+                            }
+                        });
+
+                        console.log("This is  the is the pics", profile_pics);
                         return { ...data?.user, jwt: data.jwt };
                     }
 
@@ -59,8 +69,9 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         session: async ({ user, session, token }) =>
         {
+            console.log("This user from session", user);
             session.user = token as any;
-            session.user.id = user ? user.id : null;
+            session.user.id = token.sub as string;
             session.jwt = token.jwt as string;
             return Promise.resolve(session);
 
@@ -69,6 +80,7 @@ export const authOptions: NextAuthOptions = {
         {
             const isSignIn = user ? true : false;
 
+            console.log("THIS IS USER FROM JWT", user);
 
             if (account?.provider !== "credentials") {
                 if (isSignIn) {
@@ -87,8 +99,6 @@ export const authOptions: NextAuthOptions = {
             }
             return Promise.resolve(token);
         }
-
-
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {

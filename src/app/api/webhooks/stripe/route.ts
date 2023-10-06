@@ -5,13 +5,17 @@ import { stripe } from "@/lib/stripe";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import axios from "axios";
+import { NextApiRequest, NextApiResponse } from "next";
+import { Session } from "inspector";
 
 
-export async function POST(req: Request)
+export async function POST(req: Request,)
 {
     const body = await req.text();
     const signature = headers().get("Stripe-Signature") ?? "";
     const userSession = await getServerSession(authOptions);
+
+    console.log("OKAT------", userSession);
 
     let event: Stripe.Event;
 
@@ -24,7 +28,7 @@ export async function POST(req: Request)
         );
     }
 
-
+    console.log("THIS IS THE USER ID", userSession);
     const session = event.data.object as Stripe.Checkout.Session;
 
     if (!session?.metadata?.userId) {
@@ -35,7 +39,7 @@ export async function POST(req: Request)
         const subscription = await stripe.subscriptions.retrieve(
             session.subscription?.toString() as string
         );
-        const res = await axios.put(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/user/${userSession?.user.id}`, {
+        const { data: resp } = await axios.put(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${userSession?.user.id}`, {
             headers: {
                 "Authorization": `Bearer ${userSession?.jwt}`
             },
