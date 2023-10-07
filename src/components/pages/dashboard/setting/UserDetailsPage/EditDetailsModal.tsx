@@ -32,58 +32,69 @@ export const EditDetailsModal = ({
         setFile(file);
     };
 
-    console.log(file);
-
-    console.log(session?.user);
-
     const formik = useFormik({
         initialValues: {
-            first_name: serverSession?.user.first_name,
-            last_name: serverSession?.user.last_name,
+            first_name: serverSession?.user.first_name || "",
+            last_name: serverSession?.user.last_name || "",
         },
-        onSubmit: async (values: any) => {
+        onSubmit: async (values) => {
             setIsLoading(true);
             try {
                 const formData = new FormData();
-                formData.append("profile_picture", file);
-                for (const key in values) {
-                    formData.append(key, values[key]);
+                formData.append("files", file);
+
+                let profile_picture: string = "";
+                if (file) {
+                    const res: any = await fetch(
+                        `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/upload/`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${session?.jwt}`,
+                                // "Content-Type": "application/json",
+                            },
+                            body: formData,
+                            method: "POST",
+                        }
+                    );
+                    const data = await res.json();
+                    profile_picture = data[0].id;
                 }
 
-                const res: any = await fetch(
+                const body = profile_picture
+                    ? {
+                          ...values,
+                          profile_picture,
+                      }
+                    : {
+                          ...values,
+                      };
+
+                const res = await fetch(
                     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${session?.user.id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${session?.jwt}`,
-                            // "Content-Type": "application/json",
+                            "Content-Type": "application/json",
                         },
-                        body: formData,
+                        body: JSON.stringify(body),
                         method: "PUT",
                     }
                 );
-                const data = await res.json();
-                console.log(data);
-                setIsLoading(false);
 
-                if (data) {
-                    const user_data = await fetch(
+                if (res.ok) {
+                    const { data: parsed_user_data } = await axios.get(
                         `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${session?.user.id}?populate=*`,
                         {
-                            method: "GET",
                             headers: {
                                 Authorization: `Bearer ${session?.jwt}`,
                             },
                         }
                     );
-                    const parsed_user_data = await user_data.json();
-
-                    console.log(parsed_user_data);
-
                     await update({
                         ...session,
                         user: {
-                            first_name: data?.first_name,
-                            last_name: data?.last_name,
+                            first_name: parsed_user_data?.first_name,
+                            last_name: parsed_user_data?.last_name,
                             profile_picture:
                                 parsed_user_data?.profile_picture?.url,
                         },
@@ -95,6 +106,8 @@ export const EditDetailsModal = ({
 
                     toast.success("Profile has been updated successfully");
                 }
+
+                setIsLoading(false);
             } catch (error) {
                 console.log(error);
                 setIsLoading(false);

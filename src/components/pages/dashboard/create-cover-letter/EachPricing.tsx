@@ -36,8 +36,9 @@ export const EachPricing = ({
                 // customerEmail: user.email,
                 // stripePriceId: plan.stripePriceId,
                 userId: user.id,
-                amount: plan.price * 100,
+                amount: (plan.price * 100).toFixed(2),
                 productName: plan.priceName,
+                customerEmail: user.email,
             });
             setIsPending(false);
             if (data?.url) {

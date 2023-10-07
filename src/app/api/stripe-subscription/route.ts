@@ -27,7 +27,7 @@ export async function POST(req: Request)
             {
                 price_data: {
                     currency: "usd",
-                    unit_amount: amount,
+                    unit_amount: parseInt(amount),
                     product_data: {
                         name: productName,
 
