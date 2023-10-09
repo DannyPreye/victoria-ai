@@ -32,11 +32,8 @@ export async function POST(req: Request)
                         name: productName,
 
                     },
-
-
                 },
                 quantity: 1
-
             }
         ],
         metadata: {

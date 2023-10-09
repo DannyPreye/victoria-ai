@@ -68,7 +68,7 @@ export const EachPricing = ({
                 className='text-[48px] mt-[16px] font-[600] leading-[140%]
              text-gray-900'
             >
-                ${plan.price}/mth
+                ${plan.price}
             </h3>
             {/* <p
                 className='font-inter leading-[24px] text-center

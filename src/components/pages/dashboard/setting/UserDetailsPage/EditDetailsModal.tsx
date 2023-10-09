@@ -11,6 +11,7 @@ import Button from "@/components/pages/auth/Shared/Button";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import { File } from "buffer";
+import { updateUserAccount } from "@/lib/helpers";
 
 interface Props {
     setOpenEdit: Dispatch<SetStateAction<boolean>>;
@@ -40,63 +41,78 @@ export const EditDetailsModal = ({
         onSubmit: async (values) => {
             setIsLoading(true);
             try {
-                const formData = new FormData();
-                formData.append("files", file);
+                // const formData = new FormData();
+                // formData.append("files", file);
 
-                let profile_picture: string = "";
-                if (file) {
-                    const res: any = await fetch(
-                        `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/upload/`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${session?.jwt}`,
-                                // "Content-Type": "application/json",
-                            },
-                            body: formData,
-                            method: "POST",
-                        }
-                    );
-                    const data = await res.json();
-                    profile_picture = data[0].id;
-                }
+                // let profile_picture: string = "";
+                // if (file) {
+                //     const res: any = await fetch(
+                //         `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/upload/`,
+                //         {
+                //             headers: {
+                //                 Authorization: `Bearer ${session?.jwt}`,
+                //                 // "Content-Type": "application/json",
+                //             },
+                //             body: formData,
+                //             method: "POST",
+                //         }
+                //     );
+                //     const data = await res.json();
+                //     profile_picture = data[0].id;
+                // }
 
-                const body = profile_picture
-                    ? {
-                          ...values,
-                          profile_picture,
-                      }
-                    : {
-                          ...values,
-                      };
+                // const body = profile_picture
+                //     ? {
+                //           ...values,
+                //           profile_picture,
+                //       }
+                //     : {
+                //           ...values,
+                //       };
 
-                const res = await fetch(
-                    `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${session?.user.id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${session?.jwt}`,
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(body),
-                        method: "PUT",
-                    }
-                );
+                // const res = await fetch(
+                //     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${session?.user.id}`,
+                //     {
+                //         headers: {
+                //             Authorization: `Bearer ${session?.jwt}`,
+                //             "Content-Type": "application/json",
+                //         },
+                //         body: JSON.stringify(body),
+                //         method: "PUT",
+                //     }
+                // );
 
-                if (res.ok) {
-                    const { data: parsed_user_data } = await axios.get(
-                        `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${session?.user.id}?populate=*`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${session?.jwt}`,
-                            },
-                        }
-                    );
+                // if (res.ok) {
+                //     const { data: parsed_user_data } = await axios.get(
+                //         `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${session?.user.id}?populate=*`,
+                //         {
+                //             headers: {
+                //                 Authorization: `Bearer ${session?.jwt}`,
+                //             },
+                //         }
+                //     );
+                //     await update({
+                //         ...session,
+                //         user: {
+                //             first_name: parsed_user_data?.first_name,
+                //             last_name: parsed_user_data?.last_name,
+                //             profile_picture:
+                //                 parsed_user_data?.profile_picture?.url,
+                //         },
+                //     });
+
+                const user = await updateUserAccount({
+                    jwt: session?.jwt as string,
+                    user_id: session?.user.id as string,
+                    file: file,
+                    values,
+                });
+
+                if (user) {
                     await update({
                         ...session,
                         user: {
-                            first_name: parsed_user_data?.first_name,
-                            last_name: parsed_user_data?.last_name,
-                            profile_picture:
-                                parsed_user_data?.profile_picture?.url,
+                            ...user,
                         },
                     });
 
@@ -105,9 +121,9 @@ export const EditDetailsModal = ({
                     setOpenEdit(false);
 
                     toast.success("Profile has been updated successfully");
-                }
 
-                setIsLoading(false);
+                    setIsLoading(false);
+                }
             } catch (error) {
                 console.log(error);
                 setIsLoading(false);
@@ -119,7 +135,7 @@ export const EditDetailsModal = ({
     return (
         <Modal>
             <div
-                onClick={() => setOpenEdit(false)}
+                onClick={() => !isloading && setOpenEdit(false)}
                 className={`fixed  left-0 top-0 w-screen h-screen bg-[#00000036] backdrop-blur-sm place-items-center  justify-center items-center duration-700 ${
                     openEdit ? "flex" : "hidden"
                 } items-start`}
@@ -166,12 +182,19 @@ export const EditDetailsModal = ({
                                 value={formik.values.last_name as string}
                             />
                         </div>
-                        <Button
-                            isloading={isloading}
-                            className='mt-10'
-                            type='submit'
-                            title='Update'
-                        />
+                        <div className='flex items-center gap-3 justify-between'>
+                            <Button
+                                className='mt-10 bg-red-500'
+                                type='submit'
+                                title='Delete Account'
+                            />
+                            <Button
+                                isloading={isloading}
+                                className='mt-10'
+                                type='submit'
+                                title='Update'
+                            />
+                        </div>
                     </form>
                 </div>
             </div>
