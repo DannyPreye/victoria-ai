@@ -83,37 +83,30 @@ export default LetterContent;
 
 const EditButtons = () => {
     return (
-        <div className=' gap-[16px] border-b-[1px] py-[16px] justify-end absolute right-[-6%] lg:right-[-8.5%] top-[20%] flex flex-col'>
+        <div className=' gap-[16px] border-b-[1px] py-[16px] justify-end absolute right-[-3%] lg:right-[-8.5%] top-[20%] flex flex-col'>
             <button
                 style={{
                     boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",
                 }}
-                className='p-[10px] lg:p-[14px] text-[18px] lg:text-[24px] relative bg-white grid place-items-center border-white border-[1px]  text-primary-yellow rounded-full'
+                className='w-[33px] h-[33px] lg:w-[52px] lg:h-[52px] text-[12px] lg:text-[24px] relative bg-white grid place-items-center border-white border-[1px]  text-primary-yellow rounded-full'
             >
                 <WiStars />
                 <span
                     style={{
                         aspectRatio: "1/1",
                     }}
-                    className='w-[16px] text-[8px] leading-[120%] font-[500]   absolute top-0 right-0 bg-base-primary-green
+                    className='w-[16px] text-[8px] leading-[120%] font-[500]   absolute top-[-5%] lg:top-0 right-[-2%] lg:right-0 bg-base-primary-green
                  rounded-full grid text-white place-items-center'
                 >
                     1
                 </span>
             </button>
-            {/* <button
-                style={{
-                    boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",
-                }}
-                className='p-[14px] relative grid place-items-center bg-white border-[1px] rounded-full'
-            >
-                <TfiReload size={24} />
-            </button> */}
+
             <button
                 style={{
                     boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",
                 }}
-                className='p-[10px] lg:p-[14px] text-[18px] lg:text-[24px] grid place-items-center bg-white border-[1px] rounded-full'
+                className='w-[33px] h-[33px] lg:w-[52px] lg:h-[52px] text-[12px] lg:text-[24px] grid place-items-center bg-white border-[1px] rounded-full'
             >
                 <LuPenLine />
             </button>
