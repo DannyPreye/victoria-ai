@@ -70,6 +70,10 @@ const SignUpPage = () => {
                 setIsLoading(false);
                 if (data?.user) {
                     router.push("/auth/sign-in");
+                } else if (data?.error) {
+                    toast.error("Email is already registered", {
+                        position: toast.POSITION.BOTTOM_CENTER,
+                    });
                 }
             } catch (error) {
                 setIsLoading(false);
