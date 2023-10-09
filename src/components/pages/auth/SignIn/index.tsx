@@ -117,7 +117,7 @@ const SignInPage = () => {
                     </div>
                     <Link
                         className='text-base-primary-green font-inter text-[14px] leading-[20px] font-[600]'
-                        href={"#"}
+                        href={"/auth/forgot-password"}
                     >
                         Forgot Password
                     </Link>
@@ -132,7 +132,6 @@ const SignInPage = () => {
                 <Button
                     isloading={isLoading}
                     type='submit'
-                    // onClick={() => router.push("/auth/onboarding")}
                     title='Login'
                     className='mt-[24px] lg:hidden block bg-primary-yellow'
                 />
@@ -142,9 +141,6 @@ const SignInPage = () => {
                         signIn("google", {
                             callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/dashboard`,
                         });
-                        // router.push(
-                        //     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/connect/google/callback`
-                        // );
                     }}
                     title='Sign in with Google'
                     Icon={
@@ -158,7 +154,7 @@ const SignInPage = () => {
                     className='mt-[16px]'
                 />
                 <p className='text-center mt-[32px] text-gray-600 font-inter text-[14px] leading-[20px] font-[400]'>
-                    Already have an account?{" "}
+                    Don&apos;t have an account?{" "}
                     <Link
                         className='text-base-primary-green font-inter text-[14px] leading-[20px] font-[600]'
                         href={"/auth/sign-up"}

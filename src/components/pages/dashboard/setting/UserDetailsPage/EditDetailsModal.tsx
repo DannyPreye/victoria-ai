@@ -7,36 +7,43 @@ import { FileUploader } from "react-drag-drop-files";
 import Image from "next/image";
 import { useFormik } from "formik";
 import Button from "@/components/pages/auth/Shared/Button";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
-import { deleteUserAccount, updateUserAccount } from "@/lib/helpers";
-import { useRouter } from "next/navigation";
+import { updateUserAccount } from "@/lib/helpers";
+import { DeleteModal } from "./DeleteModal";
 
 interface Props {
     setOpenEdit: Dispatch<SetStateAction<boolean>>;
     openEdit: boolean;
     session?: Session | null;
 }
-export const EditDetailsModal = ({
-    setOpenEdit,
-    openEdit,
-    session: serverSession,
-}: Props) => {
+export const EditDetailsModal = ({ setOpenEdit, openEdit }: Props) => {
     const { data: session, update } = useSession();
     const [isloading, setIsLoading] = useState(false);
-
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [file, setFile] = useState<any>(null);
-    const router = useRouter();
+    const [initialValues, setInitialValues] = useState({
+        first_name: session?.user.first_name as string,
+        last_name: session?.user.last_name as string,
+    });
+
     const fileFormats = ["JPG", "PNG", "JPEG"];
+
     const handleFile = (file: any) => {
         setFile(file);
     };
-    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+    // Resets the initial values when theres is a change in the user details
+    useEffect(() => {
+        setInitialValues({
+            first_name: session?.user.first_name as string,
+            last_name: session?.user.last_name as string,
+        });
+    }, [session?.user.first_name, session?.user.last_name]);
+
     const formik = useFormik({
-        initialValues: {
-            first_name: serverSession?.user.first_name as string,
-            last_name: serverSession?.user.last_name as string,
-        },
+        initialValues,
+        enableReinitialize: true,
         onSubmit: async (values) => {
             setIsLoading(true);
             try {
@@ -48,6 +55,7 @@ export const EditDetailsModal = ({
                 });
 
                 if (user) {
+                    // Updates the user
                     await update({
                         ...session,
                         user: {
@@ -71,23 +79,13 @@ export const EditDetailsModal = ({
         },
     });
 
-    const handleDeleteAccount = async () => {
-        try {
-            const res: any = await deleteUserAccount({
-                user_id: session?.user.id as string,
-                jwt: session?.jwt as string,
-            });
-            if (res?.data) {
-                await signOut();
-                router.push("/auth/sign-up");
-            }
-        } catch (error) {}
-    };
-
     return (
         <Modal>
             <div
-                onClick={() => !isloading && setOpenEdit(false)}
+                onClick={() => {
+                    !isloading && setOpenEdit(false);
+                    setFile(null);
+                }}
                 className={`fixed  left-0 top-0 w-screen h-screen bg-[#00000036] backdrop-blur-sm place-items-center  justify-center items-center duration-700 ${
                     openEdit ? "flex" : "hidden"
                 } items-start`}
@@ -104,17 +102,17 @@ export const EditDetailsModal = ({
                             types={fileFormats}
                             classes='w-full py-3'
                         >
-                            <div className='grid place-items-center cursor-pointer'>
+                            <div className='grid place-items-center mx-auto h-[160px] relative w-[160px]  cursor-pointer'>
                                 <Image
                                     src={
                                         file
                                             ? URL.createObjectURL(file)
                                             : session?.user.profile_picture ||
-                                              ""
+                                              "https://agcnwo.com/wp-content/uploads/2020/09/avatar-placeholder.png"
                                     }
                                     alt={session?.user.first_name || ""}
-                                    width={200}
-                                    height={200}
+                                    fill
+                                    className='object-contain'
                                 />
                             </div>
                         </FileUploader>
@@ -137,8 +135,8 @@ export const EditDetailsModal = ({
                         <div className='flex items-center gap-3 justify-between'>
                             <Button
                                 className='mt-10 bg-red-500'
-                                type='submit'
                                 title='Delete Account'
+                                type='button'
                                 onClick={() => setOpenDeleteModal(true)}
                             />
                             <Button
@@ -152,7 +150,6 @@ export const EditDetailsModal = ({
                 </div>
             </div>
             <DeleteModal
-                handleDeleteAccount={handleDeleteAccount}
                 openDeleteModal={openDeleteModal}
                 setOpenDeleteModal={setOpenDeleteModal}
             />
@@ -201,44 +198,5 @@ const InputElement = ({
                 />
             </div>
         </div>
-    );
-};
-
-interface DeleteModalProps {
-    setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
-    openDeleteModal: boolean;
-    handleDeleteAccount: () => Promise<void>;
-}
-const DeleteModal = ({
-    setOpenDeleteModal,
-    openDeleteModal,
-    handleDeleteAccount,
-}: DeleteModalProps) => {
-    return (
-        <Modal>
-            <div
-                className={`fixed z-[200] left-0 top-0 w-screen h-screen bg-[#00000036] backdrop-blur-sm place-items-center  justify-center items-center duration-700 ${
-                    openDeleteModal ? "flex" : "hidden"
-                } items-start`}
-                onClick={() => setOpenDeleteModal(false)}
-            >
-                <div onClick={(e)=>e.stopPropagation()} className='w-[80%] grid place-items-center gap-5 max-w-[450px] h-[200px] bg-white rounded-md p-4'>
-                    <p>Are you sure you want to delete your account ? </p>
-                    <div className='flex justify-between gap-8 items-center '>
-                        <Button
-                            title='Cancel'
-                            onClick={() => setOpenDeleteModal(false)}
-                            className='px-2'
-                        />
-
-                        <Button
-                            onClick={handleDeleteAccount}
-                            className='px-2'
-                            title='Delete'
-                        />
-                    </div>
-                </div>
-            </div>
-        </Modal>
     );
 };
