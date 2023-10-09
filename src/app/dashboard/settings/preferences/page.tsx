@@ -2,6 +2,7 @@ import React from "react";
 import { ImPencil } from "react-icons/im";
 import { HiOutlineCheckCircle } from "react-icons/hi";
 import { BiSolidCheckCircle } from "react-icons/bi";
+import { pricing } from "@/config/subscription";
 
 const planBenefit = [
     "Access to all basic features",
@@ -56,13 +57,12 @@ const page = () => {
                 <div className='p-[16px]'>
                     <h3>
                         <span className='text-base-secondary-text text-[40px] font-[600] leading-[120%] font-plus-jakarta'>
-                            $4.99
+                            ${pricing[0].price}
                         </span>
-
                     </h3>
 
                     <div className='mt-[19px] grid gap-[16px]'>
-                        {planBenefit.map((plan) => (
+                        {pricing[0].pricingBenefits.map((plan) => (
                             <div
                                 key={plan}
                                 className='flex gap-[12px] items-center'
