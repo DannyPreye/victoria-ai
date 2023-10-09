@@ -6,11 +6,9 @@ import { Session } from "next-auth";
 import { FileUploader } from "react-drag-drop-files";
 import Image from "next/image";
 import { useFormik } from "formik";
-import axios from "axios";
 import Button from "@/components/pages/auth/Shared/Button";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
-import { File } from "buffer";
 import { updateUserAccount } from "@/lib/helpers";
 
 interface Props {
@@ -35,72 +33,12 @@ export const EditDetailsModal = ({
 
     const formik = useFormik({
         initialValues: {
-            first_name: serverSession?.user.first_name || "",
-            last_name: serverSession?.user.last_name || "",
+            first_name: serverSession?.user.first_name as string,
+            last_name: serverSession?.user.last_name as string,
         },
         onSubmit: async (values) => {
             setIsLoading(true);
             try {
-                // const formData = new FormData();
-                // formData.append("files", file);
-
-                // let profile_picture: string = "";
-                // if (file) {
-                //     const res: any = await fetch(
-                //         `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/upload/`,
-                //         {
-                //             headers: {
-                //                 Authorization: `Bearer ${session?.jwt}`,
-                //                 // "Content-Type": "application/json",
-                //             },
-                //             body: formData,
-                //             method: "POST",
-                //         }
-                //     );
-                //     const data = await res.json();
-                //     profile_picture = data[0].id;
-                // }
-
-                // const body = profile_picture
-                //     ? {
-                //           ...values,
-                //           profile_picture,
-                //       }
-                //     : {
-                //           ...values,
-                //       };
-
-                // const res = await fetch(
-                //     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${session?.user.id}`,
-                //     {
-                //         headers: {
-                //             Authorization: `Bearer ${session?.jwt}`,
-                //             "Content-Type": "application/json",
-                //         },
-                //         body: JSON.stringify(body),
-                //         method: "PUT",
-                //     }
-                // );
-
-                // if (res.ok) {
-                //     const { data: parsed_user_data } = await axios.get(
-                //         `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${session?.user.id}?populate=*`,
-                //         {
-                //             headers: {
-                //                 Authorization: `Bearer ${session?.jwt}`,
-                //             },
-                //         }
-                //     );
-                //     await update({
-                //         ...session,
-                //         user: {
-                //             first_name: parsed_user_data?.first_name,
-                //             last_name: parsed_user_data?.last_name,
-                //             profile_picture:
-                //                 parsed_user_data?.profile_picture?.url,
-                //         },
-                //     });
-
                 const user = await updateUserAccount({
                     jwt: session?.jwt as string,
                     user_id: session?.user.id as string,

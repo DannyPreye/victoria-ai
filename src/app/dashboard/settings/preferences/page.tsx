@@ -56,9 +56,9 @@ const page = () => {
                 <div className='p-[16px]'>
                     <h3>
                         <span className='text-base-secondary-text text-[40px] font-[600] leading-[120%] font-plus-jakarta'>
-                            $10
-                        </span>{" "}
-                        <span>/month</span>
+                            $4.99
+                        </span>
+
                     </h3>
 
                     <div className='mt-[19px] grid gap-[16px]'>
