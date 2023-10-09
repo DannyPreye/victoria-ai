@@ -39,7 +39,7 @@ const EditCoverLetterPage = () => {
                             onClick={() => setCurrentSection(item)}
                             className={`lg:max-w-[280px] w-full rounded-[3px]
                               cursor-pointer px-[12px]
-                             text-[14px] leading-[20px] focus:text-white focus:bg-primary-yellow font-[500]
+                             text-[14px] leading-[20px] font-inter focus:text-white focus:bg-primary-yellow font-[500]
                               text-gray-700 py-[10px]
                               ${
                                   currentSection == item
