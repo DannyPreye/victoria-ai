@@ -33,7 +33,7 @@ const GetRoute = () => {
                             <Link
                                 className={` ${
                                     path == paths[paths.length - 1]
-                                        ? "font-[500] text-gray-iron-600"
+                                        ? "font-[500] text-gray-true-600"
                                         : ""
                                 }`}
                                 href={`/dashboard${paths
