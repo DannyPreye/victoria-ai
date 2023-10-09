@@ -35,7 +35,8 @@ const config: Config = {
         "neutrals-500": "#E3E4E4",
         "success-600": "#039855",
         "gray-25": "#FCFCFC",
-        "gray-true-600": "#525252"
+        "gray-true-600": "#525252",
+        "primary-gray-700": "#2D3748"
       }
     },
   },
