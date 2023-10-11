@@ -71,7 +71,7 @@ const Newsletter = ({ sectionData }: Props) => {
             <div className='flex relative mx-auto top-[-40px] lg:top-[-64px] p-0 lg:px-[114px] flex-col lg:items-center'>
                 <Image
                     alt='newsletter'
-                    src={"/assets/images/landing/newsletter-image.png"}
+                    src={sectionData?.sectionImage?.data?.attributes?.url}
                     width={1216}
                     height={516}
                 />

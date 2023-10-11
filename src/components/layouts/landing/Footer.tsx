@@ -2,6 +2,8 @@ import { footerSections } from "@/lib/contants";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+
 import {
     FaAngellist,
     FaDribbble,
@@ -10,6 +12,7 @@ import {
     FaLinkedin,
     FaTwitter,
 } from "react-icons/fa";
+import { footerSection } from "@/lib/graphql-query";
 
 const socialIcons = [
     {
@@ -39,7 +42,21 @@ const socialIcons = [
         link: "",
     },
 ];
-const Footer = () => {
+const Footer = async () => {
+    const client = new ApolloClient({
+        uri: `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_GRAPHQL}`,
+        cache: new InMemoryCache(),
+    });
+    const { data } = await client.query({
+        query: gql`
+            ${footerSection}
+        `,
+    });
+    console.log(data);
+
+    const footerData = data?.landingPage?.data?.attributes?.footerSection;
+    console.log(footerData);
+
     return (
         <footer
             className='container py-[12px] px-[16px] mx-auto p-[16px]
@@ -54,14 +71,14 @@ const Footer = () => {
                         height={32}
                     />
                     <p className='text-gray-600 text-[16px] leading-[24px] font-inter'>
-                        Design amazing digital experiences that create more
-                        happy in the world.
+                        {footerData?.paragraph}
                     </p>
                 </div>
                 <div className='flex flex-wrap lg:flex-nowrap gap-[64px]'>
-                    {footerSections.map((section, id) => (
+                    {footerData?.section?.map((section: any, id: any) => (
                         <FooterSection
-                            {...section}
+                            title={section?.title}
+                            sectionLinks={section?.links}
                             key={`footer_section_${id}`}
                         />
                     ))}
@@ -95,11 +112,7 @@ export default Footer;
 
 interface FooterSectionProps {
     title: string;
-    sectionLinks: {
-        title: string;
-        link: string;
-        isNew: boolean;
-    }[];
+    sectionLinks: any[];
 }
 const FooterSection = ({ title, sectionLinks }: FooterSectionProps) => {
     return (

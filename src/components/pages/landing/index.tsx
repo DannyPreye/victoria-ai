@@ -12,7 +12,6 @@ interface Props {
     pageData: any;
 }
 const HomePage = ({ pageData }: Props) => {
-    console.log(pageData);
     return (
         <>
             <HeroSection
