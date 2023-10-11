@@ -2,7 +2,10 @@ import { stats } from "@/lib/contants";
 import Image from "next/image";
 import React from "react";
 
-const CustomerStories = () => {
+interface Props {
+    sectionData: any;
+}
+const CustomerStories = ({ sectionData }: Props) => {
     return (
         <section className=''>
             <div
@@ -15,29 +18,38 @@ const CustomerStories = () => {
                             className='font-inter text-[16px] font-[600]
                  leading-[24px] text-base-primary-green'
                         >
-                            Customer Stories
+                            {sectionData?.subheading}
                         </p>
                         <h2
                             className=' text-base-secondary-text lg:text-[36px]
                 font-[600] text-[24px]  leading-[120%] lg:leading-[140%] mt-[8px] lg:mt-[12px] mb-[16px] lg:mb-[20px]'
                         >
-                            Personalizing Your Cover Letter Template
+                            {sectionData?.heading}
                         </h2>
                     </div>
 
                     <div className='flex justify-between'>
                         <div className='grid gap-[48px] mb-[32px] lg:mb-0 lg:grid-cols-2'>
-                            {stats.map((stat, id) => (
-                                <Stats key={`stats_${id}`} {...stat} />
-                            ))}
+                            {sectionData?.accomplishments?.map(
+                                (stat: any, id: any) => (
+                                    <Stats
+                                        key={`stats_${id}`}
+                                        number={stat?.number}
+                                        title={stat?.text}
+                                    />
+                                )
+                            )}
                         </div>
                     </div>
                 </div>
                 <Image
-                    alt='cutomer story'
+                    alt={
+                        sectionData?.sectionImage?.data?.attributes
+                            ?.alternativeText
+                    }
                     width={592}
                     height={560}
-                    src={"/assets/images/landing/customer-stories.png"}
+                    src={sectionData?.sectionImage?.data?.attributes?.url}
                 />
             </div>
         </section>

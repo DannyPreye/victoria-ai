@@ -5,7 +5,10 @@ import { AiOutlineMinusCircle } from "react-icons/ai";
 import { BiPlusCircle } from "react-icons/bi";
 import { BsDashCircle } from "react-icons/bs";
 
-const Support = () => {
+interface Props {
+    sectionData: any;
+}
+const Support = ({ sectionData }: Props) => {
     return (
         <section className='bg-white'>
             <div
@@ -17,24 +20,22 @@ const Support = () => {
                         className='text-primary-yellow font-inter
                      font-[600] leading-[24px] text-[16px]'
                     >
-                        Support
+                        {sectionData?.subheading}
                     </p>
                     <h2
                         className='text-base-secondary-text
                     text-[24px] lg:text-[36px] font-[600] leading-[120%] lg:leading-[140%]'
                     >
-                        FAQs
+                        {sectionData?.heading}
                     </h2>
                     <p
                         className='text-gray-600 mt-[20px] font-inter
                    text-[16px] lg:text-[18px] font-[400] leading-[28px]'
                     >
-                        Everything you need to know about the product and
-                        billing. Can&apos;t find the answer you&apos;re looking
-                        for? Please chat to our friendly team.
+                        {sectionData?.paragraph}
                     </p>
                 </div>
-                <Faqs />
+                <Faqs faqs={sectionData?.faq} />
             </div>
         </section>
     );
@@ -42,11 +43,14 @@ const Support = () => {
 
 export default Support;
 
-const Faqs = () => {
+interface FaqProps {
+    faqs: any;
+}
+const Faqs = ({ faqs }: FaqProps) => {
     const [currentFaq, setCurrentFaq] = useState({ index: 0, isOpen: false });
     return (
         <div className='flex flex-col gap-[32px] max-w-[704px] w-full'>
-            {faqs.map((faq, id) => (
+            {faqs.map((faq: any, id: any) => (
                 <div
                     className='flex  w-full justify-between gap-[24px] items-start'
                     key={`faq_${id}`}

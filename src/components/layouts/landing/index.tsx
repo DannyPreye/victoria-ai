@@ -10,12 +10,7 @@ interface Props {
 
 const LandingPageLayout = ({ children }: Props) => {
     const pathname = usePathname();
-    console.log(
-        "This is the pathname",
-        !pathname.includes("/dashboard"),
-        !pathname.includes("/auth"),
-        pathname
-    );
+
     return (
         <>
             {/* This layout is only effective on the landing pages and not on other pages */}

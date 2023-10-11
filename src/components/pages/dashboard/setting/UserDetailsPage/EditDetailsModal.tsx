@@ -72,7 +72,6 @@ export const EditDetailsModal = ({ setOpenEdit, openEdit }: Props) => {
                     setIsLoading(false);
                 }
             } catch (error) {
-                console.log(error);
                 setIsLoading(false);
                 toast.error("Something went wrong");
             }

@@ -38,10 +38,10 @@ const Header = () => {
             </div>
             <div className='hidden lg:flex items-center gap-[12px]'>
                 <Link href={"/auth/sign-in"}>
-                    <Button title='Login' isTransparent />
+                    <Button title='Login' variant='outline' />
                 </Link>
                 <Link href={"/auth/sign-up"}>
-                    <Button title='Get Started' />
+                    <Button variant='filled' title='Get Started' />
                 </Link>
             </div>
             <div

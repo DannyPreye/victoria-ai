@@ -5,7 +5,11 @@ import React from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { BsArrowRightShort } from "react-icons/bs";
 
-const WhyUs = () => {
+interface Props {
+    sectionData: any;
+}
+
+const WhyUs = ({ sectionData }: Props) => {
     return (
         <section className='bg-white'>
             <div
@@ -17,34 +21,35 @@ const WhyUs = () => {
                         className='font-inter text-[16px] font-[600]
                  leading-[24px] text-base-primary-green'
                     >
-                        Why QuickApplyAI?
+                        {sectionData?.subheading}
                     </p>
                     <h2
                         className=' text-base-secondary-text lg:text-[36px]
                 font-[600] text-[24px]  leading-[120%] lg:leading-[140%] mt-[8px] lg:mt-[12px] mb-[16px] lg:mb-[20px]'
                     >
-                        Why we are the best way to create a Cover Letter
+                        {sectionData?.heading}
                     </h2>
                     <p
                         className='text-gray-600 font-inter text-[16px]
                 lg:text-[20px] font-[400] leading-[24px] lg:leading-[30px]'
                     >
-                        Spend smarter, lower your bills, get cashback on
-                        everything you buy, and unlock credit to grow your
-                        business.
+                        {sectionData?.paragraph}
                     </p>
                 </div>
 
                 <div className='flex flex-col gap-[64px] md:flex-wrap lg:flex-nowrap items-center lg:flex-row mt-[64px]'>
                     <Image
-                        src='/assets/images/landing/why-us-img.png'
-                        alt=''
+                        src={sectionData?.sectionImage?.data?.attributes?.url}
+                        alt={
+                            sectionData?.sectionImage?.data?.attributes
+                                ?.alternativeText
+                        }
                         width={592}
                         height={560}
                     />
 
                     <div className='flex flex-col gap-[48px]'>
-                        {whyUsSectionLandingPage.map((item) => (
+                        {sectionData?.listPoints?.map((item: any) => (
                             <div
                                 key={item.title}
                                 className='flex gap-[16px] items-start'
@@ -57,7 +62,7 @@ const WhyUs = () => {
                                         className='text-base-secondary-text text-[24px]
                                 font-[600] leading-[120%] '
                                     >
-                                        {item.title}
+                                        {item.heading}
                                     </h4>
                                     <p className='text-gray-600 font-inter text-[16px] leading-[24px] font-[400]'>
                                         {item.paragraph}
@@ -67,7 +72,7 @@ const WhyUs = () => {
                                      text-[16px] font-[600] leading-[24px]
                                       font-inter text-base-primary-green
                                       mt-[20px]'
-                                        href={"#"}
+                                        href={item?.readMoreLink || "#"}
                                     >
                                         <span>Learn more</span>
                                         <BsArrowRightShort size={20} />

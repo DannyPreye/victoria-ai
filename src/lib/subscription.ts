@@ -20,7 +20,6 @@ export async function getUserSubscriptionPlan()
 
     if (!user) throw new Error("User not found");
 
-    console.log(user);
 
     // Check if the user is subscribed
     const isSubcribed = user?.stripePriceId && user.stripeCurrentPeriodEnd && new Date(user.stripeCurrentPeriodEnd).getTime() + 86_400_00 > Date.now();

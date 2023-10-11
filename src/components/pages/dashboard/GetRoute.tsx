@@ -9,8 +9,6 @@ const GetRoute = () => {
 
     const paths = pathnames.split("/dashboard")[1].split("/");
 
-    console.log("This is the path", paths);
-    console.log("This is the path2", paths.slice(0, 3).join("/"));
 
     return (
         <div className='hidden lg:flex gap-[8px] mb-[4px]'>

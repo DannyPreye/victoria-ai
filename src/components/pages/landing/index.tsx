@@ -8,17 +8,51 @@ import Testimonial from "./Testimonial";
 import Support from "./Support";
 import Newsletter from "./Newsletter";
 
-const HomePage = () => {
+interface Props {
+    pageData: any;
+}
+const HomePage = ({ pageData }: Props) => {
+    console.log(pageData);
     return (
         <>
-            <HeroSection />
-            <AboutSection />
-            <WhyUs />
-            <AtAGlance />
-            <CustomerStories />
-            <Testimonial />
-            <Support />
-            <Newsletter />
+            <HeroSection
+                heroData={pageData.landingPage.data.attributes?.HeroSection[0]}
+            />
+            <AboutSection
+                sectionData={pageData.landingPage.data.attributes?.JoinSection}
+            />
+            <WhyUs
+                sectionData={
+                    pageData.landingPage.data.attributes
+                        ?.whyInstaletterSection[0]
+                }
+            />
+            <AtAGlance
+                sectionData={
+                    pageData.landingPage.data.attributes?.atAGlanceSection
+                }
+            />
+            <CustomerStories
+                sectionData={
+                    pageData?.landingPage?.data?.attributes
+                        ?.CustomerStoriesSection
+                }
+            />
+            <Testimonial
+                sectionData={
+                    pageData?.landingPage?.data?.attributes?.testimonialSection
+                }
+            />
+            <Support
+                sectionData={
+                    pageData?.landingPage?.data?.attributes?.faqSection
+                }
+            />
+            <Newsletter
+                sectionData={
+                    pageData?.landingPage?.data?.attributes?.newsletterSection
+                }
+            />
         </>
     );
 };

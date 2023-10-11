@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
 
           const data = await res.json();
 
-          console.log(data);
+
 
           if (data?.error?.status === 400) {
             throw new Error(data?.error.message);
@@ -81,7 +81,7 @@ export const authOptions: NextAuthOptions = {
     {
       const isSignIn = user ? true : false;
       if (trigger == "update") {
-        console.log("From trigger", token, session);
+
         return { ...token, ...session.user };
       }
 

@@ -4,12 +4,17 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
-const Testimonial = () => {
+interface Props {
+    sectionData: any;
+}
+
+const Testimonial = ({ sectionData }: Props) => {
+    console.log(sectionData);
     const [currentSlide, setCurrentSlide] = useState(0);
 
     useEffect(() => {
         const timer = setInterval(() => {
-            if (!(currentSlide >= testimonials.length - 1)) {
+            if (!(currentSlide >= sectionData?.testimonials.length - 1)) {
                 setCurrentSlide((prev) => prev + 1);
             } else {
                 setCurrentSlide(0);
@@ -29,11 +34,10 @@ const Testimonial = () => {
             >
                 <div className='flex flex-col items-center'>
                     <h2 className='text-base-secondary-text text-center text-[24px] lg:text-[36px] leading-[120%] lg:leading-[140%] font-[600]'>
-                        Don&apos;t just take our word for it
+                        {sectionData?.heading}
                     </h2>
                     <p className='text-[#475467] text-center text-[16px] lg:text-[20px] font-[400] leading-[24px] lg:leading-[30px]'>
-                        Hear from some of our amazing customers who are building
-                        faster.
+                        {sectionData?.paragraph}
                     </p>
                 </div>
 
@@ -48,44 +52,47 @@ const Testimonial = () => {
                             }}
                             className='flex w-full  '
                         >
-                            {testimonials.map((testimonial, id) => (
-                                <div
-                                    key={`testimonial_${id}`}
-                                    className='w-full px-[16px] pt-[32px] lg:px-[64px] lg:pt-[64px] flex-shrink-0'
-                                >
-                                    <div className='flex '>
-                                        {[1, 2, 3, 4, 5].map((star) => (
-                                            <>
-                                                {star <= testimonial.stars ? (
-                                                    <AiFillStar
-                                                        size={24}
-                                                        className='text-primary-yellow'
-                                                        key={star}
-                                                    />
-                                                ) : (
-                                                    <AiOutlineStar
-                                                        size={24}
-                                                        className='text-white'
-                                                    />
-                                                )}
-                                            </>
-                                        ))}
-                                    </div>
+                            {sectionData?.testimonials.map(
+                                (testimonial: any, id: any) => (
+                                    <div
+                                        key={`testimonial_${id}`}
+                                        className='w-full px-[16px] pt-[32px] lg:px-[64px] lg:pt-[64px] flex-shrink-0'
+                                    >
+                                        <div className='flex '>
+                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                <>
+                                                    {star <=
+                                                    testimonial.rating ? (
+                                                        <AiFillStar
+                                                            size={24}
+                                                            className='text-primary-yellow'
+                                                            key={star}
+                                                        />
+                                                    ) : (
+                                                        <AiOutlineStar
+                                                            size={24}
+                                                            className='text-white'
+                                                        />
+                                                    )}
+                                                </>
+                                            ))}
+                                        </div>
 
-                                    <p className='mt-[24px] text-[30px] lg:text-[36px] text-white font-[500] leading-[140%] lg:leading-[44px] lg:tracking-[-0.72px]'>
-                                        {testimonial.comment}
-                                    </p>
-                                    <div className='mt-[32px] text-white font-inter text-[18px]  font-[600] leading-[28px]'>
-                                        <p>{testimonial.name}</p>
-                                        <p
-                                            className='text-gray-200 font-inter
-                                        font-[400] text-[16px] leading-[24px]'
-                                        >
-                                            {testimonial.designation}
+                                        <p className='mt-[24px] text-[30px] lg:text-[36px] text-white font-[500] leading-[140%] lg:leading-[44px] lg:tracking-[-0.72px]'>
+                                            {testimonial?.content}
                                         </p>
+                                        <div className='mt-[32px] text-white font-inter text-[18px]  font-[600] leading-[28px]'>
+                                            <p>{testimonial?.username}</p>
+                                            <p
+                                                className='text-gray-200 font-inter
+                                        font-[400] text-[16px] leading-[24px]'
+                                            >
+                                                {testimonial?.userDesignation}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                )
+                            )}
                         </div>
                         <div className='px-[16px] lg:px-[64px] pb-[32px] lg:pb-[64px] mt-[32px] items-center gap-[16px] flex'>
                             {Array.from({ length: testimonials.length }).map(
@@ -104,8 +111,11 @@ const Testimonial = () => {
                         </div>
                     </div>
                     <Image
-                        src={"/assets/images/landing/testimonial-image.png"}
-                        alt=''
+                        src={sectionData?.sectionImage?.data?.attributes?.url}
+                        alt={
+                            sectionData?.sectionImage?.data?.attributes
+                                ?.alternativeText
+                        }
                         width={480}
                         height={464}
                     />

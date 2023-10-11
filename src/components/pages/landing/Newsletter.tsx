@@ -3,7 +3,11 @@ import Button from "../auth/Shared/Button";
 import Link from "next/link";
 import Image from "next/image";
 
-const Newsletter = () => {
+interface Props {
+    sectionData: any;
+}
+const Newsletter = ({ sectionData }: Props) => {
+    console.log(sectionData);
     return (
         <section className='bg-white'>
             <div className='bg-primary-yellow'>
@@ -18,14 +22,13 @@ const Newsletter = () => {
                     text-[24px] lg:text-[36px] font-[600] font-inter leading-[120%]
                      lg:leading-[44px] text-center tracking-[-0.72px]'
                             >
-                                We&apos;ll send you a nice letter once per week
+                                {sectionData?.heading}
                             </h2>
                             <p
                                 className='text-[#475467] text-center
                      text-[20px] font-inter font-[400] mt-[20px] leading-[30px]'
                             >
-                                Join over 4,000+ startups already growing with
-                                Untitled.
+                                {sectionData?.paragraph}
                             </p>
                         </div>
 

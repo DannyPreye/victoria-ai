@@ -15,7 +15,6 @@ export async function POST(req: Request,)
     const signature = headers().get("Stripe-Signature") ?? "";
     const userSession = await getServerSession(authOptions);
 
-    console.log("OKAT------", userSession);
 
     let event: Stripe.Event;
 
@@ -28,7 +27,6 @@ export async function POST(req: Request,)
         );
     }
 
-    console.log("THIS IS THE USER ID", userSession);
     const session = event.data.object as Stripe.Checkout.Session;
 
     if (!session?.metadata?.userId) {
