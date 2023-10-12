@@ -4,12 +4,13 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import InputElement from "@/components/pages/auth/Shared/InputElement";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Button from "@/components/pages/auth/Shared/Button";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const Page = () => {
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const email = useSearchParams().get("email");
     const code = useSearchParams().get("code");
@@ -47,6 +48,7 @@ const Page = () => {
                 setIsLoading(false);
                 console.log(data);
                 if (data) {
+                    router.push("/auth/sign-in");
                 }
             } catch (error) {
                 if (axios.isAxiosError(error)) {

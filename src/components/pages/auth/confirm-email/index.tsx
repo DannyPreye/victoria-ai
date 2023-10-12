@@ -1,14 +1,17 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlineCheckSquare } from "react-icons/ai";
 import Button from "../Shared/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 import InputElement from "../Shared/InputElement";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const ResetPassword = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const email = useSearchParams().get("email");
 
@@ -28,10 +31,34 @@ const ResetPassword = () => {
         initialValues: {
             code: "",
         },
-        onSubmit: (values) => {
-            router.push(
-                `/auth/reset-password?email=${email}&code=${values.code}`
-            );
+        onSubmit: async (values) => {
+            setIsLoading(true);
+            try {
+                const { data } = await axios.post(
+                    `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/verify-code`,
+                    {
+                        email,
+                        code: values.code,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                if (data) {
+                    router.push(
+                        `/auth/rest-password?email=${email}&code=${values.code}`
+                    );
+                }
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    toast.error(error.response?.data.error.message);
+                } else {
+                    toast.error("Something went wrong. Please try again");
+                }
+                setIsLoading(false);
+            }
         },
     });
 
