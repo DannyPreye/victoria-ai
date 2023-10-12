@@ -14,6 +14,7 @@ interface Props {
     onBlur?: React.FocusEventHandler<HTMLInputElement> | undefined;
     isError?: boolean;
     errorMessage?: string | undefined;
+    maxlength?:number
 }
 const InputElement = ({
     label,
@@ -28,6 +29,7 @@ const InputElement = ({
     onBlur,
     isError,
     errorMessage,
+    maxlength
 }: Props) => {
     return (
         <div className={`grid gap-[6px] ${className}`}>
@@ -39,6 +41,7 @@ const InputElement = ({
                 {label} {required && "*"}
             </label>
             <input
+                maxLength={maxlength}
                 value={value}
                 onBlur={onBlur}
                 onChange={onChange}
