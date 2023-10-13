@@ -6,8 +6,13 @@ import { FiUploadCloud } from "react-icons/fi";
 import { UrlComponent } from "./UrlComponent";
 import { WhichRadioButton } from "./WhichRadioButton";
 import Pricing from "./Pricing";
+import { Plans } from "@/lib/types";
 
-const CreateCoverLetterPage = () => {
+interface Props {
+    plans: Plans;
+}
+
+const CreateCoverLetterPage = ({ plans }: Props) => {
     const [file, setFile] = useState<File>();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const fileFormats = ["JPG", "PNG", "SVG", "GIF"];
@@ -124,6 +129,7 @@ const CreateCoverLetterPage = () => {
                 </div>
             </div>
             <Pricing
+                plans={plans}
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
             />

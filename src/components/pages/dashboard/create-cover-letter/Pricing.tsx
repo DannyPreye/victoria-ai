@@ -5,14 +5,18 @@ import React from "react";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { EachPricing } from "./EachPricing";
 import { useSession } from "next-auth/react";
+import { Plans } from "@/lib/types";
 
 interface PricingProps {
     isModalOpen: boolean;
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    plans: Plans;
 }
-const Pricing = ({ isModalOpen, setIsModalOpen }: PricingProps) => {
+
+const Pricing = ({ isModalOpen, setIsModalOpen, plans }: PricingProps) => {
     const { data: session } = useSession();
     const subcriptionPlan = async () => await getUserSubscriptionPlan();
+    console.log(session);
 
     return (
         <Modal>
@@ -43,9 +47,10 @@ const Pricing = ({ isModalOpen, setIsModalOpen }: PricingProps) => {
                         </p>
                     </div>
                     <div className='flex lg:flex-nowrap flex-wrap justify-center gap-[32px]'>
-                        {pricing.map((item, id) => (
+                        {plans.plans.data?.map((item, id) => (
                             <EachPricing
                                 plan={item}
+                                index={id}
                                 // isCurrentPlan={
                                 //     plan.stripeSubscriptionId ==
                                 //     item.stripePriceId

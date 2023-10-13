@@ -1,10 +1,14 @@
 import { stripe } from "@/lib/stripe";
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "../auth/[...nextauth]/route";
 
 export async function POST(req: Request)
 {
     const json = await req.json();
-    const { productName, customerEmail, userId, amount } = json;
+    const { productName, customerEmail, userId, amount, planId } = json;
+    const userSession = await auth();
+
+
 
 
     // const oneTimePrice = await stripe.prices.create({
@@ -37,7 +41,10 @@ export async function POST(req: Request)
             }
         ],
         metadata: {
-            userId: userId
+            userId: userId,
+            planId,
+            // Sending the jwt so that we can easily make a patch request to strapi to update the user
+            jwt: userSession?.jwt ?? ""
         }
 
     });

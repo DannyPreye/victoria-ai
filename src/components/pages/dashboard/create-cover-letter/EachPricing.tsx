@@ -4,41 +4,27 @@ import { HiOutlineCheckCircle } from "react-icons/hi";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Oval } from "react-loader-spinner";
+import { PlanEntity } from "@/lib/types";
 
 interface EachPricingProps {
-    plan: {
-        priceName: string;
-        price: number;
-        pricingBenefits: string[];
-        color: string;
-        subTitle: string;
-        stripePriceId: string;
-        id: string;
-    };
+    plan: PlanEntity;
     subscriptionPlan: any;
     user: any;
+    index: number;
 }
-export const EachPricing = ({
-    plan,
-    subscriptionPlan,
-    user,
-}: EachPricingProps) => {
+export const EachPricing = ({ plan, index, user }: EachPricingProps) => {
     const [isPending, setIsPending] = useState(false);
+    const colors = ["#07397D", "#139DBC", "#E2BB53"];
 
     const handleSubscribe = async () => {
         setIsPending(true);
         try {
             const { data } = await axios.post("/api/stripe-subscription", {
-                // isSubcribed: subscriptionPlan?.isSubscribed,
-                // stripeCustomerId: subscriptionPlan?.stripeSubscriptionId,
-                // isCurrentPlan:
-                //     plan.stripePriceId == subscriptionPlan.stripeSubscriptionId,
-                // customerEmail: user.email,
-                // stripePriceId: plan.stripePriceId,
                 userId: user.id,
-                amount: (plan.price * 100).toFixed(2),
-                productName: plan.priceName,
+                amount: (plan.attributes.Price * 100).toFixed(2),
+                productName: plan.attributes.Title,
                 customerEmail: user.email,
+                planId: plan.id,
             });
             setIsPending(false);
             if (data?.url) {
@@ -56,19 +42,19 @@ export const EachPricing = ({
         >
             <button
                 style={{
-                    background: plan.color,
+                    background: colors[index || 0],
                 }}
                 className={`w-fit  leading-[20px]
              font-inter text-white rounded-[16px]
              text-[14px] font-[500] px-[12px] py-[4px]`}
             >
-                {plan.priceName}
+                {plan.attributes.Title}
             </button>
             <h3
                 className='text-[48px] mt-[16px] font-[600] leading-[140%]
              text-gray-900'
             >
-                ${plan.price}
+                ${plan.attributes.Price}
             </h3>
             {/* <p
                 className='font-inter leading-[24px] text-center
@@ -80,16 +66,17 @@ export const EachPricing = ({
                 onClick={handleSubscribe}
                 disabled={isPending}
                 style={{
-                    background: plan.color,
+                    background: colors[index || 0],
                 }}
                 className='mt-[16px] text-[16px] leading-[24px] font-inter
                 font-[600] text-white h-[48px] rounded-[8px] w-full py-[12px] gap-2 flex justify-center items-center'
             >
-                <span>
+                {/* <span>
                     {plan.stripePriceId == subscriptionPlan.stripeSubscriptionId
                         ? "Manage Plan"
                         : "Get Started"}
-                </span>{" "}
+                </span>{" "} */}
+                <span>Get Started</span>
                 {isPending && (
                     <Oval
                         height={24}
@@ -106,14 +93,14 @@ export const EachPricing = ({
                 )}
             </button>
             <div className='mt-[32px] grid gap-[16px] border-t-[1px] border-gray-[200] py-[32px]'>
-                {plan.pricingBenefits.map((benefit, id) => (
+                {plan.attributes.benefits.map((benefit, id) => (
                     <div key={id} className='flex gap-[12px] items-center'>
                         <HiOutlineCheckCircle
                             size={24}
                             className='text-success-600'
                         />
                         <span className='text-gray-600 leading-[24px] font-inter text-[16px]'>
-                            {benefit}
+                            {benefit.text}
                         </span>
                     </div>
                 ))}

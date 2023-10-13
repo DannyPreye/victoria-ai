@@ -174,3 +174,20 @@ query{
   }
 }
 `;
+
+export const queryPlans = `
+query{
+  plans{
+    data{
+      id
+      attributes{
+        Title
+        Price
+        benefits{
+          text
+        }
+      }
+    }
+  }
+}
+`;

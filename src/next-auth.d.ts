@@ -11,6 +11,7 @@ declare module "next-auth" {
         email: string;
         jwt: string;
         username: string;
+        plan: string;
     }
     interface Session
     {
@@ -21,6 +22,7 @@ declare module "next-auth" {
             role: string;
             profile_picture: string;
             email: string;
+            plan: string;
 
         };
         jwt: string;

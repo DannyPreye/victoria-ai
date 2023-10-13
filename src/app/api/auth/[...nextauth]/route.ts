@@ -1,8 +1,9 @@
-import NextAuth from "next-auth/next";
+import NextAuth, { getServerSession } from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import axios from "axios";
 import { NextAuthOptions } from "next-auth";
+import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -58,6 +59,7 @@ export const authOptions: NextAuthOptions = {
               ...parsed_user_data,
               profile_picture: parsed_user_data?.profile_picture?.url,
               jwt: data.jwt,
+              plan: parsed_user_data?.plan?.id
             };
           }
         } catch (error) {
@@ -101,6 +103,7 @@ export const authOptions: NextAuthOptions = {
         token.first_name = user.first_name;
         token.last_name = user.last_name;
         token.profile_picture = user.profile_picture;
+        token.plan = user.plan;
       }
       return Promise.resolve(token);
     },
@@ -111,6 +114,14 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
+
+export function auth(...args: [ GetServerSidePropsContext[ "req" ], GetServerSidePropsContext[ "res" ] ] | [ NextApiRequest, NextApiResponse ] | [])
+{
+  return getServerSession(...args, authOptions);
+}
+
 const handler = NextAuth(authOptions);
+
+
 
 export { handler as GET, handler as POST };
