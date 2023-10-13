@@ -6,13 +6,14 @@ import { HiOutlineCheckCircle } from "react-icons/hi";
 import { ImPencil } from "react-icons/im";
 import Pricing from "../../create-cover-letter/Pricing";
 import { useSession } from "next-auth/react";
-
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { useRouter } from "next/navigation";
+import { gqlQery } from "@/config/graphql.config";
 
 interface Props {
     plans: Plans;
 }
 const PreferencesPage = ({ plans }: Props) => {
+    const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { data: session } = useSession();
     // const [userPlanId, setUserPlanId] = useState("");
@@ -21,22 +22,47 @@ const PreferencesPage = ({ plans }: Props) => {
     // const currentPlan = plans.plans.data.find((plan) => plan.id == userPlanId);
 
     const fetchUserPlan = async () => {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${session?.user.id}?populate=plan`,
-            {
-                headers: {
-                    Authorization: `Bearer ${session?.jwt}`,
-                },
+        try {
+            if (session?.jwt) {
+                const data: any = await gqlQery(
+                    `query{
+  usersPermissionsUser(id:${session?.user.id}){
+    data{
+      attributes{
+        plan{
+          data{
+            attributes{
+              benefits{
+                text
+              }
+              Price
+              Title
             }
-        );
+          }
+        }
+      }
+    }
+  }
+}
+`,
+                    session?.jwt as string
+                );
 
-        const data = await res.json();
-        setCurrentPlan(data.plan);
+                setCurrentPlan(
+                    data?.usersPermissionsUser?.data.attributes.plan?.data
+                        ?.attributes
+                );
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     useEffect(() => {
         fetchUserPlan();
     }, [session?.user.id]);
+
+    console.log(currentPlan);
 
     return (
         <div>
@@ -89,22 +115,24 @@ const PreferencesPage = ({ plans }: Props) => {
                             </span>
                         </h3>
 
-                        {/* <div className='mt-[19px] grid gap-[16px]'>
-                        {currentPlan?.attributes.benefits?.map((plan:any, id:any) => (
-                            <div
-                                key={id}
-                                className='flex gap-[12px] items-center'
-                            >
-                                <HiOutlineCheckCircle
-                                    size={24}
-                                    className='text-success-600'
-                                />
-                                <span className='font-inter text-[16px] font-[400] leading-[24px] text-gray-600'>
-                                    {plan.text}
-                                </span>
-                            </div>
-                        ))}
-                    </div> */}
+                        <div className='mt-[19px] grid gap-[16px]'>
+                            {currentPlan?.benefits?.map(
+                                (plan: any, id: any) => (
+                                    <div
+                                        key={id}
+                                        className='flex gap-[12px] items-center'
+                                    >
+                                        <HiOutlineCheckCircle
+                                            size={24}
+                                            className='text-success-600'
+                                        />
+                                        <span className='font-inter text-[16px] font-[400] leading-[24px] text-gray-600'>
+                                            {plan.text}
+                                        </span>
+                                    </div>
+                                )
+                            )}
+                        </div>
                     </div>
                     <Pricing
                         plans={plans}
@@ -113,8 +141,8 @@ const PreferencesPage = ({ plans }: Props) => {
                     />
                 </div>
             ) : (
-                <div className='mt-[48px] border-[2px] rounded-[8px] border-gray-200 overflow-hidden'>
-                    <p>You not on any plan yet. Please select a plan </p>
+                <div className='mt-[48px] p-16 border-[2px] rounded-[8px] border-gray-200 overflow-hidden'>
+                    <p>You are not on any active plan. Please select a plan </p>
                 </div>
             )}
         </div>
