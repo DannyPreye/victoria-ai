@@ -52,10 +52,8 @@ const Footer = async () => {
             ${footerSection}
         `,
     });
-    console.log(data);
 
     const footerData = data?.landingPage?.data?.attributes?.footerSection;
-    console.log(footerData);
 
     return (
         <footer

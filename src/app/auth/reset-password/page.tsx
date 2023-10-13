@@ -46,10 +46,10 @@ const Page = () => {
                     }
                 );
                 setIsLoading(false);
-                console.log(data);
-                if (data) {
-                    router.push("/auth/sign-in");
-                }
+
+                // if (data) {
+                //     router.push("/auth/sign-in");
+                // }
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     toast.error(error.response?.data.error.message);
@@ -62,7 +62,6 @@ const Page = () => {
         validationSchema,
     });
 
-    console.log(formik.errors);
     return (
         <div className='h-screen grid place-items-center p-[16px]'>
             <div className='border-2 px-4 py-6 rounded-md shadow-md w-full max-w-[450px] '>

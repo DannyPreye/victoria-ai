@@ -15,6 +15,8 @@ const ResetPassword = () => {
     const router = useRouter();
     const email = useSearchParams().get("email");
 
+    console.log("This is the email", email);
+
     const validationSchema = yup.object({
         code: yup
             .string()
@@ -38,7 +40,7 @@ const ResetPassword = () => {
                     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/verify-code`,
                     {
                         email,
-                        code: values.code,
+                        code: parseInt(values.code),
                     },
                     {
                         headers: {
@@ -60,6 +62,7 @@ const ResetPassword = () => {
                 setIsLoading(false);
             }
         },
+        validationSchema,
     });
 
     return (
@@ -95,7 +98,7 @@ const ResetPassword = () => {
                             }
                             errorMessage={formik.errors.code}
                         />
-                        <Button className='mt-4' title='Login' />
+                        <Button className='mt-4' title='Confirm' />
                     </form>
                 </div>
             </div>

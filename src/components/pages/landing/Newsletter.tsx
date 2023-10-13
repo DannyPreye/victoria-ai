@@ -7,7 +7,6 @@ interface Props {
     sectionData: any;
 }
 const Newsletter = ({ sectionData }: Props) => {
-    console.log(sectionData);
     return (
         <section className='bg-white'>
             <div className='bg-primary-yellow'>

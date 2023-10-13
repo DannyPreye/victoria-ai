@@ -15,7 +15,6 @@ interface Props {
     sectionData: any;
 }
 const AboutSection = ({ sectionData }: Props) => {
-    console.log(sectionData);
     return (
         <section className='bg-white'>
             <div

@@ -9,7 +9,6 @@ interface Props {
 }
 
 const Testimonial = ({ sectionData }: Props) => {
-    console.log(sectionData);
     const [currentSlide, setCurrentSlide] = useState(0);
 
     useEffect(() => {
