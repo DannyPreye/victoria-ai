@@ -12,7 +12,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 export async function POST(req: Request,)
 {
     const body = await req.text();
-    const signature = headers().get("Stripe-Signature") ?? "";
+    const signature = req.headers().get("stripe-signature") ?? "";
     const userSession = await auth();
     let event: Stripe.Event;
 
@@ -38,11 +38,6 @@ export async function POST(req: Request,)
         const planId = session.metadata.planId;
         const jwt = session.metadata.jwt;
 
-        console.log("This is the planId", planId);
-
-        console.log(event);
-        console.log(session);
-
         if (jwt) {
             const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${userId}`, {
                 method: "PUT",
@@ -55,31 +50,12 @@ export async function POST(req: Request,)
                 })
             });
             const data = await res.json();
-            //     await axios.put(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${userId}`, { data: { plan: planId } }, {
-            //     headers: {
-            //         "Authorization": `Bearer ${jwt}`,
-            //         "Content-Type": "application/json"
-            //     }
-            // });
+
 
             console.log(data);
         }
 
-        // const line_items = await stripe.checkout.sessions.listLineItems(event.data.object.id);
 
-        // const { data: resp } = await axios.put(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${userSession?.user.id}`, {
-        //     headers: {
-        //         "Authorization": `Bearer ${userSession?.jwt}`
-        //     },
-        //     data: JSON.stringify({
-        //         stripeSubscriptionId: subscription.id,
-        //         stripeCustomerId: subscription.customer as string,
-        //         stripePriceId: subscription.items.data[ 0 ].price.id,
-        //         stripeCurrentPeriodEnd: new Date(
-        //             subscription.current_period_end * 1000
-        //         )
-        //     })
-        // });
     }
 
 
