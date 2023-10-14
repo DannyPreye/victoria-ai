@@ -12,8 +12,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 export async function POST(req: Request,)
 {
     const body = await req.text();
-    const signature = headers().get("stripe-signature") ?? "";
-    const userSession = await auth();
+    const signature = req.headers.get("stripe-signature") ?? "";
+
+
     let event: Stripe.Event;
 
 
