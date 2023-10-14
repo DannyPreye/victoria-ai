@@ -2,24 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
-import { auth } from "../../auth/[...nextauth]/route";
-import { getServerSession } from "next-auth";
-import axios from "axios";
-import { NextApiRequest, NextApiResponse } from "next";
+import { buffer } from "node:stream/consumers";
 
 
 
 export async function POST(req: Request,)
 {
-    const body = await req.text();
-    const signature = req.headers.get("stripe-signature") ?? "";
+    const body = req.body;
+    const rawBody = await buffer(body as any);
+    const signature = req.headers.get("stripe-signature");
 
 
     let event: Stripe.Event;
 
 
     try {
-        event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET as string);
+        event = stripe.webhooks.constructEvent(rawBody, signature as string, process.env.STRIPE_WEBHOOK_SECRET as string);
     } catch (error) {
         return new Response(
             `Webhook Error: ${error instanceof Error ? error.message : "Uknown Error"}`,
