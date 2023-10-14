@@ -132,6 +132,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                 plans={plans}
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
+                callbackURL='/dasboard/create-cover-letter/edit'
             />
         </div>
     );

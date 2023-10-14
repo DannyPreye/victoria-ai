@@ -8,6 +8,7 @@ import Pricing from "../../create-cover-letter/Pricing";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { gqlQery } from "@/config/graphql.config";
+import { Circles } from "react-loader-spinner";
 
 interface Props {
     plans: Plans;
@@ -18,10 +19,12 @@ const PreferencesPage = ({ plans }: Props) => {
     const { data: session } = useSession();
     // const [userPlanId, setUserPlanId] = useState("");
     const [currentPlan, setCurrentPlan] = useState<any>();
+    const [isLoading, setIsLoading] = useState(false);
 
     // const currentPlan = plans.plans.data.find((plan) => plan.id == userPlanId);
 
     const fetchUserPlan = async () => {
+        setIsLoading(true);
         try {
             if (session?.jwt) {
                 const data: any = await gqlQery(
@@ -47,13 +50,14 @@ const PreferencesPage = ({ plans }: Props) => {
 `,
                     session?.jwt as string
                 );
-
+                setIsLoading(false);
                 setCurrentPlan(
                     data?.usersPermissionsUser?.data.attributes.plan?.data
                         ?.attributes
                 );
             }
         } catch (error) {
+            setIsLoading(false);
             console.log(error);
         }
     };
@@ -88,8 +92,18 @@ const PreferencesPage = ({ plans }: Props) => {
                 </button>
             </div>
 
-            {currentPlan ? (
-                <div className='mt-[48px] border-[2px] rounded-[8px] border-gray-200 overflow-hidden'>
+            {isLoading ? (
+                <div className='mt-[48px] grid py-8 place-items-center border-[2px] rounded-[8px] border-gray-200 overflow-hidden'>
+                    <Circles
+                        height='80'
+                        width='80'
+                        color='#07397D'
+                        ariaLabel='circles-loading'
+                        visible={true}
+                    />
+                </div>
+            ) : currentPlan ? (
+                <div className='mt-[48px]  border-[2px] rounded-[8px] border-gray-200 overflow-hidden'>
                     <div
                         className='px-[20px] bg-gray-50 py-[16px] flex items-center justify-between
                  border-b-[2px] border-gray-200 '
@@ -138,6 +152,7 @@ const PreferencesPage = ({ plans }: Props) => {
                         plans={plans}
                         isModalOpen={isModalOpen}
                         setIsModalOpen={setIsModalOpen}
+                        callbackURL='/dashboard/settings/preferences'
                     />
                 </div>
             ) : (

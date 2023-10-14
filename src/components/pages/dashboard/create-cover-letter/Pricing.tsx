@@ -11,12 +11,17 @@ interface PricingProps {
     isModalOpen: boolean;
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     plans: Plans;
+    callbackURL: string;
 }
 
-const Pricing = ({ isModalOpen, setIsModalOpen, plans }: PricingProps) => {
+const Pricing = ({
+    isModalOpen,
+    setIsModalOpen,
+    plans,
+    callbackURL,
+}: PricingProps) => {
     const { data: session } = useSession();
     const subcriptionPlan = async () => await getUserSubscriptionPlan();
-    console.log(session);
 
     return (
         <Modal>
@@ -55,6 +60,7 @@ const Pricing = ({ isModalOpen, setIsModalOpen, plans }: PricingProps) => {
                                 //     plan.stripeSubscriptionId ==
                                 //     item.stripePriceId
                                 // }
+                                callbackURL={callbackURL}
                                 user={session?.user}
                                 subscriptionPlan={subcriptionPlan}
                                 key={`pricing_${id}`}

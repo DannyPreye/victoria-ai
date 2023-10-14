@@ -11,8 +11,14 @@ interface EachPricingProps {
     subscriptionPlan: any;
     user: any;
     index: number;
+    callbackURL: string;
 }
-export const EachPricing = ({ plan, index, user }: EachPricingProps) => {
+export const EachPricing = ({
+    plan,
+    index,
+    user,
+    callbackURL,
+}: EachPricingProps) => {
     const [isPending, setIsPending] = useState(false);
     const colors = ["#07397D", "#139DBC", "#E2BB53"];
 
@@ -25,6 +31,7 @@ export const EachPricing = ({ plan, index, user }: EachPricingProps) => {
                 productName: plan.attributes.Title,
                 customerEmail: user.email,
                 planId: plan.id,
+                callbackURL,
             });
             setIsPending(false);
             if (data?.url) {
