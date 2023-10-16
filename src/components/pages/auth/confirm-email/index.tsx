@@ -50,7 +50,7 @@ const ResetPassword = () => {
                 );
                 if (data) {
                     router.push(
-                        `/auth/rest-password?email=${email}&code=${values.code}`
+                        `/auth/reset-password?email=${email}&code=${values.code}`
                     );
                 }
             } catch (error) {

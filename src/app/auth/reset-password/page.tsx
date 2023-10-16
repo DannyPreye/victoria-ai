@@ -47,16 +47,16 @@ const Page = () => {
                 );
                 setIsLoading(false);
 
-                // if (data) {
-                //     router.push("/auth/sign-in");
-                // }
+                if (data) {
+                    router.push("/auth/sign-in");
+                }
             } catch (error) {
+                setIsLoading(false);
                 if (axios.isAxiosError(error)) {
                     toast.error(error.response?.data.error.message);
                 } else {
                     toast.error("Something went wrong. Please try again");
                 }
-                setIsLoading(false);
             }
         },
         validationSchema,

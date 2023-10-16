@@ -12,9 +12,7 @@ export async function POST(req: Request,)
     const rawBody = await buffer(body as any);
     const signature = req.headers.get("stripe-signature");
 
-
     let event: Stripe.Event;
-
 
     try {
         event = stripe.webhooks.constructEvent(rawBody, signature as string, process.env.STRIPE_WEBHOOK_SECRET as string);
@@ -50,13 +48,7 @@ export async function POST(req: Request,)
             });
             const data = await res.json();
         }
-
-
     }
-
-
-
-
     return new Response(null, { status: 200 });
 
 }
