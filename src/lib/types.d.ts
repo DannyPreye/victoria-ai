@@ -69,11 +69,12 @@ type ComponentTemplate = {
 
 type TemplateAttributes = {
     coverLetter: ComponentTemplate;
-    resune: ComponentTemplate;
+    resune: ComponentTemplate[];
     title: string;
 };
 
 export type TemplateData = {
+    id: string;
     attributes: TemplateAttributes;
 };
 

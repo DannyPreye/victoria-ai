@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { gqlQery } from "@/config/graphql.config";
 import { Circles } from "react-loader-spinner";
+import { singleUserPlan } from "@/lib/graphql-query";
 
 interface Props {
     plans: Plans;
@@ -28,26 +29,7 @@ const PreferencesPage = ({ plans }: Props) => {
         try {
             if (session?.jwt) {
                 const data: any = await gqlQery(
-                    `query{
-  usersPermissionsUser(id:${session?.user.id}){
-    data{
-      attributes{
-        plan{
-          data{
-            attributes{
-              benefits{
-                text
-              }
-              Price
-              Title
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`,
+                    singleUserPlan(session.user.id as string),
                     session?.jwt as string
                 );
                 setIsLoading(false);

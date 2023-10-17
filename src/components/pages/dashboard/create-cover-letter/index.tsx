@@ -7,6 +7,7 @@ import { UrlComponent } from "./UrlComponent";
 import { WhichRadioButton } from "./WhichRadioButton";
 import Pricing from "./Pricing";
 import { Plans } from "@/lib/types";
+import { useSearchParams } from "next/navigation";
 
 interface Props {
     plans: Plans;
@@ -16,6 +17,9 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
     const [file, setFile] = useState<File>();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const fileFormats = ["JPG", "PNG", "SVG", "GIF"];
+    const templateId = useSearchParams().get("template");
+
+    console.log(templateId);
 
     const handleFile = (file: File) => {};
 
@@ -132,7 +136,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                 plans={plans}
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
-                callbackURL='/dashboard/create-cover-letter/edit'
+                callbackURL={`/dashboard/create-cover-letter/edit/${templateId}`}
             />
         </div>
     );

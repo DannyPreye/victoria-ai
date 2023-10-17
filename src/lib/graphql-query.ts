@@ -196,6 +196,7 @@ query{
 export const queryTemplates = `query{
   templates{
     data{
+      id
       attributes{
         title
         coverLetter{
@@ -223,3 +224,49 @@ export const queryTemplates = `query{
   }
 }
 `;
+
+
+export const singleUserPlan = (userId: string) => `query{
+  usersPermissionsUser(id:${userId}){
+    data{
+      attributes{
+        plan{
+          data{
+            attributes{
+              benefits{
+                text
+              }
+              Price
+              Title
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+
+export const getSingleTemplate = (templateId: string) => `query{
+  template(id:${templateId}){
+    data{
+      attributes{
+        title,
+        coverLetter{
+          section{
+            title
+            content
+          }
+        }
+        resune{
+          sections{
+            content
+            title
+
+          }
+        }
+
+      }
+    }
+  }
+}`;
