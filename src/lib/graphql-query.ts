@@ -191,3 +191,35 @@ query{
   }
 }
 `;
+
+
+export const queryTemplates = `query{
+  templates{
+    data{
+      attributes{
+        title
+        coverLetter{
+          previewImage{
+            data{
+              attributes{
+                url,
+                alternativeText
+              }
+            }
+          }
+        }
+        resune{
+            previewImage{
+            data{
+              attributes{
+                url
+                alternativeText
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;

@@ -19,7 +19,7 @@ const PreferencesPage = ({ plans }: Props) => {
     const { data: session } = useSession();
     // const [userPlanId, setUserPlanId] = useState("");
     const [currentPlan, setCurrentPlan] = useState<any>();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     // const currentPlan = plans.plans.data.find((plan) => plan.id == userPlanId);
 

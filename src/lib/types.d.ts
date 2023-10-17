@@ -47,4 +47,46 @@ export type Plans = {
 
 
 
+// ******************* TEMPLATE TYPE ****************
+type TemplateSection = {
+    title: string;
+    content: string;
+};
+
+type UploadFileAttributes = {
+    url: string;
+    alternativeText: string | null;
+};
+
+type ComponentTemplate = {
+    section: TemplateSection[];
+    previewImage: {
+        data: {
+            attributes: UploadFileAttributes;
+        };
+    };
+};
+
+type TemplateAttributes = {
+    coverLetter: ComponentTemplate;
+    resune: ComponentTemplate;
+    title: string;
+};
+
+export type TemplateData = {
+    attributes: TemplateAttributes;
+};
+
+export type Template = {
+    data: TemplateData[];
+};
+
+export type TemplatesData = {
+    templates: Template;
+};
+
+type ResponseStructureTemplate = {
+    data: TemplatesData;
+};
+//********************************************
 
