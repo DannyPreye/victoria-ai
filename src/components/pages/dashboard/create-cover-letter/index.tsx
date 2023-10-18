@@ -76,7 +76,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                 );
                 if (data.status) {
                     router.push(
-                        `/dashboard/create-cover-letter/edit/${data?.data?.id}`
+                        `/dashboard/create-cover-letter/edit/${templateId}`
                     );
                 }
             } else {
