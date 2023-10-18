@@ -14,7 +14,7 @@ import { TemplateData } from "@/lib/types";
 interface Props {
     template: TemplateData;
 }
-const EditCoverLetterPage = () => {
+const EditCoverLetterPage = ({ template }: Props) => {
     const [currentSection, setCurrentSection] = useState("");
     const [openSections, setOpenSections] = useState(false);
     const [openPublish, setOpenPublish] = useState(false);
@@ -36,23 +36,23 @@ const EditCoverLetterPage = () => {
                     </p>
                 </div>
                 <div className='mt-[24px]  py-[18px] hidden lg:grid'>
-                    {editCoverLetterSections.map((item) => (
+                    {template.attributes.coverLetter.section?.map((item) => (
                         <Link
-                            href={`#${item.split(" ").join("-")}`}
-                            key={item}
-                            onClick={() => setCurrentSection(item)}
+                            href={`#${item.title.split(" ").join("-")}`}
+                            key={item.title}
+                            onClick={() => setCurrentSection(item.title)}
                             className={`lg:max-w-[280px] w-full rounded-[3px]
                               cursor-pointer px-[12px]
                              text-[14px] leading-[20px] font-inter focus:text-white focus:bg-primary-yellow font-[500]
                               text-primary-gray-700 py-[10px]
                               ${
-                                  currentSection == item
+                                  currentSection == item.title
                                       ? "bg-primary-yellow text-white"
                                       : ""
                               }
                               `}
                         >
-                            {item}
+                            {item.title}
                         </Link>
                     ))}
                 </div>
@@ -105,10 +105,12 @@ const EditCoverLetterPage = () => {
                 <LetterContent
                     setCurrentSection={setCurrentSection}
                     currentSection={currentSection}
+                    sections={template.attributes.coverLetter.section}
                 />
             </div>
 
             <MobileModal
+                sections={template.attributes.coverLetter.section}
                 setCurrentSection={setCurrentSection}
                 openSection={openSections}
                 setOpenSections={setOpenSections}

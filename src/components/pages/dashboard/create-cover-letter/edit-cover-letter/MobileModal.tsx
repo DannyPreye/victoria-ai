@@ -1,5 +1,6 @@
 import Modal from "@/components/shared/Modal";
 import { editCoverLetterSections } from "@/lib/contants";
+import { TemplateSection } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -9,11 +10,13 @@ interface Props {
     openSection: boolean;
     setOpenSections: React.Dispatch<React.SetStateAction<boolean>>;
     setCurrentSection: React.Dispatch<React.SetStateAction<string>>;
+    sections: TemplateSection[];
 }
 const MobileModal = ({
     openSection,
     setOpenSections,
     setCurrentSection,
+    sections,
 }: Props) => {
     return (
         <Modal>
@@ -42,19 +45,21 @@ const MobileModal = ({
                                 </p>
                             </div>
                             <div className='mt-[16px] gap-[4px]  grid'>
-                                {editCoverLetterSections.map((item) => (
+                                {sections.map((item) => (
                                     <Link
                                         onClick={() => {
-                                            setCurrentSection(item);
+                                            setCurrentSection(item.title);
                                             setOpenSections(false);
                                         }}
-                                        href={`#${item.split(" ").join("-")}`}
-                                        key={item}
+                                        href={`#${item.title
+                                            .split(" ")
+                                            .join("-")}`}
+                                        key={item.title}
                                         className={`py-[10px] px-[12px] w-full rounded-[3px]
                               cursor-pointer text-[14px] leading-[20px] hover:bg-primary-yellow
                                hover:text-white focus:bg-primary-yellow focus:text-white font-[500] `}
                                     >
-                                        {item}
+                                        {item.title}
                                     </Link>
                                 ))}
                             </div>

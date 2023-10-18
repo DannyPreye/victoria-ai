@@ -209,7 +209,7 @@ export const queryTemplates = `query{
             }
           }
         }
-        resune{
+        resume{
             previewImage{
             data{
               attributes{
@@ -258,7 +258,7 @@ export const getSingleTemplate = (templateId: string) => `query{
             content
           }
         }
-        resune{
+        resume{
           sections{
             content
             title

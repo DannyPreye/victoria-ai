@@ -7,7 +7,12 @@ import { UrlComponent } from "./UrlComponent";
 import { WhichRadioButton } from "./WhichRadioButton";
 import Pricing from "./Pricing";
 import { Plans } from "@/lib/types";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import Button from "../../auth/Shared/Button";
+import { useSession } from "next-auth/react";
+import { gqlQery } from "@/config/graphql.config";
+import { singleUserPlan } from "@/lib/graphql-query";
+import axios from "axios";
 
 interface Props {
     plans: Plans;
@@ -39,13 +44,50 @@ const createCoverletterRadiobuttons = [
 
 const CreateCoverLetterPage = ({ plans }: Props) => {
     const [file, setFile] = useState<File>();
+    const [isLoading, setIsLoading] = useState(false);
+    const { data: session } = useSession();
+    const router = useRouter();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const fileFormats = ["JPG", "PNG", "SVG", "GIF"];
     const templateId = useSearchParams().get("template");
 
-    console.log(templateId);
-
     const handleFile = (file: File) => {};
+
+    const handleCreate = async () => {
+        setIsLoading(true);
+        try {
+            const data: any = await gqlQery(
+                singleUserPlan(session?.user.id as string),
+                session?.jwt as string
+            );
+            if (data?.usersPermissionsUser?.data.attributes.plan) {
+                const { data } = await axios.post(
+                    `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/create-document`,
+                    {
+                        templateId,
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.jwt}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                if (data.status) {
+                    router.push(
+                        `/dashboard/create-cover-letter/edit/${data?.data?.id}`
+                    );
+                }
+            } else {
+                setIsLoading(false);
+                setIsModalOpen(true);
+            }
+            setIsLoading(false);
+        } catch (error) {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <div>
@@ -131,14 +173,12 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                         ></textarea>
                     </div>
 
-                    <button
-                        onClick={() => setIsModalOpen(true)}
-                        className='w-full mt-[40px] text-white text-[24px]
-                     h-[61px] font-[600] leading-[28.8px] rounded-[8px]
-                      bg-base-primary-green'
-                    >
-                        Create Cover
-                    </button>
+                    <Button
+                        isloading={isLoading}
+                        onClick={handleCreate}
+                        title='Create Cover'
+                        className='mt-[40px] h-[61px] text-[24px]'
+                    />
                 </div>
             </div>
             <Pricing

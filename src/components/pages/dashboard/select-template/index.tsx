@@ -65,7 +65,6 @@ interface EachTemplateProps {
 }
 const EachTemplate = ({ template }: EachTemplateProps) => {
     const router = useRouter();
-    console.log(template.id);
     return (
         <div className='grid gap-[16px] w-full '>
             <div className='w-full   h-[512px] flex    relative mx-auto  group cursor-pointer bg-[#fafafa] '>
@@ -86,7 +85,7 @@ const EachTemplate = ({ template }: EachTemplateProps) => {
                 <div className='relative w-[50%] h-full'>
                     <Image
                         src={
-                            template?.attributes?.resune[0]?.previewImage?.data
+                            template?.attributes?.resume[0]?.previewImage?.data
                                 ?.attributes?.url
                         }
                         fill
