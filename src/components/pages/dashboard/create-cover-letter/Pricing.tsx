@@ -1,6 +1,5 @@
 "use client";
 import Modal from "@/components/shared/Modal";
-import { pricing } from "@/config/subscription";
 import React from "react";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { EachPricing } from "./EachPricing";
