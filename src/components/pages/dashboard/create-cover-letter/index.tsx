@@ -13,6 +13,30 @@ interface Props {
     plans: Plans;
 }
 
+const createCoverletterRadiobuttons = [
+    {
+        id: "which",
+        name: "which",
+        title: "Seeking a Position Within My Field, with Relevant Experience",
+        description:
+            "I am applying for a position in my current field, where I have already gained some or substantial experience that aligns with the requirements listed for this role.",
+    },
+    {
+        id: "another",
+        name: "another",
+        title: "Entering the Workforce After Education, with Some Related Experience",
+        description:
+            "As a recent graduate, I am eager to enter the workforce and bring my relevant experience such as internships, part-time or short-term work, certifications, advanced curriculum and/or volunteer work, which I acquired during my educational training.",
+    },
+    {
+        id: "yet-another",
+        name: "yet-another",
+        title: "Transitioning Careers, Leveraging Professional Experience",
+        description:
+            "I am in the process of changing my career path and can contribute with my professional experience, which may not be directly related but offers valuable skills and insights that can be adapted to this new role.",
+    },
+];
+
 const CreateCoverLetterPage = ({ plans }: Props) => {
     const [file, setFile] = useState<File>();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -81,24 +105,9 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                             Which Describes you Best?
                         </h3>
                         <div className='grid gap-[16px]'>
-                            <WhichRadioButton
-                                name='which'
-                                id='which'
-                                title='Seeking a Position Within My Field, with Relevant Experience'
-                                description='I am applying for a position in my current field, where I have already gained some or substantial experience that aligns with the requirements listed for this role.'
-                            />
-                            <WhichRadioButton
-                                name='which'
-                                id='another'
-                                description='I am applying for a position in my current field, where I have already gained some or substantial experience that aligns with the requirements listed for this role.'
-                                title='Entering the Workforce After Education, with Some Related Experience'
-                            />
-                            <WhichRadioButton
-                                name='which'
-                                id='yet-another'
-                                description='I am applying for a position in my current field, where I have already gained some or substantial experience that aligns with the requirements listed for this role.'
-                                title='Transitioning Careers, Leveraging Professional Experience'
-                            />
+                            {createCoverletterRadiobuttons.map((item) => (
+                                <WhichRadioButton key={item.id} {...item} />
+                            ))}
                         </div>
                     </div>
 

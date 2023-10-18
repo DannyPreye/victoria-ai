@@ -14,14 +14,6 @@ const page = async ({ params }: Props) => {
     let template: TemplateData | undefined;
     const session = await auth();
 
-    // if (session) {
-    //     template = await gqlQery(
-    //         getSingleTemplate(params as string),
-    //         session.jwt
-    //     );
-    // }
-    // console.log(template);
-
     return (
         <div>
             <EditCoverLetterPage />

@@ -9,7 +9,11 @@ import { TbWorld } from "react-icons/tb";
 import LetterContent from "./LetterContent";
 import Link from "next/link";
 import MobileModal from "./MobileModal";
+import { TemplateData } from "@/lib/types";
 
+interface Props {
+    template: TemplateData;
+}
 const EditCoverLetterPage = () => {
     const [currentSection, setCurrentSection] = useState("");
     const [openSections, setOpenSections] = useState(false);
