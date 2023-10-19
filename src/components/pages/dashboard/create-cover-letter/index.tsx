@@ -13,6 +13,7 @@ import { useSession } from "next-auth/react";
 import { gqlQery } from "@/config/graphql.config";
 import { singleUserPlan } from "@/lib/graphql-query";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 interface Props {
     plans: Plans;
@@ -76,11 +77,13 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                 );
                 if (data.status) {
                     router.push(
-                        `/dashboard/create-cover-letter/edit/${templateId}`
+                        `/dashboard/create-cover-letter/edit/${data?.data?.id}`
                     );
+                    // window.location.pathname = `/dashboard/create-cover-letter/edit/${data?.data}`;
                 }
             } else {
                 setIsLoading(false);
+                toast.error("An error occured. Try again");
                 setIsModalOpen(true);
             }
             setIsLoading(false);

@@ -270,3 +270,34 @@ export const getSingleTemplate = (templateId: string) => `query{
     }
   }
 }`;
+
+export const getUserDocumentById = (id: string) => `query{
+userDocument(id:6){
+  data{
+    id
+    attributes{
+      title
+      template{
+        coverLetter{
+          section{
+            title
+            subtitle
+            content
+          }
+        }
+        resume{
+          sections{
+            title
+            subtitle
+            content
+
+          }
+          customSection{
+            points
+          }
+        }
+      }
+    }
+  }
+}
+}`;

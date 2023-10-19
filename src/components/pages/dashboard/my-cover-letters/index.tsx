@@ -1,47 +1,57 @@
 "use client";
 import DashboardHeading from "@/components/shared/DashboardHeading";
 import { coverLetterTemplates } from "@/lib/dummyData";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+interface Props {
+    templates: any[];
+}
 
 const MyCoverLetterPage = () => {
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true);
+    const [templates, setTemplates] = useState<any[]>([]);
+    const { data: session } = useSession();
+
+    const getUserDocs = async () => {
+        try {
+            const { data } = await axios.get(
+                `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/documents`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${session?.jwt}`,
+                    },
+                }
+            );
+            console.log(data);
+            setTemplates(data?.data);
+            setIsLoading(false);
+        } catch (error) {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        getUserDocs();
+    }, [session?.jwt]);
+
+    console.log(templates);
+
     return (
         <div>
             <DashboardHeading title='My Cover Letters' />
             <section className='mt-[44px] px-[16px] lg:px-[24px]  grid grid-cols-1 lg:grid-cols-3 gap-[24px]'>
-                {coverLetterTemplates.map((template, id) => (
-                    <div
-                        key={`template_${id}`}
-                        style={{
-                            background: `url('${template.image}') no-repeat`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                        }}
-                        className='w-full h-[512px] mx-auto  max-w-[363px] group cursor-pointer bg-[#fafafa] '
-                    >
-                        <div className='group-hover:grid h-full overflow-hidden hidden duration-700  w-full place-items-center bg-[rgba(0,0,0,0.25)] '>
-                            <div className='flex flex-col items-center gap-[8px]'>
-                                <button
-                                    onClick={() =>
-                                        router.push(
-                                            "/dashboard/create-cover-letter/edit"
-                                        )
-                                    }
-                                    className='p-[16px] rounded-[8px] text-white text-[14px] font-[600] leading-[20px]
-                             w-[250px] bg-base-primary-green'
-                                >
-                                    Edit Cover Letter
-                                </button>
-                                <button
-                                    className='p-[16px] rounded-[8px] text-white text-[14px] font-[600] leading-[20px]
-                             w-[250px] bg-base-primary-green'
-                                >
-                                    Preview Cover Letter
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                {templates.map((data, id) => (
+                    <EachDocument
+                        template={data?.template}
+                        docName={data?.title}
+                        docId={data?.id}
+                        key={data?.id}
+                    />
                 ))}
             </section>
         </div>
@@ -49,3 +59,63 @@ const MyCoverLetterPage = () => {
 };
 
 export default MyCoverLetterPage;
+
+interface Props {
+    template: any;
+    docName: string;
+    docId: string;
+}
+const EachDocument = ({ template, docName, docId }: Props) => {
+    const router = useRouter();
+    return (
+        <div className='grid gap-[16px] w-full '>
+            <div className='w-full   h-[512px] flex    relative mx-auto  group cursor-pointer bg-[#fafafa] '>
+                <div className='relative w-[50%] h-full '>
+                    <Image
+                        src={template.coverLetter?.previewImage?.url}
+                        fill
+                        alt={
+                            template.coverLetter.previewImage
+                                .alternativeText as string
+                        }
+                        className='object-contain'
+                    />
+                </div>
+                <div className='relative w-[50%] h-full'>
+                    <Image
+                        src={template.coverLetter?.previewImage?.url}
+                        fill
+                        alt={
+                            template.coverLetter.previewImage
+                                .alternativeText as string
+                        }
+                        className='object-contain'
+                    />
+                </div>
+                <div className='group-hover:flex flex-col absolute top-0 left-0  overflow-hidden hidden h-full gap-2  w-full  justify-center lg:place-items-center lg:bg-[rgba(0,0,0,0.25)] '>
+                    <button
+                        onClick={() =>
+                            router.push(
+                                `/dashboard/create-cover-letter/edit/${docId}`
+                            )
+                        }
+                        className='p-[16px] h-fit rounded-[8px] text-white text-[14px] font-[600] leading-[20px]
+                             w-[250px] bg-base-primary-green'
+                    >
+                        Edit Cover Letter
+                    </button>
+                    <button
+                        className='p-[16px] h-fit rounded-[8px] text-white text-[14px] font-[600] leading-[20px]
+                             w-[250px] bg-base-primary-green'
+                    >
+                        Preview Cover Letter
+                    </button>
+                </div>
+            </div>
+
+            <h3 className='text-base-secondary-text font-inter text-[20px] leading-[30px] font-[600]'>
+                {docName}
+            </h3>
+        </div>
+    );
+};
