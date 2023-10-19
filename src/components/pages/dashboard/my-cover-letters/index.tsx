@@ -107,7 +107,7 @@ const EachDocument = ({ template, docName, docId }: EachDocProps) => {
                         className='object-contain'
                     />
                 </div>
-                <div className='group-hover:flex flex-col absolute top-0 left-0  overflow-hidden hidden h-full gap-2  w-full  justify-center lg:place-items-center lg:bg-[rgba(0,0,0,0.25)] '>
+                <div className='group-hover:flex flex-col absolute top-0 left-0  overflow-hidden hidden h-full gap-2  w-full  justify-center items-center  lg:bg-[rgba(0,0,0,0.25)] '>
                     <button
                         onClick={() =>
                             router.push(
