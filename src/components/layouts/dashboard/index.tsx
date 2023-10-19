@@ -15,12 +15,6 @@ const DashboardLayout = ({ children }: Props) => {
     const router = useRouter();
     const jwt = Cookies.get("jwt-token");
 
-    // useEffect(() => {
-    //     if (!jwt) {
-    //         router.push("/auth/sign-in");
-    //     }
-    // }, []);
-
     const checkEdit = pathname.includes("/dashboard/create-cover-letter/edit");
 
     return (

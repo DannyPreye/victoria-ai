@@ -42,8 +42,6 @@ const Sidebar = ({ minimizeSideBar }: Props) => {
     const pathname = usePathname();
     const segment = useSelectedLayoutSegment();
 
-    console.log(segment);
-
     const checkEdit = pathname.includes("/dashboard/create-cover-letter/edit");
 
     return (
@@ -75,9 +73,10 @@ const Sidebar = ({ minimizeSideBar }: Props) => {
                 {dashboardLinks.map((navLink, id) => (
                     <Link
                         href={navLink.link}
-                        className={`p-[8px] rounded-[3px] hover:bg-primary-yellow focus:bg-primary-yellow flex gap-[12px] ${
-                            navLink.link.includes(segment as string) &&
-                            "bg-primary-yellow"
+                        className={`p-[8px]  rounded-[3px] hover:bg-primary-yellow  flex gap-[12px] ${
+                            navLink.link.includes(segment as string)
+                                ? "bg-primary-yellow"
+                                : ""
                         } items-center`}
                         key={id}
                     >
@@ -115,6 +114,8 @@ interface MobileMenuProps {
 const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
     const router = useRouter();
     const { data: session } = useSession();
+    const segment = useSelectedLayoutSegment();
+
     return (
         <Modal>
             <div
@@ -136,8 +137,8 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                                 <Link
                                     onClick={() => setIsMenuOpen(false)}
                                     href={navLink.link}
-                                    className='p-[8px] rounded-[3px] hover:bg-primary-yellow
-                                     focus:bg-primary-yellow flex gap-[12px] items-center'
+                                    className={`p-[8px] rounded-[3px] hover:bg-primary-yellow
+                                     flex gap-[12px] items-center ${navLink.link.includes(segment as string) ?"bg-primary-yellow":""}`}
                                     key={id}
                                 >
                                     <img src={navLink.icon} alt='' />

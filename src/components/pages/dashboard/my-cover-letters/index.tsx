@@ -28,7 +28,6 @@ const MyCoverLetterPage = () => {
                     },
                 }
             );
-            console.log(data);
             setTemplates(data?.data);
             setIsLoading(false);
         } catch (error) {
@@ -39,8 +38,6 @@ const MyCoverLetterPage = () => {
     useEffect(() => {
         getUserDocs();
     }, [session?.jwt]);
-
-    console.log(templates);
 
     return (
         <div>

@@ -16,8 +16,8 @@ const LetterContent = ({
     sections,
 }: Props) => {
     return (
-        <div className='flex flex-col lg:px-[24px] lg:py-[32px]  bg-gray-iron-50 py-[32px] px-[16px]  w-full  items-center'>
-            <div className='max-w-[732px] '>
+        <div className='flex flex-col lg:px-[24px] lg:py-[32px]  bg-gray-iron-50 py-[32px] px-[16px]  w-full'>
+            <div className='mx-auto w-full max-w-[80%]'>
                 {sections?.map((text, id) => (
                     <>
                         {text.title == sections[0].title ? (

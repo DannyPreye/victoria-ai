@@ -30,6 +30,8 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
     const [openModal, setOpenModal] = useState(false);
     const router = useRouter();
 
+    const colors = ["#0D646B", "#025084", "#072446", "#E1C67E", "#333"];
+
     const handleDeleteCoverLetter = async () => {
         const res = await toast.promise(
             axios.delete(
@@ -96,15 +98,38 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                     <GetRoute />
                 </div>
                 <div className='flex lg:px-[24px]  gap-[12px] lg:p-0 p-[16px] lg:pb-[32px] border-b-[1px] lg:border-none  lg:flex-row flex-col justify-between items'>
-                    <h1
-                        className='text-base-secondary-text
+                    <div>
+                        <h1
+                            className='text-base-secondary-text
              lg:px-[0]   lg:py-0
             text-[20px] lg:text-[24px]
             font-[500] leading-[28.8px]'
-                    >
-                        Cover Letter Editor
-                    </h1>
-
+                        >
+                            Cover Letter Editor
+                        </h1>
+                        <span
+                            className='bg-primary-yellow
+                         text-white font-inter font-[600] leading-[20px]
+                         flex items-start
+                         text-[14px] rounded-[3px] px-[12px] py-[10px] w-full max-w-[256px]'
+                        >
+                            Change Template
+                        </span>
+                        <div className='flex items-center gap-[5px] mt-[9px]'>
+                            <p className='font-inter text-[14px] font-[500] leading-[20px]'>
+                                Colors
+                            </p>
+                            <div className='flex items-center gap-[12px] '>
+                                {colors.map((item, id) => (
+                                    <button
+                                        style={{ background: item }}
+                                        key={id}
+                                        className='w-[20px] h-[20px] rounded-full'
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                     <div className='flex gap-[8px]  w-fit relative items-center'>
                         <IoMdTime size-={20} />
                         <PublishButton
