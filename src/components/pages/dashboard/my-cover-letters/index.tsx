@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { Circles } from "react-loader-spinner";
 
 interface Props {
     templates: any[];
@@ -44,28 +45,42 @@ const MyCoverLetterPage = () => {
     return (
         <div>
             <DashboardHeading title='My Cover Letters' />
-            <section className='mt-[44px] px-[16px] lg:px-[24px]  grid grid-cols-1 lg:grid-cols-3 gap-[24px]'>
-                {templates.map((data, id) => (
-                    <EachDocument
-                        template={data?.template}
-                        docName={data?.title}
-                        docId={data?.id}
-                        key={data?.id}
+            {isLoading ? (
+                <div className=' grid place-items-center py-5'>
+                    <Circles
+                        height='80'
+                        width='80'
+                        color='#07397D'
+                        ariaLabel='circles-loading'
+                        visible={true}
                     />
-                ))}
-            </section>
+                </div>
+            ) : templates.length > 0 ? (
+                <section className='mt-[44px] px-[16px] lg:px-[24px]  grid grid-cols-1 lg:grid-cols-3 gap-[24px]'>
+                    {templates.map((data, id) => (
+                        <EachDocument
+                            template={data?.template}
+                            docName={data?.title}
+                            docId={data?.id}
+                            key={data?.id}
+                        />
+                    ))}
+                </section>
+            ) : (
+                <></>
+            )}
         </div>
     );
 };
 
 export default MyCoverLetterPage;
 
-interface Props {
+interface EachDocProps {
     template: any;
     docName: string;
     docId: string;
 }
-const EachDocument = ({ template, docName, docId }: Props) => {
+const EachDocument = ({ template, docName, docId }: EachDocProps) => {
     const router = useRouter();
     return (
         <div className='grid gap-[16px] w-full '>
