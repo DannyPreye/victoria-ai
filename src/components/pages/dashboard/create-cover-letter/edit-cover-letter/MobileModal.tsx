@@ -45,7 +45,7 @@ const MobileModal = ({
                                 </p>
                             </div>
                             <div className='mt-[16px] gap-[4px]  grid'>
-                                {sections.map((item) => (
+                                {sections?.map((item) => (
                                     <Link
                                         onClick={() => {
                                             setCurrentSection(item.title);
