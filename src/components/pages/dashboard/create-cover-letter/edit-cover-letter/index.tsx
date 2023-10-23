@@ -58,11 +58,11 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
         }
     };
 
-    console.log(data);
+    console.log(data?.template?.resume[0]?.sections);
 
     return (
         <div className='flex lg:flex-row flex-col '>
-            <div className='lg:px-[16px] lg:py-[42px] h-full lg:border-r-[1px]'>
+            {/* <div className='lg:px-[16px] lg:py-[42px] h-full lg:border-r-[1px]'>
                 <div className='flex gap-[24px] px-[16px] py-[12px] lg:px-0 border-b-[1px] lg:border-b-0 items-center'>
                     <HiMenuAlt1
                         onClick={() => setOpenSections((prev) => !prev)}
@@ -98,7 +98,24 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                         </Link>
                     ))}
                 </div>
-            </div>
+            </div> */}
+            {currentTab == 0 ? (
+                <SectionsMenu
+                    setCurrentSection={setCurrentSection}
+                    setOpenSections={setOpenSections}
+                    currentTab={currentTab}
+                    sections={data?.template?.coverLetter?.section}
+                    currentSection={currentSection}
+                />
+            ) : (
+                <SectionsMenu
+                    setCurrentSection={setCurrentSection}
+                    setOpenSections={setOpenSections}
+                    currentTab={currentTab}
+                    sections={data?.template?.resume[0]?.sections}
+                    currentSection={currentSection}
+                />
+            )}
             <div className=' flex-1'>
                 <div className='lg:px-[24px] lg:pt-[32px] '>
                     <GetRoute />

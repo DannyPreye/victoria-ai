@@ -62,7 +62,8 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                 singleUserPlan(session?.user.id as string),
                 session?.jwt as string
             );
-            if (data?.usersPermissionsUser?.data.attributes.plan) {
+
+            if (data?.usersPermissionsUser?.data.attributes.plan?.data) {
                 const { data } = await axios.post(
                     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/create-document`,
                     {
@@ -79,16 +80,14 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                     router.push(
                         `/dashboard/create-cover-letter/edit/${data?.data?.id}`
                     );
-                    // window.location.pathname = `/dashboard/create-cover-letter/edit/${data?.data}`;
                 }
             } else {
-                setIsLoading(false);
-                toast.error("An error occured. Try again");
                 setIsModalOpen(true);
             }
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
+            toast.error("Something went wrong. Please try again");
         }
     };
 
