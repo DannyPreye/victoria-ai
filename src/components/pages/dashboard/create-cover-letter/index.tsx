@@ -187,6 +187,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                 plans={plans}
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
+                templateId={templateId as string}
                 callbackURL={`/dashboard/create-cover-letter/edit/${templateId}`}
             />
         </div>

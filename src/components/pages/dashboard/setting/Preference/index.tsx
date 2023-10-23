@@ -107,7 +107,7 @@ const PreferencesPage = ({ plans }: Props) => {
                     <div className='p-[16px]'>
                         <h3>
                             <span className='text-base-secondary-text text-[40px] font-[600] leading-[120%] font-plus-jakarta'>
-                                ${currentPlan?.Price}
+                                ${currentPlan?.Price?.toFixed(2)}
                             </span>
                         </h3>
 

@@ -1,26 +1,49 @@
 "use client";
 import Modal from "@/components/shared/Modal";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { EachPricing } from "./EachPricing";
 import { useSession } from "next-auth/react";
 import { Plans } from "@/lib/types";
+import { gqlQery } from "@/config/graphql.config";
+import { queryPlans } from "@/lib/graphql-query";
+import { Circles } from "react-loader-spinner";
 
 interface PricingProps {
     isModalOpen: boolean;
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     plans: Plans;
     callbackURL: string;
+    templateId?: string;
 }
 
 const Pricing = ({
     isModalOpen,
     setIsModalOpen,
-    plans,
+    // plans,
     callbackURL,
+    templateId,
 }: PricingProps) => {
     const { data: session } = useSession();
     const subcriptionPlan = async () => await getUserSubscriptionPlan();
+    const [plans, setPlans] = useState<any>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const fetchPlans = async () => {
+        setIsLoading(true);
+        try {
+            const plans = await gqlQery(queryPlans);
+            setPlans(plans);
+            console.log(plans);
+            setIsLoading(false);
+        } catch (error) {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchPlans();
+    }, []);
 
     return (
         <Modal>
@@ -50,28 +73,40 @@ const Pricing = ({
                             and invest wisely in your job hunt!
                         </p>
                     </div>
-                    <div className='flex lg:flex-nowrap flex-wrap justify-center gap-[32px]'>
-                        {plans.plans.data?.map((item, id) => (
-                            <EachPricing
-                                plan={item}
-                                index={id}
-                                // isCurrentPlan={
-                                //     plan.stripeSubscriptionId ==
-                                //     item.stripePriceId
-                                // }
-                                callbackURL={callbackURL}
-                                user={session?.user}
-                                subscriptionPlan={subcriptionPlan}
-                                key={`pricing_${id}`}
+                    {isLoading ? (
+                        <div className=' grid place-items-center py-5'>
+                            <Circles
+                                height='80'
+                                width='80'
+                                color='#07397D'
+                                ariaLabel='circles-loading'
+                                visible={true}
                             />
-                        ))}
+                        </div>
+                    ) : (
+                        <div className='flex lg:flex-nowrap flex-wrap justify-center gap-[32px]'>
+                            {plans.plans?.data?.map((item: any, id: any) => (
+                                <EachPricing
+                                    plan={item}
+                                    index={id}
+                                    callbackURL={callbackURL}
+                                    user={session?.user}
+                                    templateId={templateId as string}
+                                    subscriptionPlan={subcriptionPlan}
+                                    key={`pricing_${id}`}
+                                />
+                            ))}
+                        </div>
+                    )}
+                    <div className='text-[20px] text-center text-gray-600 font-[400] my-4 leading-[30px]'>
+                        <p className=' '>
+                            <span className='text-bold r'> IMPORTANT:</span>
+                            Each cover letter stays on your account for 72 hours
+                            post-creation. Please edit and publish within this
+                            period!
+                        </p>
+                        <p>All documents are deleted after 60 days.</p>
                     </div>
-                    <p className='text-[20px] text-center text-gray-600 font-[400] my-4 leading-[30px] '>
-                        <span className='text-bold r'> IMPORTANT:</span>
-                        Each cover letter stays on your account for 72 hours
-                        post-creation. Please edit and publish within this
-                        period!
-                    </p>
                 </div>
             </div>
         </Modal>

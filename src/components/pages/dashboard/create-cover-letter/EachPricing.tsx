@@ -12,12 +12,14 @@ interface EachPricingProps {
     user: any;
     index: number;
     callbackURL: string;
+    templateId: string;
 }
 export const EachPricing = ({
     plan,
     index,
     user,
     callbackURL,
+    templateId,
 }: EachPricingProps) => {
     const [isPending, setIsPending] = useState(false);
     const colors = ["#07397D", "#139DBC", "#E2BB53"];
@@ -32,6 +34,7 @@ export const EachPricing = ({
                 customerEmail: user.email,
                 planId: plan.id,
                 callbackURL,
+                templateId,
             });
             setIsPending(false);
             if (data?.url) {
@@ -61,14 +64,9 @@ export const EachPricing = ({
                 className='text-[48px] mt-[16px] font-[600] leading-[140%]
              text-gray-900'
             >
-                ${plan.attributes.Price}
+                ${plan.attributes.Price?.toFixed(2)}
             </h3>
-            {/* <p
-                className='font-inter leading-[24px] text-center
-             font-[400] text-[16px] text-gray-600'
-            >
-                {plan.subTitle}
-            </p> */}
+
             <button
                 onClick={handleSubscribe}
                 disabled={isPending}
@@ -78,11 +76,6 @@ export const EachPricing = ({
                 className='mt-[16px] text-[16px] leading-[24px] font-inter
                 font-[600] text-white h-[48px] rounded-[8px] w-full py-[12px] gap-2 flex justify-center items-center'
             >
-                {/* <span>
-                    {plan.stripePriceId == subscriptionPlan.stripeSubscriptionId
-                        ? "Manage Plan"
-                        : "Get Started"}
-                </span>{" "} */}
                 <span>Get Started</span>
                 {isPending && (
                     <Oval
