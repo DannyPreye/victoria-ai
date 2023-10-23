@@ -64,7 +64,9 @@ const MyCoverLetterPage = () => {
                     ))}
                 </section>
             ) : (
-                <></>
+                <div className=' grid place-items-center py-5'>
+                    <p>You don&apos;t have any document yet</p>
+                </div>
             )}
         </div>
     );
