@@ -15,11 +15,6 @@ const dashboardLinks = [
     {
         title: "Generate",
         icon: "/assets/icons/generate-icon.svg",
-        link: "/dashboard/create-cover-letter",
-    },
-    {
-        title: "Cover Letters",
-        icon: "/assets/icons/dashboard.png",
         link: "/dashboard",
     },
     {
@@ -138,7 +133,13 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                                     onClick={() => setIsMenuOpen(false)}
                                     href={navLink.link}
                                     className={`p-[8px] rounded-[3px] hover:bg-primary-yellow
-                                     flex gap-[12px] items-center ${navLink.link.includes(segment as string) ?"bg-primary-yellow":""}`}
+                                     flex gap-[12px] items-center ${
+                                         navLink.link.includes(
+                                             segment as string
+                                         )
+                                             ? "bg-primary-yellow"
+                                             : ""
+                                     }`}
                                     key={id}
                                 >
                                     <img src={navLink.icon} alt='' />

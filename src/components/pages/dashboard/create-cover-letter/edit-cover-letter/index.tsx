@@ -20,6 +20,7 @@ import { PublishButton } from "./PublishButton";
 import { EditorTab } from "./EditorTab";
 import Button from "@/components/pages/auth/Shared/Button";
 import { BiPlus } from "react-icons/bi";
+import AddMoreSectionsModal from "./AddMoreSectionsModal";
 
 interface Props {
     template: any;
@@ -33,6 +34,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
     const [openModal, setOpenModal] = useState(false);
     const router = useRouter();
     const [currentTab, setCurrentTab] = useState(0);
+    const [moreSectionModal, setMoreSectionModal] = useState(false);
 
     const colors = ["#0D646B", "#025084", "#072446", "#E1C67E", "#333"];
 
@@ -58,47 +60,8 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
         }
     };
 
-    console.log(data?.template?.resume[0]?.sections);
-
     return (
         <div className='flex lg:flex-row flex-col '>
-            {/* <div className='lg:px-[16px] lg:py-[42px] h-full lg:border-r-[1px]'>
-                <div className='flex gap-[24px] px-[16px] py-[12px] lg:px-0 border-b-[1px] lg:border-b-0 items-center'>
-                    <HiMenuAlt1
-                        onClick={() => setOpenSections((prev) => !prev)}
-                        size={24}
-                        className='cursor-pointer lg:hidden'
-                    />
-                    <p
-                        className='max-w-[280px] w-full
-                     text-base-secondary-text font-inter
-                      text-[20px] leading-[30px] font-[600]'
-                    >
-                        Letter Sections
-                    </p>
-                </div>
-                <div className='mt-[24px]  py-[18px] hidden lg:grid'>
-                    {data?.template.coverLetter.section?.map((item: any) => (
-                        <Link
-                            href={`#${item.title.split(" ").join("-")}`}
-                            key={item.title}
-                            onClick={() => setCurrentSection(item?.title)}
-                            className={`lg:max-w-[280px] w-full rounded-[3px]
-                              cursor-pointer px-[12px]
-                             text-[14px] leading-[20px] font-inter focus:text-white focus:bg-primary-yellow font-[500]
-                              text-primary-gray-700 py-[10px]
-                              ${
-                                  currentSection == item?.title
-                                      ? "bg-primary-yellow text-white"
-                                      : ""
-                              }
-                              `}
-                        >
-                            {item.title}
-                        </Link>
-                    ))}
-                </div>
-            </div> */}
             {currentTab == 0 ? (
                 <SectionsMenu
                     setCurrentSection={setCurrentSection}
@@ -114,6 +77,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                     currentTab={currentTab}
                     sections={data?.template?.resume[0]?.sections}
                     currentSection={currentSection}
+                    setModalOpen={setMoreSectionModal}
                 />
             )}
             <div className=' flex-1'>
@@ -224,6 +188,13 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                     setIsModalOpen={setOpenModal}
                 />
             )}
+
+            {moreSectionModal && (
+                <AddMoreSectionsModal
+                    setIsModalOpen={setMoreSectionModal}
+                    isModalOpen={moreSectionModal}
+                />
+            )}
         </div>
     );
 };
@@ -235,6 +206,7 @@ interface SectionsMenuProps {
     currentSection: string;
     setCurrentSection: React.Dispatch<React.SetStateAction<string>>;
     setOpenSections: React.Dispatch<React.SetStateAction<boolean>>;
+    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     currentTab: number;
 }
 const SectionsMenu = ({
@@ -243,7 +215,9 @@ const SectionsMenu = ({
     setCurrentSection,
     setOpenSections,
     currentTab,
+    setModalOpen,
 }: SectionsMenuProps) => {
+    console.log(currentTab);
     return (
         <div className='lg:px-[16px] lg:py-[42px] h-full lg:border-r-[1px]'>
             <div className='flex gap-[24px] px-[16px] py-[12px] lg:px-0 border-b-[1px] lg:border-b-0 items-center'>
@@ -263,12 +237,12 @@ const SectionsMenu = ({
             <div className='mt-[24px]  py-[18px] hidden lg:grid'>
                 {sections?.map((item: any) => (
                     <Link
-                        href={`#${item.title.split(" ").join("-")}`}
+                        href={`#${item?.title?.split(" ").join("-")}`}
                         key={item.title}
                         onClick={() => setCurrentSection(item?.title)}
-                        className={`lg:max-w-[280px] w-full rounded-[3px]
+                        className={`lg:max-w-[280px] w-full capitalize rounded-[3px]
                               cursor-pointer px-[12px]
-                             text-[14px] leading-[20px] font-inter focus:text-white focus:bg-primary-yellow font-[500]
+                             text-[14px] leading-[20px]  font-inter focus:text-white focus:bg-primary-yellow font-[500]
                               text-primary-gray-700 py-[10px]
                               ${
                                   currentSection == item?.title
@@ -281,8 +255,14 @@ const SectionsMenu = ({
                     </Link>
                 ))}
             </div>
-            {currentTab === 1 && (
-                <Button title='Add Sections' Icon={<BiPlus />} />
+            {currentTab == 1 && (
+                // <Button title='Add Sections' Icon={<BiPlus />} />
+                <button
+                    onClick={() => setModalOpen && setModalOpen(true)}
+                    className='w-full uppercase gap-2 max-w-[280px] h-[40px] text-[14px] leading-[20px] text-center font-inter font-[600] bg-base-primary-green rounded-[3px] text-white flex  items-center justify-center'
+                >
+                    <BiPlus /> <span>Add Sections</span>
+                </button>
             )}
         </div>
     );
