@@ -116,13 +116,13 @@ const EachDocument = ({ template, docName, docId }: EachDocProps) => {
                         className='p-[16px] h-fit rounded-[8px] text-white text-[14px] font-[600] leading-[20px]
                              w-[250px] bg-base-primary-green'
                     >
-                        Edit Cover Letter
+                        Edit Documents
                     </button>
                     <button
                         className='p-[16px] h-fit rounded-[8px] text-white text-[14px] font-[600] leading-[20px]
                              w-[250px] bg-base-primary-green'
                     >
-                        Preview Cover Letter
+                        Preview Documents
                     </button>
                 </div>
             </div>

@@ -58,6 +58,8 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
         }
     };
 
+    console.log(data);
+
     return (
         <div className='flex lg:flex-row flex-col '>
             <div className='lg:px-[16px] lg:py-[42px] h-full lg:border-r-[1px]'>
