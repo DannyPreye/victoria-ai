@@ -48,7 +48,7 @@ const PreferencesPage = ({ plans }: Props) => {
         fetchUserPlan();
     }, [session?.user.id]);
 
-    console.log(currentPlan);
+
 
     return (
         <div>

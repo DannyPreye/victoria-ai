@@ -2,7 +2,6 @@ import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from "@apollo
 
 export const gqlQery = async (query: string, jwt?: string) =>
 {
-    console.log(jwt);
     let client: ApolloClient<NormalizedCacheObject>;
 
     if (jwt) {

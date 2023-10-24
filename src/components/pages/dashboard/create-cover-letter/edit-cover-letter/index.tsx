@@ -21,6 +21,7 @@ import { EditorTab } from "./EditorTab";
 import Button from "@/components/pages/auth/Shared/Button";
 import { BiPlus } from "react-icons/bi";
 import AddMoreSectionsModal from "./AddMoreSectionsModal";
+import ResumeContent from "./ResumeContent";
 
 interface Props {
     template: any;
@@ -150,7 +151,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                     </div>
                 </div>
                 <div className='flex relative flex-col mt-[86px] lg:px-[24px] lg:py-[32px]  bg-gray-iron-50 py-[32px] px-[16px]  w-full'>
-                    <div className='flex gap-[21px] justify-center absolute top-[-3%] left-0 w-full'>
+                    <div className='flex gap-[21px] px-[23px] justify-center absolute top-[-3%] left-0 w-full'>
                         {["COVER LETTER", "RESUME"].map((text, index) => (
                             <EditorTab
                                 currentTab={currentTab}
@@ -168,6 +169,12 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                                 setCurrentSection={setCurrentSection}
                                 currentSection={currentSection}
                                 sections={data?.template.coverLetter.section}
+                            />,
+                            <ResumeContent
+                                key={"Resume"}
+                                setCurrentSection={setCurrentSection}
+                                currentSection={currentSection}
+                                sections={data?.template?.resume[0]?.sections}
                             />,
                         ][currentTab]
                     }
@@ -217,7 +224,6 @@ const SectionsMenu = ({
     currentTab,
     setModalOpen,
 }: SectionsMenuProps) => {
-    console.log(currentTab);
     return (
         <div className='lg:px-[16px] lg:py-[42px] h-full lg:border-r-[1px]'>
             <div className='flex gap-[24px] px-[16px] py-[12px] lg:px-0 border-b-[1px] lg:border-b-0 items-center'>
@@ -259,7 +265,7 @@ const SectionsMenu = ({
                 // <Button title='Add Sections' Icon={<BiPlus />} />
                 <button
                     onClick={() => setModalOpen && setModalOpen(true)}
-                    className='w-full uppercase gap-2 max-w-[280px] h-[40px] text-[14px] leading-[20px] text-center font-inter font-[600] bg-base-primary-green rounded-[3px] text-white flex  items-center justify-center'
+                    className='w-full lg:flex hidden uppercase gap-2 max-w-[280px] h-[40px] text-[14px] leading-[20px] text-center font-inter font-[600] bg-base-primary-green rounded-[3px] text-white   items-center justify-center'
                 >
                     <BiPlus /> <span>Add Sections</span>
                 </button>
