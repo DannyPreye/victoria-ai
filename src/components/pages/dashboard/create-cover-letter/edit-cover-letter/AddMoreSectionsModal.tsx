@@ -1,7 +1,9 @@
 "us cliet";
 import Modal from "@/components/shared/Modal";
+import { documentContext } from "@/contexts/ColorContext";
+import { TemplateSection } from "@/lib/types";
 import { Label } from "@radix-ui/react-label";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiPlus } from "react-icons/bi";
 
 const additionalSections = [
@@ -19,6 +21,21 @@ interface Props {
     isModalOpen: boolean;
 }
 const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
+    const { handleAddMoreSections, resumeSections } =
+        useContext(documentContext);
+    const [sectionTitle, setSectionTitle] = useState<string>("");
+
+    const handleAddSection = (section: string) => {
+        console.log("hello you clicked me");
+        if (section) {
+            const sectionConfig: TemplateSection = {
+                title: section,
+                subtitle: "",
+                content: "",
+            };
+            handleAddMoreSections([sectionConfig]);
+        }
+    };
     return (
         <Modal>
             <div
@@ -43,7 +60,7 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
                             >
                                 <CheckBox
                                     id={section.split(" ").join("-")}
-                                    onChange={() => {}}
+                                    onChange={() => setSectionTitle(section)}
                                 />
                                 <label
                                     htmlFor={section.split(" ").join("-")}
@@ -63,7 +80,7 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
                         </div>
                     </div>
                     <button
-                        // onClick={() => setModalOpen && setModalOpen(true)}
+                        onClick={() => handleAddSection(sectionTitle)}
                         className='w-full mt-[49px] uppercase gap-2 max-w-[280px] h-[40px] text-[14px] leading-[20px] text-center font-inter font-[600] bg-base-primary-green rounded-[3px] text-white flex  items-center justify-center'
                     >
                         <BiPlus /> <span>Add Sections</span>

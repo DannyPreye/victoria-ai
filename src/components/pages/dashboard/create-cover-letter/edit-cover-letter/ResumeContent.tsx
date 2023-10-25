@@ -1,6 +1,8 @@
+"use client";
 import { TemplateSection } from "@/lib/types";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { EditButtons } from "./EditButtons";
+import { documentContext } from "@/contexts/ColorContext";
 
 interface Props {
     currentSection: string;
@@ -12,10 +14,14 @@ const ResumeContent = ({
     setCurrentSection,
     sections,
 }: Props) => {
+    const { currentColor } = useContext(documentContext);
     return (
         <div className='mx-auto w-full lg:w-[778px] '>
             <div className='pt-[12px] grid gap-[12px] mb-[29px] border-b-[2px] border-b-gray-iron-200 pb-[28px]'>
-                <h2 className='text-[30px] uppercase font-[600] text-base-primary-green leading-[140%]'>
+                <h2
+                    style={{ color: currentColor }}
+                    className='text-[30px] uppercase font-[600]  leading-[140%]'
+                >
                     {sections[1]?.content}
                 </h2>
                 <p className='text-base-secondary-text font-inter text-[20px] font-[500] leading-[30px]'>

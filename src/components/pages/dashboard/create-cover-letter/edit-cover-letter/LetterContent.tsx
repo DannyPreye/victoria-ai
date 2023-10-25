@@ -1,8 +1,10 @@
+"use client";
 import { coverLetterEdit } from "@/lib/dummyData";
-import React from "react";
+import React, { useContext } from "react";
 import { TfiReload } from "react-icons/tfi";
 import { TemplateSection } from "@/lib/types";
 import { EditButtons } from "./EditButtons";
+import { documentContext } from "@/contexts/ColorContext";
 
 interface Props {
     currentSection: string;
@@ -14,6 +16,7 @@ const LetterContent = ({
     setCurrentSection,
     sections,
 }: Props) => {
+    const { currentColor } = useContext(documentContext);
     return (
         // <div className='flex flex-col lg:px-[24px] lg:py-[32px]  bg-gray-iron-50 py-[32px] px-[16px]  w-full'>
         <div className='mx-auto w-full  lg:w-[778px]'>
@@ -22,21 +25,24 @@ const LetterContent = ({
                     {text.title == sections[0].title ? (
                         <div
                             id={`${text.title.split(" ").join("-")}`}
-                            contentEditable
+                            // contentEditable
                             className='grid gap-[12px] pb-[24px] border-b-[1px] border-gray-iron-200'
                         >
-                            <h2 className='text-base-primary-green text-[20px] lg:text-[30px] font-[600] leading-[30px] lg:leading-[140%]'>
-                                {/* {text.body.heading} */}
+                            <h2
+                                style={{ color: currentColor }}
+                                className='text-base-primary-green text-[20px] lg:text-[30px] font-[600] leading-[30px] lg:leading-[140%]'
+                            >
+                                {text.content}
                             </h2>
                             <p className='text-[16px] lg:text-[20px] font-[500] leading-[24px] lg:leading-[30px] font-inter text-base-secondary-text'>
-                                {text.content}
+                                {/* {text.content} */}
                             </p>
                         </div>
                     ) : text.title == sections[1].title ? (
                         <div
+                            style={{ color: currentColor }}
                             id={`${text.title.split(" ").join("-")}`}
                             onClick={() => setCurrentSection(text.title)}
-                            contentEditable
                             className='mt-[28px] mb-[32px] text-[16px] font-[600] text-base-primary-green'
                         >
                             {/* <p> {text.body.heading}</p> */}
@@ -45,7 +51,6 @@ const LetterContent = ({
                     ) : text.title !== sections[sections.length - 1].title ? (
                         <div
                             id={`${text.title.split(" ").join("-")}`}
-                            contentEditable
                             className={`py-[8px] lg:py-[12px]
                              relative `}
                         >
@@ -65,8 +70,8 @@ const LetterContent = ({
                         </div>
                     ) : (
                         <div
+                            style={{ color: currentColor }}
                             id={`${text.title.split(" ").join("-")}`}
-                            contentEditable
                             className='mt-[28px] px-[16px] mb-[32px] text-[16px] font-[600] text-base-primary-green'
                         >
                             {/* <p> {text.body.heading}</p> */}

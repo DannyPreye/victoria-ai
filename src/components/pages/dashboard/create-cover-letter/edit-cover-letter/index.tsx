@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import GetRoute from "../../GetRoute";
 import { editCoverLetterSections } from "@/lib/contants";
 import { HiMenuAlt1 } from "react-icons/hi";
@@ -22,6 +22,8 @@ import Button from "@/components/pages/auth/Shared/Button";
 import { BiPlus } from "react-icons/bi";
 import AddMoreSectionsModal from "./AddMoreSectionsModal";
 import ResumeContent from "./ResumeContent";
+import { documentContext } from "@/contexts/ColorContext";
+import { GrFormCheckmark } from "react-icons/gr";
 
 interface Props {
     template: any;
@@ -36,6 +38,12 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
     const router = useRouter();
     const [currentTab, setCurrentTab] = useState(0);
     const [moreSectionModal, setMoreSectionModal] = useState(false);
+    const {
+        handleChangeColor,
+        handleAllResumeSections,
+        resumeSections,
+        currentColor,
+    } = useContext(documentContext);
 
     const colors = ["#0D646B", "#025084", "#072446", "#E1C67E", "#333"];
 
@@ -61,6 +69,10 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
         }
     };
 
+    useEffect(() => {
+        handleAllResumeSections(data?.template?.resume[0]?.sections);
+    }, []);
+
     return (
         <div className='flex lg:flex-row flex-col '>
             {currentTab == 0 ? (
@@ -76,7 +88,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                     setCurrentSection={setCurrentSection}
                     setOpenSections={setOpenSections}
                     currentTab={currentTab}
-                    sections={data?.template?.resume[0]?.sections}
+                    sections={resumeSections}
                     currentSection={currentSection}
                     setModalOpen={setMoreSectionModal}
                 />
@@ -96,7 +108,8 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                             Cover Letter Editor
                         </h1>
                         <button
-                            className='bg-primary-yellow
+                            onClick={() => router.push("/dashboard")}
+                            className='bg-base-primary-green
                          text-white font-inter font-[600] leading-[20px]
                          flex items-start
                          text-[14px] rounded-[3px] my-[11px] px-[12px] py-[10px] w-full lg:w-[256px]'
@@ -110,10 +123,18 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                             <div className='flex items-center gap-[12px] '>
                                 {colors.map((item, id) => (
                                     <button
-                                        style={{ background: item }}
+                                        onClick={() => handleChangeColor(item)}
+                                        style={{
+                                            background: item,
+                                            color: "white",
+                                        }}
                                         key={id}
-                                        className='w-[20px] h-[20px] rounded-full'
-                                    />
+                                        className='w-[20px]  h-[20px] grid place-items-center rounded-full'
+                                    >
+                                        {item === currentColor && (
+                                            <GrFormCheckmark color='white' />
+                                        )}
+                                    </button>
                                 ))}
                             </div>
                         </div>
@@ -174,7 +195,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                                 key={"Resume"}
                                 setCurrentSection={setCurrentSection}
                                 currentSection={currentSection}
-                                sections={data?.template?.resume[0]?.sections}
+                                sections={resumeSections}
                             />,
                         ][currentTab]
                     }
