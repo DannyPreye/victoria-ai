@@ -183,6 +183,7 @@ query{
       attributes{
         Title
         Price
+        subtitle
         benefits{
           text
         }
@@ -199,6 +200,7 @@ export const queryTemplates = `query{
       id
       attributes{
         title
+
         coverLetter{
           previewImage{
             data{

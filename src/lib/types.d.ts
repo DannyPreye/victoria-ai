@@ -24,6 +24,7 @@ type PlanAttributes = {
     __typename: 'Plan';
     Title: string;
     Price: number;
+    subtitle: string;
     benefits: PlanBenefit[];
 };
 

@@ -30,7 +30,6 @@ export const EachPricing = ({
         setIsPending(true);
         let docId: string = "";
         try {
-            console.log();
             if (templateId) {
                 const { data } = await axios.post(
                     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/create-document`,
@@ -83,6 +82,9 @@ export const EachPricing = ({
             >
                 {plan.attributes.Title}
             </button>
+            <p className='text-[20px] font-[600] leading-[140%] my-[16px]'>
+                {plan?.attributes?.subtitle}
+            </p>
             <h3
                 className='text-[48px] mt-[16px] font-[600] leading-[140%]
              text-gray-900'
