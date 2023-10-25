@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Oval } from "react-loader-spinner";
 import { PlanEntity } from "@/lib/types";
+import { useSession } from "next-auth/react";
 
 interface EachPricingProps {
     plan: PlanEntity;
@@ -21,19 +22,40 @@ export const EachPricing = ({
     callbackURL,
     templateId,
 }: EachPricingProps) => {
+    const { data: session } = useSession();
     const [isPending, setIsPending] = useState(false);
     const colors = ["#07397D", "#139DBC", "#E2BB53"];
 
     const handleSubscribe = async () => {
         setIsPending(true);
+        let docId: string = "";
         try {
+            console.log();
+            if (templateId) {
+                const { data } = await axios.post(
+                    `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/create-document`,
+                    {
+                        templateId,
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.jwt}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                console.log(data);
+                docId = data?.data?.id;
+            }
             const { data } = await axios.post("/api/stripe-subscription", {
                 userId: user.id,
                 amount: (plan.attributes.Price * 100).toFixed(2),
                 productName: plan.attributes.Title,
                 customerEmail: user.email,
                 planId: plan.id,
-                callbackURL,
+                callbackURL: templateId
+                    ? `/dashboard/create-cover-letter/edit/${docId}`
+                    : callbackURL,
                 templateId,
             });
             setIsPending(false);
@@ -41,6 +63,7 @@ export const EachPricing = ({
                 window.location.href = data.url;
             }
         } catch (error) {
+            console.log(error);
             setIsPending(false);
             toast.error("An error occured");
         }
