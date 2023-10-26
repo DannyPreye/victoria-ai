@@ -95,13 +95,29 @@ export async function POST(req) {
 
     const text = await queryPineconeVectorStoreAndQueryLLM(
       indexName,
-      `create a cover letter for shamail abbas for role of fullstack developer at bbc. 
-     
-      Also mention something about bbc and how Shamail abbas is a best fit.
+      `Refine my resume to emphasize relevant experience and skills for the
+      job without fabricating anything. Do not fabricate any of my
+      qualifications, experiences, or responsibilities. 
       
-      make sure you give an answer
+      Keep all changes minor
+      and subtle. Write professional summary in a brief paragraph form. In
+      my professional summary include: How many years of experience I
+      have, my specialty or area where you have the most experience, my
+      soft or hard skills that are relevant to the position, any achievements 
+      I've accomplished that brought in results, my Professional career goals,
+      and keywords used in the job posting. 
       
-      dont say i dont know`
+      Provide 2 to 4 bullet points for
+      each job experience. 
+      
+      Keep skills as simple bullet points. Provide
+      maximum 12 skills. 
+      
+      Do not change job titles. 
+      
+      Avoid directly mentioning
+      the company's name and ensure the inclusion of relevant keywords,
+      when appropriate, for optimal ATS system performance.`
     );
 
     return NextResponse.json({
