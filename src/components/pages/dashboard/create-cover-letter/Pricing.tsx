@@ -34,7 +34,6 @@ const Pricing = ({
         try {
             const plans = await gqlQery(queryPlans);
             setPlans(plans);
-
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);

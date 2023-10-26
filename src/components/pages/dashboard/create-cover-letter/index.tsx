@@ -12,8 +12,9 @@ import Button from "../../auth/Shared/Button";
 import { useSession } from "next-auth/react";
 import { gqlQery } from "@/config/graphql.config";
 import { singleUserPlan } from "@/lib/graphql-query";
-import axios from "axios";
+import axios, { AxiosProgressEvent } from "axios";
 import { toast } from "react-toastify";
+import { useFormik } from "formik";
 
 interface Props {
     plans: Plans;
@@ -21,22 +22,22 @@ interface Props {
 
 const createCoverletterRadiobuttons = [
     {
-        id: "which",
-        name: "which",
+        id: "what_describes_you",
+        name: "what_describes_you",
         title: "Seeking a Position Within My Field, with Relevant Experience",
         description:
             "I am applying for a position in my current field, where I have already gained some or substantial experience that aligns with the requirements listed for this role.",
     },
     {
-        id: "another",
-        name: "another",
+        id: "what_describes_you",
+        name: "what_describes_you",
         title: "Entering the Workforce After Education, with Some Related Experience",
         description:
             "As a recent graduate, I am eager to enter the workforce and bring my relevant experience such as internships, part-time or short-term work, certifications, advanced curriculum and/or volunteer work, which I acquired during my educational training.",
     },
     {
-        id: "yet-another",
-        name: "yet-another",
+        id: "what_describes_you",
+        name: "what_describes_you",
         title: "Transitioning Careers, Leveraging Professional Experience",
         description:
             "I am in the process of changing my career path and can contribute with my professional experience, which may not be directly related but offers valuable skills and insights that can be adapted to this new role.",
@@ -44,16 +45,61 @@ const createCoverletterRadiobuttons = [
 ];
 
 const CreateCoverLetterPage = ({ plans }: Props) => {
-    const [file, setFile] = useState<File>();
+    const [fileName, setFileName] = useState<string>();
+    const [fileUrl, setFileUrl] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const { data: session } = useSession();
     const router = useRouter();
+    const [uploadProgress, setUploadProgress] = useState(0);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const fileFormats = ["JPG", "PNG", "SVG", "GIF"];
+    const fileFormats = ["PDF"];
     const templateId = useSearchParams().get("template");
 
-    const handleFile = (file: File) => {};
+    const formik = useFormik({
+        onSubmit: async (values) => {
+            handleCreate();
+            const { data } = await axios.post(
+                `/api/cover-letter`,
+                { ...values, document_url: fileUrl },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            // Just doing a console.log for now
+        },
+        initialValues: {
+            job_listing_url: "",
+            company_url: "",
+            notes: "",
+            what_describes_you: "",
+        },
+    });
+
+    console.log(uploadProgress);
+
+    const onUploadProgress = (progressEvent: AxiosProgressEvent) => {
+        const { loaded, total } = progressEvent;
+        let percent = total && Math.floor((loaded * 100) / total);
+        setUploadProgress(percent as number);
+    };
+
+    const handleFile = async (file: File) => {
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", "USER_PDF");
+            const { data } = await axios.post(
+                `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/upload`,
+                formData,
+                { onUploadProgress }
+            );
+            setFileName(`${data?.original_filename}.${data?.format}`);
+            setFileUrl(data?.url);
+        } catch (error) {}
+    };
 
     const handleCreate = async () => {
         setIsLoading(true);
@@ -94,7 +140,10 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
     return (
         <div>
             <DashboardHeading title='Create Cover Letter' />
-            <div className=' p-[16px] lg:p-[32px]'>
+            <form
+                onSubmit={formik.handleSubmit}
+                className=' p-[16px] lg:p-[32px]'
+            >
                 <div className='mt-[12px] w-full max-w-[796px] mx-auto flex flex-col items-center  '>
                     <FileUploader
                         name='file'
@@ -108,7 +157,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
             py-[16px] px-[24px] border-dashed border-[1px]
              border-gray-iron rounded-[8px] grid place-items-center'
                         >
-                            <div className='flex flex-col items-center'>
+                            <div className='flex relative flex-col items-center'>
                                 <div
                                     className='w-[40px] h-[40px] rounded-[28px]
                              border-[6px] bg-gray-iron-100 border-gray-iron-50
@@ -116,31 +165,45 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                                 >
                                     <FiUploadCloud />
                                 </div>
-                                <div className='font-inter mt-[12px] text-center leading-[20px]  text-[14px] text-gray-500 font-[400]'>
-                                    <p>
-                                        <span className='font-[700] text-base-primary-green '>
-                                            Click to upload
-                                        </span>{" "}
-                                        or drag and drop
-                                    </p>
-                                    <p className='text-[12px] leading-[18px]'>
-                                        SVG, PNG, JPG or GIF (max. 800x400px)
-                                    </p>
-                                </div>
+                                {fileName ? (
+                                    <div className='font-inter mt-[12px] text-center leading-[20px]  text-[14px] text-gray-500 font-[400]'>
+                                        <p>
+                                            <span className='font-[700] text-base-primary-green '>
+                                                {fileName}
+                                            </span>{" "}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className='font-inter mt-[12px] text-center leading-[20px]  text-[14px] text-gray-500 font-[400]'>
+                                        <p>
+                                            <span className='font-[700] text-base-primary-green '>
+                                                Click to upload
+                                            </span>{" "}
+                                            or drag and drop
+                                        </p>
+                                        <p className='text-[12px] leading-[18px]'>
+                                            PDF
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </FileUploader>
 
                     <div className='flex flex-wrap gap-[24px] w-full mt-[24px] '>
                         <UrlComponent
+                            onChange={formik.handleChange}
                             title='Job Listing URL'
                             placeholder='Paste Job Listing URL here'
-                            id='job-listing'
+                            id='job_listing_url'
+                            value={formik.values.job_listing_url}
                         />
                         <UrlComponent
+                            onChange={formik.handleChange}
+                            value={formik.values.company_url}
                             title='Company URL'
                             placeholder='Paste Job Listing URL here'
-                            id='company-url'
+                            id='company_url'
                         />
                     </div>
 
@@ -150,7 +213,12 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                         </h3>
                         <div className='grid gap-[16px]'>
                             {createCoverletterRadiobuttons.map((item) => (
-                                <WhichRadioButton key={item.id} {...item} />
+                                <WhichRadioButton
+                                    onChange={formik.handleChange}
+                                    value={formik.values.what_describes_you}
+                                    key={item.id}
+                                    {...item}
+                                />
                             ))}
                         </div>
                     </div>
@@ -177,12 +245,12 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
 
                     <Button
                         isloading={isLoading}
-                        onClick={handleCreate}
+                        type='submit'
                         title='Create Cover'
                         className='mt-[40px] h-[61px] text-[24px]'
                     />
                 </div>
-            </div>
+            </form>
             <Pricing
                 plans={plans}
                 isModalOpen={isModalOpen}

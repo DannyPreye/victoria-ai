@@ -83,7 +83,9 @@ export const EachPricing = ({
                 {plan.attributes.Title}
             </button>
             <p className='text-[20px] font-[600] leading-[140%] my-[16px]'>
-                {plan?.attributes?.subtitle}
+                {plan?.attributes?.subtitle || (
+                    <span className='opacity-0'>fill space</span>
+                )}
             </p>
             <h3
                 className='text-[48px] mt-[16px] font-[600] leading-[140%]
