@@ -49,6 +49,12 @@ const ForgetPassword = () => {
                 setIsloading(false);
             }
         },
+        validationSchema: yup.object({
+            email: yup
+                .string()
+                .email("Enter a valid email address")
+                .required("Email is required"),
+        }),
     });
 
     return (
@@ -73,6 +79,10 @@ const ForgetPassword = () => {
                         id='email'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        isError={
+                            formik.touched.email && Boolean(formik.errors.email)
+                        }
+                        errorMessage={formik.errors.email}
                     />
                     <Button
                         isloading={isLoading}
