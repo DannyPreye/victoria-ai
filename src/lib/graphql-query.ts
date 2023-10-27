@@ -183,6 +183,7 @@ query{
       attributes{
         Title
         Price
+        subtitle
         benefits{
           text
         }
@@ -191,3 +192,114 @@ query{
   }
 }
 `;
+
+
+export const queryTemplates = `query{
+  templates{
+    data{
+      id
+      attributes{
+        title
+
+        coverLetter{
+          previewImage{
+            data{
+              attributes{
+                url,
+                alternativeText
+              }
+            }
+          }
+        }
+        resume{
+            previewImage{
+            data{
+              attributes{
+                url
+                alternativeText
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+
+export const singleUserPlan = (userId: string) => `query{
+  usersPermissionsUser(id:${userId}){
+    data{
+      attributes{
+        plan{
+          data{
+            attributes{
+              benefits{
+                text
+              }
+              Price
+              Title
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+
+export const getSingleTemplate = (templateId: string) => `query{
+  template(id:${templateId}){
+    data{
+      attributes{
+        title,
+        coverLetter{
+          section{
+            title
+            content
+          }
+        }
+        resume{
+          sections{
+            content
+            title
+
+          }
+        }
+
+      }
+    }
+  }
+}`;
+
+export const getUserDocumentById = (id: string) => `query{
+userDocument(id:6){
+  data{
+    id
+    attributes{
+      title
+      template{
+        coverLetter{
+          section{
+            title
+            subtitle
+            content
+          }
+        }
+        resume{
+          sections{
+            title
+            subtitle
+            content
+
+          }
+          customSection{
+            points
+          }
+        }
+      }
+    }
+  }
+}
+}`;

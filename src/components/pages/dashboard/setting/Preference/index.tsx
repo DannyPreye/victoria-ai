@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { gqlQery } from "@/config/graphql.config";
 import { Circles } from "react-loader-spinner";
+import { singleUserPlan } from "@/lib/graphql-query";
 
 interface Props {
     plans: Plans;
@@ -19,7 +20,7 @@ const PreferencesPage = ({ plans }: Props) => {
     const { data: session } = useSession();
     // const [userPlanId, setUserPlanId] = useState("");
     const [currentPlan, setCurrentPlan] = useState<any>();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     // const currentPlan = plans.plans.data.find((plan) => plan.id == userPlanId);
 
@@ -28,26 +29,7 @@ const PreferencesPage = ({ plans }: Props) => {
         try {
             if (session?.jwt) {
                 const data: any = await gqlQery(
-                    `query{
-  usersPermissionsUser(id:${session?.user.id}){
-    data{
-      attributes{
-        plan{
-          data{
-            attributes{
-              benefits{
-                text
-              }
-              Price
-              Title
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`,
+                    singleUserPlan(session.user.id as string),
                     session?.jwt as string
                 );
                 setIsLoading(false);
@@ -66,7 +48,7 @@ const PreferencesPage = ({ plans }: Props) => {
         fetchUserPlan();
     }, [session?.user.id]);
 
-    console.log(currentPlan);
+
 
     return (
         <div>
@@ -125,7 +107,7 @@ const PreferencesPage = ({ plans }: Props) => {
                     <div className='p-[16px]'>
                         <h3>
                             <span className='text-base-secondary-text text-[40px] font-[600] leading-[120%] font-plus-jakarta'>
-                                ${currentPlan?.Price}
+                                ${currentPlan?.Price?.toFixed(2)}
                             </span>
                         </h3>
 

@@ -15,8 +15,6 @@ const ResetPassword = () => {
     const router = useRouter();
     const email = useSearchParams().get("email");
 
-    console.log("This is the email", email);
-
     const validationSchema = yup.object({
         code: yup
             .string()

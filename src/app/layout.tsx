@@ -2,9 +2,9 @@ import LandingPageLayout from "@/components/layouts/landing";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Provider from "@/components/Provider";
 import "react-toastify/dist/ReactToastify.css";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import MainProvider from "@/providers/MainProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,12 +21,12 @@ export default function RootLayout({
     return (
         <html lang='en'>
             <body className='font-poppins'>
-                <Provider>
+                <MainProvider>
                     <LandingPageLayout>
                         {children}
                         <div id='portal'></div>
                     </LandingPageLayout>
-                </Provider>
+                </MainProvider>
             </body>
         </html>
     );

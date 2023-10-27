@@ -5,7 +5,7 @@ import { auth } from "../auth/[...nextauth]/route";
 export async function POST(req: Request)
 {
     const json = await req.json();
-    const { productName, customerEmail, userId, amount, planId, callbackURL } = json;
+    const { productName, customerEmail, userId, amount, planId, callbackURL, templateId } = json;
     const userSession = await auth();
 
 
@@ -32,7 +32,8 @@ export async function POST(req: Request)
             userId: userId,
             planId,
             // Sending the jwt so that we can easily make a patch request to strapi to update the user
-            jwt: userSession?.jwt ?? ""
+            jwt: userSession?.jwt ?? "",
+            templateId: templateId ?? ""
         }
 
     });

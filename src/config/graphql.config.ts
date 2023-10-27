@@ -1,14 +1,24 @@
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from "@apollo/client";
 
-export const gqlQery = async (query: string, jwt: string) =>
+export const gqlQery = async (query: string, jwt?: string) =>
 {
-    const client = new ApolloClient({
-        uri: `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_GRAPHQL}`,
-        cache: new InMemoryCache(),
-        headers: {
-            "Authorization": `Bearer ${jwt}`
-        }
-    });
+    let client: ApolloClient<NormalizedCacheObject>;
+
+    if (jwt) {
+        client = new ApolloClient({
+            uri: `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_GRAPHQL}`,
+            cache: new InMemoryCache(),
+            headers: {
+                "Authorization": `Bearer ${jwt}`
+            }
+        });
+    } else {
+        client = new ApolloClient({
+            uri: `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_GRAPHQL}`,
+            cache: new InMemoryCache(),
+        });
+    }
+
     const { data } = await client.query({
         query: gql`
             ${query}

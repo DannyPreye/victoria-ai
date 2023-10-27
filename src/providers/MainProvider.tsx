@@ -9,7 +9,7 @@ interface Props {
     children: ReactNode;
 }
 
-const Provider = ({ children }: Props) => {
+const MainProvider = ({ children }: Props) => {
     return (
         <SessionProvider>
             <ReduxProvider store={store}>{children}</ReduxProvider>
@@ -18,4 +18,4 @@ const Provider = ({ children }: Props) => {
     );
 };
 
-export default Provider;
+export default MainProvider;

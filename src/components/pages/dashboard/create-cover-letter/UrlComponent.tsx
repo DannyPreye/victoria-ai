@@ -4,17 +4,20 @@ import { BsLink45Deg } from "react-icons/bs";
 
 interface UrlComponentProps {
     title: string;
-    onChange?: () => {};
     onBlur?: () => {};
     name?: string;
     id: string;
     placeholder?: string;
+    onChange?: React.ChangeEventHandler<HTMLInputElement> | undefined;
+    value: string;
 }
 export const UrlComponent = ({
     title,
     id,
     name,
     placeholder,
+    onChange,
+    value,
 }: UrlComponentProps) => {
     return (
         <div className='grid gap-[12px] w-full lg:w-[386px]'>
@@ -32,10 +35,12 @@ export const UrlComponent = ({
             >
                 <BsLink45Deg size={20} />
                 <input
+                    value={value}
                     className='outline-none text-[16px]
                      font-[400] leading-[24px] flex-1 border-none'
                     type='text'
                     name={name}
+                    onChange={onChange}
                     id={id}
                     placeholder={placeholder}
                 />

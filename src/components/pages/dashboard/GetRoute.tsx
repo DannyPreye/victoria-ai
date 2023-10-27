@@ -6,9 +6,7 @@ import { GoHomeFill } from "react-icons/go";
 
 const GetRoute = () => {
     const pathnames = usePathname();
-
     const paths = pathnames.split("/dashboard")[1].split("/");
-
 
     return (
         <div className='hidden lg:flex gap-[8px] mb-[4px]'>

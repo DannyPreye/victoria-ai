@@ -1,7 +1,8 @@
 import SelectTemplatePage from "@/components/pages/dashboard/select-template";
 import React from "react";
 
-const page = () => {
+export const revalidate = 60;
+const page = async () => {
     return (
         <div>
             <SelectTemplatePage />

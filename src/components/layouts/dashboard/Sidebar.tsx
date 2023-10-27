@@ -9,15 +9,16 @@ import { FiLifeBuoy } from "react-icons/fi";
 import { LuLogOut } from "react-icons/lu";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import { useSelectedLayoutSegment } from "next/navigation";
 
 const dashboardLinks = [
     {
-        title: "Cover Letters",
-        icon: "/assets/icons/dashboard.png",
-        link: "/dashboard/create-cover-letter",
+        title: "Generate",
+        icon: "/assets/icons/generate-icon.svg",
+        link: "/dashboard",
     },
     {
-        title: "My Cover Letters",
+        title: "My Document",
         icon: "/assets/icons/text-snippet.png",
         link: "/dashboard/my-cover-letters",
     },
@@ -34,6 +35,7 @@ interface Props {
 const Sidebar = ({ minimizeSideBar }: Props) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
+    const segment = useSelectedLayoutSegment();
 
     const checkEdit = pathname.includes("/dashboard/create-cover-letter/edit");
 
@@ -66,7 +68,11 @@ const Sidebar = ({ minimizeSideBar }: Props) => {
                 {dashboardLinks.map((navLink, id) => (
                     <Link
                         href={navLink.link}
-                        className='p-[8px] rounded-[3px] hover:bg-primary-yellow focus:bg-primary-yellow flex gap-[12px] items-center'
+                        className={`p-[8px]  rounded-[3px] hover:bg-primary-yellow  flex gap-[12px] ${
+                            navLink.link.includes(segment as string)
+                                ? "bg-primary-yellow"
+                                : ""
+                        } items-center`}
                         key={id}
                     >
                         <img src={navLink.icon} alt='' />
@@ -103,6 +109,8 @@ interface MobileMenuProps {
 const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
     const router = useRouter();
     const { data: session } = useSession();
+    const segment = useSelectedLayoutSegment();
+
     return (
         <Modal>
             <div
@@ -124,8 +132,14 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                                 <Link
                                     onClick={() => setIsMenuOpen(false)}
                                     href={navLink.link}
-                                    className='p-[8px] rounded-[3px] hover:bg-primary-yellow
-                                     focus:bg-primary-yellow flex gap-[12px] items-center'
+                                    className={`p-[8px] rounded-[3px] hover:bg-primary-yellow
+                                     flex gap-[12px] items-center ${
+                                         navLink.link.includes(
+                                             segment as string
+                                         )
+                                             ? "bg-primary-yellow"
+                                             : ""
+                                     }`}
                                     key={id}
                                 >
                                     <img src={navLink.icon} alt='' />
@@ -160,18 +174,21 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                         <div className='px-[8px]'>
                             <div className='py-[24px] px-[8px] border-t-[1px] mt-[20px] flex  justify-between items-start'>
                                 <div className='flex gap-[12px] items-center text-white'>
-                                <div className="w-[40px] h-[40px] rounded-full overflow-hidden ">
+                                    <div className='w-[40px] h-[40px] rounded-full overflow-hidden '>
                                         <Image
-                                        width={40}
-                                        height={40}
-                                        src={
-                                            session?.user.profile_picture ||
-                                            '/assets/images/dashboard/avatar-ai.png "https://agcnwo.com/wp-content/uploads/2020/09/avatar-placeholder.png'
-                                        }
-                                        alt={session?.user.first_name as string}
-                                        className='rounded-full overflow-hidden object-contain'
-                                    />
-                                </div>
+                                            width={40}
+                                            height={40}
+                                            src={
+                                                session?.user.profile_picture ||
+                                                '/assets/images/dashboard/avatar-ai.png "https://agcnwo.com/wp-content/uploads/2020/09/avatar-placeholder.png'
+                                            }
+                                            alt={
+                                                session?.user
+                                                    .first_name as string
+                                            }
+                                            className='rounded-full overflow-hidden object-contain'
+                                        />
+                                    </div>
                                     <div className='leading-[20px] text-[14px] font-inter'>
                                         <h4 className='font-[500] '>
                                             {session?.user?.first_name}{" "}
@@ -184,7 +201,6 @@ const MobileMenu = ({ setIsMenuOpen, isMenuOpen }: MobileMenuProps) => {
                                 </div>
                                 <LuLogOut
                                     onClick={async () => {
-                                        // Cookies.remove("jwt-token");
                                         await signOut();
                                         router.push("/auth/sign-in");
                                     }}
