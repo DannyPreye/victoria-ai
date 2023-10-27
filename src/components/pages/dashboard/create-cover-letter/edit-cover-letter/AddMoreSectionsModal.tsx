@@ -24,6 +24,7 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
     const { handleAddMoreSections, resumeSections } =
         useContext(documentContext);
     const [sectionTitle, setSectionTitle] = useState<string>("");
+    const [manualEntry, setManualEntry] = useState("");
 
     const handleAddSection = (section: string) => {
         console.log("hello you clicked me");
@@ -49,7 +50,7 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
                     onClick={(e) => e.stopPropagation()}
                     className='w-[90%] pt-[60px] pb-[45px] max-w-[964px] flex flex-col items-center h-fit bg-white rounded-[20px]'
                 >
-                    <p className='text-[15px] leading-[40px] font-[600] text-center'>
+                    <p className='text-[20px] leading-[40px] font-[600] text-center'>
                         Additional Sections
                     </p>
                     <div className='grid lg:grid-cols-2 gap-[14px] pt-[86px]'>
@@ -71,8 +72,17 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
                             </div>
                         ))}
                         <div className='flex items-center gap-[14px]'>
-                            <CheckBox onChange={() => {}} id='other' />
+                            <CheckBox
+                                onChange={() => {
+                                    if (manualEntry) {
+                                        setSectionTitle(manualEntry);
+                                    }
+                                }}
+                                id='other'
+                            />
                             <input
+                                value={manualEntry}
+                                onChange={(e) => setManualEntry(e.target.value)}
                                 type='text'
                                 placeholder='other'
                                 className='border-[1px]  font-inter font-[500] border-gray-300 rounded-[3px] w-[280px] px-[10px] outline-none'
