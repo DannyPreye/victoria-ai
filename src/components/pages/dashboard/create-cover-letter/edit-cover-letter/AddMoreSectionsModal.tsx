@@ -25,9 +25,9 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
         useContext(documentContext);
     const [sectionTitle, setSectionTitle] = useState<string>("");
     const [manualEntry, setManualEntry] = useState("");
+    const [disableManualEntry, setDisableManualEntry] = useState(true);
 
     const handleAddSection = (section: string) => {
-        console.log("hello you clicked me");
         if (section) {
             const sectionConfig: TemplateSection = {
                 sectionTitle: section,
@@ -75,18 +75,19 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
                         <div className='flex items-center gap-[14px]'>
                             <CheckBox
                                 onChange={() => {
-                                    if (manualEntry) {
-                                        setSectionTitle(manualEntry);
-                                    }
+                                    setDisableManualEntry((prev) => !prev);
                                 }}
                                 id='other'
                             />
                             <input
-                                value={manualEntry}
-                                onChange={(e) => setManualEntry(e.target.value)}
+                                disabled={disableManualEntry}
+
+                                onChange={(e) => {
+                                    setSectionTitle(e.target.value);
+                                }}
                                 type='text'
-                                placeholder='other'
-                                className='border-[1px]  font-inter font-[500] border-gray-300 rounded-[3px] w-[280px] px-[10px] outline-none'
+                                placeholder='Other'
+                                className='border-[1px] disab font-inter font-[500] border-gray-300 rounded-[3px] w-[280px] px-[10px] outline-none'
                             />
                         </div>
                     </div>
