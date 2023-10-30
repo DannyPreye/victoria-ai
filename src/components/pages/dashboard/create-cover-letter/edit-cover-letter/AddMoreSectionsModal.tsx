@@ -30,9 +30,10 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
         console.log("hello you clicked me");
         if (section) {
             const sectionConfig: TemplateSection = {
-                title: section,
-                subtitle: "",
+                sectionTitle: section,
+                subheading: "",
                 content: "",
+                heading: "",
             };
             handleAddMoreSections([sectionConfig]);
         }
