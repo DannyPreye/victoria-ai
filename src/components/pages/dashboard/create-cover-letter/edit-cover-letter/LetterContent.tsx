@@ -17,6 +17,8 @@ const LetterContent = ({
     sections,
 }: Props) => {
     const { currentColor } = useContext(documentContext);
+
+    console.log(sections);
     return (
         // <div className='flex flex-col lg:px-[24px] lg:py-[32px]  bg-gray-iron-50 py-[32px] px-[16px]  w-full'>
         <div className='mx-auto w-full  lg:w-[778px]'>
@@ -32,10 +34,10 @@ const LetterContent = ({
                                 style={{ color: currentColor }}
                                 className='text-base-primary-green text-[20px] lg:text-[30px] font-[600] leading-[30px] lg:leading-[140%]'
                             >
-                                {text.content}
+                                {text.heading}
                             </h2>
                             <p className='text-[16px] lg:text-[20px] font-[500] leading-[24px] lg:leading-[30px] font-inter text-base-secondary-text'>
-                                {/* {text.content} */}
+                                {text.subheading}
                             </p>
                         </div>
                     ) : text.sectionTitle == sections[1].sectionTitle ? (
@@ -46,7 +48,8 @@ const LetterContent = ({
                             className='mt-[28px] mb-[32px] text-[16px] font-[600] text-base-primary-green'
                         >
                             {/* <p> {text.body.heading}</p> */}
-                            <p>{text.content}</p>
+                            <p>{text?.heading}</p>
+                            <p>{text?.subheading}</p>
                         </div>
                     ) : text.sectionTitle !==
                       sections[sections.length - 1].sectionTitle ? (
