@@ -48,18 +48,20 @@ const MobileModal = ({
                                 {sections?.map((item) => (
                                     <Link
                                         onClick={() => {
-                                            setCurrentSection(item.title);
+                                            setCurrentSection(
+                                                item.sectionTitle
+                                            );
                                             setOpenSections(false);
                                         }}
-                                        href={`#${item.title
+                                        href={`#${item.sectionTitle
                                             .split(" ")
                                             .join("-")}`}
-                                        key={item.title}
+                                        key={item.sectionTitle}
                                         className={`py-[10px] px-[12px] w-full rounded-[3px]
                               cursor-pointer text-[14px] leading-[20px] hover:bg-primary-yellow
                                hover:text-white focus:bg-primary-yellow focus:text-white font-[500] `}
                                     >
-                                        {item.title}
+                                        {item.sectionTitle}
                                     </Link>
                                 ))}
                             </div>
