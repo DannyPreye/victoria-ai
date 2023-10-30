@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useContext, useEffect } from "react";
 import GetRoute from "../../GetRoute";
-import { editCoverLetterSections } from "@/lib/contants";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { IoMdTime } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -9,16 +8,13 @@ import { TbWorld } from "react-icons/tb";
 import LetterContent from "./LetterContent";
 import Link from "next/link";
 import MobileModal from "./MobileModal";
-import { TemplateData } from "@/lib/types";
 import axios from "axios";
 import { Session } from "next-auth";
 import { toast } from "react-toastify";
-import { FaLaptopHouse } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { DeleteModal } from "./DeleteModal";
 import { PublishButton } from "./PublishButton";
 import { EditorTab } from "./EditorTab";
-import Button from "@/components/pages/auth/Shared/Button";
 import { BiPlus } from "react-icons/bi";
 import AddMoreSectionsModal from "./AddMoreSectionsModal";
 import ResumeContent from "./ResumeContent";
@@ -200,6 +196,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                                 setCurrentSection={setCurrentSection}
                                 currentSection={currentSection}
                                 sections={resumeSections}
+                                setOpenModal={setMoreSectionModal}
                             />,
                         ][currentTab]
                     }
@@ -207,7 +204,9 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
             </div>
 
             <MobileModal
+                currentTab={currentTab}
                 sections={data?.template.coverLetter.sections}
+                resumeSections={resumeSections}
                 setCurrentSection={setCurrentSection}
                 openSection={openSections}
                 setOpenSections={setOpenSections}

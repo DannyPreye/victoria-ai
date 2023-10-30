@@ -3,16 +3,19 @@ import { TemplateSection } from "@/lib/types";
 import React, { useContext, useEffect, useState } from "react";
 import { EditButtons } from "./EditButtons";
 import { documentContext } from "@/contexts/ColorContext";
+import { BiPlus } from "react-icons/bi";
 
 interface Props {
     currentSection: string;
     setCurrentSection: React.Dispatch<React.SetStateAction<string>>;
     sections: TemplateSection[];
+    setOpenModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const ResumeContent = ({
     currentSection,
     setCurrentSection,
     sections,
+    setOpenModal,
 }: Props) => {
     const { currentColor } = useContext(documentContext);
 
@@ -40,6 +43,13 @@ const ResumeContent = ({
                     />
                 ))}
             </div>
+
+            <button
+                onClick={() => setOpenModal && setOpenModal(true)}
+                className='w-full flex mx-auto mt-5 lg:hidden uppercase gap-2 max-w-[280px] h-[40px] text-[14px] leading-[20px] text-center font-inter font-[600] bg-base-primary-green rounded-[3px] text-white   items-center justify-center'
+            >
+                <BiPlus /> <span>Add Sections</span>
+            </button>
         </div>
     );
 };
