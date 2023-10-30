@@ -34,6 +34,8 @@ const SelectTemplatePage = () => {
         getCoverLetters();
     }, [session?.jwt]);
 
+    console.log(templates);
+
     return (
         <div>
             <DashboardHeading title={"Select Cover Letter Template"} />
@@ -61,9 +63,10 @@ const SelectTemplatePage = () => {
 export default SelectTemplatePage;
 
 interface EachTemplateProps {
-    template: TemplateData;
+    template: any;
 }
 const EachTemplate = ({ template }: EachTemplateProps) => {
+    console.log("This is the template", template);
     const router = useRouter();
     return (
         <div className='grid gap-[16px] w-full '>
@@ -71,12 +74,12 @@ const EachTemplate = ({ template }: EachTemplateProps) => {
                 <div className='relative w-[50%] h-full '>
                     <Image
                         src={
-                            template.attributes.coverLetter.previewImage.data
+                            template.attributes.template?.coverLetter?.previewImage.data
                                 .attributes.url
                         }
                         fill
                         alt={
-                            template.attributes.coverLetter.previewImage.data
+                            template.attributes.template?.coverLetter?.previewImage.data
                                 .attributes.alternativeText as string
                         }
                         className='object-contain'
@@ -85,13 +88,14 @@ const EachTemplate = ({ template }: EachTemplateProps) => {
                 <div className='relative w-[50%] h-full'>
                     <Image
                         src={
-                            template?.attributes?.resume[0]?.previewImage?.data
-                                ?.attributes?.url
+                            template?.attributes?.template?.resume?.previewImage
+                                ?.data?.attributes?.url
                         }
                         fill
                         alt={
-                            template?.attributes?.coverLetter?.previewImage
-                                ?.data?.attributes?.alternativeText as string
+                            template?.attributes?.template?.coverLetter
+                                ?.previewImage?.data?.attributes
+                                ?.alternativeText as string
                         }
                         className='object-contain'
                     />
@@ -110,7 +114,6 @@ const EachTemplate = ({ template }: EachTemplateProps) => {
                     </button>
                 </div>
             </div>
-
             <h3 className='text-base-secondary-text font-inter text-[20px] leading-[30px] font-[600]'>
                 {template?.attributes?.title}
             </h3>

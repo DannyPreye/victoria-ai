@@ -97,10 +97,10 @@ const EachDocument = ({ template, docName, docId }: EachDocProps) => {
                 </div>
                 <div className='relative w-[50%] h-full'>
                     <Image
-                        src={template.coverLetter?.previewImage?.url}
+                        src={template.resume?.previewImage?.url}
                         fill
                         alt={
-                            template.coverLetter.previewImage
+                            template.resume.previewImage
                                 .alternativeText as string
                         }
                         className='object-contain'

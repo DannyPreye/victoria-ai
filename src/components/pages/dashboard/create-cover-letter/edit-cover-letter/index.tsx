@@ -45,6 +45,8 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
         currentColor,
     } = useContext(documentContext);
 
+    console.log(data);
+
     const colors = ["#0D646B", "#025084", "#072446", "#E1C67E", "#333"];
 
     const handleDeleteCoverLetter = async () => {
@@ -70,8 +72,10 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
     };
 
     useEffect(() => {
-        handleAllResumeSections(data?.template?.resume[0]?.sections);
+        handleAllResumeSections(data?.template?.resume?.sections);
     }, []);
+
+    console.log(resumeSections);
 
     return (
         <div className='flex lg:flex-row flex-col '>
@@ -80,7 +84,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                     setCurrentSection={setCurrentSection}
                     setOpenSections={setOpenSections}
                     currentTab={currentTab}
-                    sections={data?.template?.coverLetter?.section}
+                    sections={data?.template?.coverLetter?.sections}
                     currentSection={currentSection}
                 />
             ) : (
@@ -189,7 +193,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                                 key={"Cover Letter"}
                                 setCurrentSection={setCurrentSection}
                                 currentSection={currentSection}
-                                sections={data?.template.coverLetter.section}
+                                sections={data?.template.coverLetter.sections}
                             />,
                             <ResumeContent
                                 key={"Resume"}
@@ -203,7 +207,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
             </div>
 
             <MobileModal
-                sections={data?.template.coverLetter.section}
+                sections={data?.template.coverLetter.sections}
                 setCurrentSection={setCurrentSection}
                 openSection={openSections}
                 setOpenSections={setOpenSections}
@@ -245,6 +249,7 @@ const SectionsMenu = ({
     currentTab,
     setModalOpen,
 }: SectionsMenuProps) => {
+    console.log(sections);
     return (
         <div className='lg:px-[16px] lg:py-[42px] h-full lg:border-r-[1px]'>
             <div className='flex gap-[24px] px-[16px] py-[12px] lg:px-0 border-b-[1px] lg:border-b-0 items-center'>
@@ -264,21 +269,21 @@ const SectionsMenu = ({
             <div className='mt-[24px]  py-[18px] hidden lg:grid'>
                 {sections?.map((item: any) => (
                     <Link
-                        href={`#${item?.title?.split(" ").join("-")}`}
+                        href={`#${item?.sectionTitle?.split(" ").join("-")}`}
                         key={item.title}
-                        onClick={() => setCurrentSection(item?.title)}
+                        onClick={() => setCurrentSection(item?.sectionTitle)}
                         className={`lg:max-w-[280px] w-full capitalize rounded-[3px]
                               cursor-pointer px-[12px]
                              text-[14px] leading-[20px]  font-inter focus:text-white focus:bg-primary-yellow font-[500]
                               text-primary-gray-700 py-[10px]
                               ${
-                                  currentSection == item?.title
+                                  currentSection == item?.sectionTitle
                                       ? "bg-primary-yellow text-white"
                                       : ""
                               }
                               `}
                     >
-                        {item.title}
+                        {item.sectionTitle}
                     </Link>
                 ))}
             </div>

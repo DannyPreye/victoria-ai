@@ -50,9 +50,10 @@ export type Plans = {
 
 // ******************* TEMPLATE TYPE ****************
 type TemplateSection = {
-    title: string;
+    sectionTitle: string;
+    heading: string;
     content: string;
-    subtitle: string;
+    subheading: string;
 };
 
 type UploadFileAttributes = {
