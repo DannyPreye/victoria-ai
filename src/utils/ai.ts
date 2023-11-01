@@ -4,9 +4,30 @@ import { OpenAI } from "langchain/llms/openai";
 import { loadQAStuffChain } from "langchain/chains";
 import { Document } from "langchain/document";
 import { Pinecone } from "@pinecone-database/pinecone";
+
+export const queryOpenAiToRefineResume = async (
+  question: string,
+  docs: Document[]
+) => {
+  const llm = new OpenAI({ temperature: 1 });
+  const chain = loadQAStuffChain(llm);
+
+  const result = await chain.call({
+    input_documents: docs,
+    question: question,
+    options: {
+      max_tokens: 4000,
+    },
+  });
+  // 10. Log the answer
+  // console.log("result is ", result);
+  // console.log(`Answer: ${result.text}`);
+  return result.text;
+};
+
 export const queryPineconeVectorStoreAndQueryLLM = async (
-  indexName,
-  question
+  indexName: string,
+  question: string
 ) => {
   // 1. Start query process
   console.log("Querying Pinecone vector store...", question);
@@ -37,7 +58,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     const chain = loadQAStuffChain(llm);
     // 8. Extract and concatenate page content from matched documents
     const concatenatedPageContent = queryResponse.matches
-      .map((match) => match.metadata.pageContent)
+      .map((match) => match.metadata?.pageContent)
       .join(" ");
     // 9. Execute the chain with input documents and question
 
@@ -49,15 +70,15 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
       },
     });
     // 10. Log the answer
-    console.log("result is ", result);
-    console.log(`Answer: ${result.text}`);
+    // console.log("result is ", result);
+    // console.log(`Answer: ${result.text}`);
     return result.text;
   } else {
     // 11. Log that there are no matches, so GPT-3 will not be queried
     console.log("Since there are no matches, GPT-3 will not be queried.");
   }
 };
-export const createPineconeIndex = async (indexName) => {
+export const createPineconeIndex = async (indexName: string) => {
   // 1. Initiate index existence check
   console.log(`Checking "${indexName}"...`);
   // 2. Get list of existing indexes
@@ -74,7 +95,7 @@ export const createPineconeIndex = async (indexName) => {
   ) {
     const delete_index = await client.deleteIndex(indexName);
     console.log("delete_index reponse is ", delete_index);
-    await new Promise((resolve) => setTimeout(resolve, 100000));
+    await new Promise((resolve) => setTimeout(resolve, 60000));
   }
   // 4. Log index creation initiation
   console.log(`Creating "${indexName}"...`);
@@ -88,9 +109,9 @@ export const createPineconeIndex = async (indexName) => {
   // 6. Log successful creation
   console.log(`Creating index.... please wait for it to finish initializing.`);
   // 7. Wait for index initialization
-  await new Promise((resolve) => setTimeout(resolve, 100000));
+  await new Promise((resolve) => setTimeout(resolve, 60000));
 };
-function isIndexNameAlreadyTaken(arr, name) {
+function isIndexNameAlreadyTaken(arr: any[], name: string) {
   for (let i = 0; i < arr.length; i++) {
     if (arr[i].name === name) {
       return true; // Name found in the array
@@ -98,7 +119,7 @@ function isIndexNameAlreadyTaken(arr, name) {
   }
   return false; // Name not found in the array
 }
-export const updatePinecone = async (indexName, docs) => {
+export const updatePinecone = async (indexName: string, docs: Document[]) => {
   console.log("Retrieving Pinecone index...");
   // 1. Retrieve Pinecone index
   const client = new Pinecone({
@@ -134,7 +155,7 @@ export const updatePinecone = async (indexName, docs) => {
     );
     // 7. Create and upsert vectors in batches of 100
     const batchSize = 100;
-    let batch = [];
+    let batch: any[] = [];
     for (let idx = 0; idx < chunks.length; idx++) {
       const chunk = chunks[idx];
       const vector = {
