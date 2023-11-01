@@ -23,7 +23,7 @@ interface Props {
 const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
     const { handleAddMoreSections, resumeSections } =
         useContext(documentContext);
-    const [sectionTitle, setSectionTitle] = useState<string[]>([""]);
+    const [sectionTitle, setSectionTitle] = useState<string[]>([]);
     const [manualEntry, setManualEntry] = useState("");
     const [disableManualEntry, setDisableManualEntry] = useState(true);
 
