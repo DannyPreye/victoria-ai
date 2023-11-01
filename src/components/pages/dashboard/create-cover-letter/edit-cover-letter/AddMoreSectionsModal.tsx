@@ -23,19 +23,19 @@ interface Props {
 const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
     const { handleAddMoreSections, resumeSections } =
         useContext(documentContext);
-    const [sectionTitle, setSectionTitle] = useState<string>("");
+    const [sectionTitle, setSectionTitle] = useState<string[]>([""]);
     const [manualEntry, setManualEntry] = useState("");
     const [disableManualEntry, setDisableManualEntry] = useState(true);
 
-    const handleAddSection = (section: string) => {
+    const handleAddSection = (section: string[]) => {
         if (section) {
-            const sectionConfig: TemplateSection = {
-                sectionTitle: section,
+            const sections = section.map((item) => ({
+                sectionTitle: item,
                 subheading: "",
                 content: "",
                 heading: "",
-            };
-            handleAddMoreSections([sectionConfig]);
+            }));
+            handleAddMoreSections([...sections]);
         }
     };
     return (
@@ -62,7 +62,12 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
                             >
                                 <CheckBox
                                     id={section.split(" ").join("-")}
-                                    onChange={() => setSectionTitle(section)}
+                                    onChange={() =>
+                                        setSectionTitle((prev) => [
+                                            ...prev,
+                                            section,
+                                        ])
+                                    }
                                 />
                                 <label
                                     htmlFor={section.split(" ").join("-")}
@@ -81,9 +86,11 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
                             />
                             <input
                                 disabled={disableManualEntry}
-
                                 onChange={(e) => {
-                                    setSectionTitle(e.target.value);
+                                    setSectionTitle((prev) => [
+                                        ...prev,
+                                        e.target.value,
+                                    ]);
                                 }}
                                 type='text'
                                 placeholder='Other'

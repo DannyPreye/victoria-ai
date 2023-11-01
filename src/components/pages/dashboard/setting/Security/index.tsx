@@ -120,8 +120,13 @@ const SecurityPage = () => {
                     errorMessage={formik.errors.password}
                 />
                 <div className='flex justify-end items-center gap-[24px] '>
-                    <Button title='Cancel' isTransparent hasBorder />
-                    <Button isLoading={isLoading} title='Save' />
+                    <Button
+                        title='Cancel'
+                        type='button'
+                        isTransparent
+                        hasBorder
+                    />
+                    <Button isLoading={isLoading} title='Save' type='submit' />
                 </div>
             </form>
         </div>

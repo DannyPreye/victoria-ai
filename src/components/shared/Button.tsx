@@ -10,6 +10,7 @@ interface Props {
     hasBorder?: boolean;
     variant?: "filled" | "outline";
     isLoading?: boolean;
+    type?: "button" | "submit" | "reset" | undefined;
 }
 const Button = ({
     title,
@@ -19,11 +20,13 @@ const Button = ({
     Icon,
     hasBorder,
     isLoading,
+    type,
 }: Props) => {
     return (
         <button
             onClick={onClick}
             disabled={isLoading}
+            type={type}
             style={{
                 boxShadow:
                     variant == "filled"
