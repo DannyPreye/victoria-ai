@@ -49,6 +49,12 @@ const ForgetPassword = () => {
                 setIsloading(false);
             }
         },
+        validationSchema: yup.object({
+            email: yup
+                .string()
+                .email("Enter a valid email address")
+                .required("Email is required"),
+        }),
     });
 
     return (
@@ -56,7 +62,7 @@ const ForgetPassword = () => {
             <div className='border-2 px-4 py-6 rounded-md shadow-md w-full max-w-[450px] '>
                 <div className='flex flex-col items-center gap-3 '>
                     <Image
-                        src={"/instaLetter-logo.png"}
+                        src={"/InstaLetter-logo.png"}
                         alt='instaletter'
                         width={120}
                         height={120}
@@ -73,6 +79,10 @@ const ForgetPassword = () => {
                         id='email'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        isError={
+                            formik.touched.email && Boolean(formik.errors.email)
+                        }
+                        errorMessage={formik.errors.email}
                     />
                     <Button
                         isloading={isLoading}

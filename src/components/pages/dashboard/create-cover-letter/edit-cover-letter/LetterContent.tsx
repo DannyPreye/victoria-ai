@@ -17,14 +17,16 @@ const LetterContent = ({
     sections,
 }: Props) => {
     const { currentColor } = useContext(documentContext);
+
+    console.log(sections);
     return (
         // <div className='flex flex-col lg:px-[24px] lg:py-[32px]  bg-gray-iron-50 py-[32px] px-[16px]  w-full'>
         <div className='mx-auto w-full  lg:w-[778px]'>
             {sections?.map((text, id) => (
                 <>
-                    {text.title == sections[0].title ? (
+                    {text.sectionTitle == sections[0].sectionTitle ? (
                         <div
-                            id={`${text.title.split(" ").join("-")}`}
+                            id={`${text.sectionTitle.split(" ").join("-")}`}
                             // contentEditable
                             className='grid gap-[12px] pb-[24px] border-b-[1px] border-gray-iron-200'
                         >
@@ -32,33 +34,37 @@ const LetterContent = ({
                                 style={{ color: currentColor }}
                                 className='text-base-primary-green text-[20px] lg:text-[30px] font-[600] leading-[30px] lg:leading-[140%]'
                             >
-                                {text.content}
+                                {text.heading}
                             </h2>
                             <p className='text-[16px] lg:text-[20px] font-[500] leading-[24px] lg:leading-[30px] font-inter text-base-secondary-text'>
-                                {/* {text.content} */}
+                                {text.subheading}
                             </p>
                         </div>
-                    ) : text.title == sections[1].title ? (
+                    ) : text.sectionTitle == sections[1].sectionTitle ? (
                         <div
                             style={{ color: currentColor }}
-                            id={`${text.title.split(" ").join("-")}`}
-                            onClick={() => setCurrentSection(text.title)}
+                            id={`${text.sectionTitle.split(" ").join("-")}`}
+                            onClick={() => setCurrentSection(text.sectionTitle)}
                             className='mt-[28px] mb-[32px] text-[16px] font-[600] text-base-primary-green'
                         >
                             {/* <p> {text.body.heading}</p> */}
-                            <p>{text.content}</p>
+                            <p>{text?.heading}</p>
+                            <p>{text?.subheading}</p>
                         </div>
-                    ) : text.title !== sections[sections.length - 1].title ? (
+                    ) : text.sectionTitle !==
+                      sections[sections.length - 1].sectionTitle ? (
                         <div
-                            id={`${text.title.split(" ").join("-")}`}
+                            id={`${text.sectionTitle.split(" ").join("-")}`}
                             className={`py-[8px] lg:py-[12px]
                              relative `}
                         >
                             <p
-                                onClick={() => setCurrentSection(text.title)}
+                                onClick={() =>
+                                    setCurrentSection(text.sectionTitle)
+                                }
                                 className={`text-justify  text-base-secondary-text
                                  font-inter font-[400] text-[16px] py-[8px] px-[16px] lg:px-[24px] leading-[24px] ${
-                                     currentSection == text.title
+                                     currentSection == text.sectionTitle
                                          ? "border-r-[2px] border-primary-yellow bg-[rgba(226,187,83,0.10)]"
                                          : ""
                                  }`}
@@ -66,12 +72,14 @@ const LetterContent = ({
                                 {text.content}{" "}
                             </p>
                             {/* Edit buttons */}
-                            {currentSection == text.title && <EditButtons />}
+                            {currentSection == text.sectionTitle && (
+                                <EditButtons />
+                            )}
                         </div>
                     ) : (
                         <div
                             style={{ color: currentColor }}
-                            id={`${text.title.split(" ").join("-")}`}
+                            id={`${text.sectionTitle.split(" ").join("-")}`}
                             className='mt-[28px] px-[16px] mb-[32px] text-[16px] font-[600] text-base-primary-green'
                         >
                             {/* <p> {text.body.heading}</p> */}

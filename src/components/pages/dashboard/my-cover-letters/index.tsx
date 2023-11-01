@@ -97,10 +97,10 @@ const EachDocument = ({ template, docName, docId }: EachDocProps) => {
                 </div>
                 <div className='relative w-[50%] h-full'>
                     <Image
-                        src={template.coverLetter?.previewImage?.url}
+                        src={template.resume?.previewImage?.url}
                         fill
                         alt={
-                            template.coverLetter.previewImage
+                            template.resume.previewImage
                                 .alternativeText as string
                         }
                         className='object-contain'
@@ -119,6 +119,11 @@ const EachDocument = ({ template, docName, docId }: EachDocProps) => {
                         Edit Documents
                     </button>
                     <button
+                        onClick={() =>
+                            router.push(
+                                `/dashboard/my-cover-letters/preview/${docId}`
+                            )
+                        }
                         className='p-[16px] h-fit rounded-[8px] text-white text-[14px] font-[600] leading-[20px]
                              w-[250px] bg-base-primary-green'
                     >

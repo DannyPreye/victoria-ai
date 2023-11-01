@@ -68,7 +68,7 @@ const ResetPassword = () => {
             <div className='border-2 px-4 py-6 rounded-md shadow-md w-full max-w-[450px] '>
                 <div className='flex flex-col items-center gap-3 '>
                     <Image
-                        src={"/instaLetter-logo.png"}
+                        src={"/InstaLetter-logo.png"}
                         alt='instaletter'
                         width={120}
                         height={120}

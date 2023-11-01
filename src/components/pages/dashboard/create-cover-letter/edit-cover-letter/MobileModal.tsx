@@ -11,12 +11,16 @@ interface Props {
     setOpenSections: React.Dispatch<React.SetStateAction<boolean>>;
     setCurrentSection: React.Dispatch<React.SetStateAction<string>>;
     sections: TemplateSection[];
+    currentTab: number;
+    resumeSections: TemplateSection[];
 }
 const MobileModal = ({
     openSection,
     setOpenSections,
     setCurrentSection,
     sections,
+    currentTab,
+    resumeSections,
 }: Props) => {
     return (
         <Modal>
@@ -41,28 +45,56 @@ const MobileModal = ({
                      text-base-secondary-text font-inter
                       text-[20px] leading-[30px] font-[600]'
                                 >
-                                    Letter Sections
+                                    {currentTab === 0
+                                        ? "Letter Sections"
+                                        : "Resume Sections"}
                                 </p>
                             </div>
-                            <div className='mt-[16px] gap-[4px]  grid'>
-                                {sections?.map((item) => (
-                                    <Link
-                                        onClick={() => {
-                                            setCurrentSection(item.title);
-                                            setOpenSections(false);
-                                        }}
-                                        href={`#${item.title
-                                            .split(" ")
-                                            .join("-")}`}
-                                        key={item.title}
-                                        className={`py-[10px] px-[12px] w-full rounded-[3px]
+                            {currentTab === 0 ? (
+                                <div className='mt-[16px] gap-[4px]  grid'>
+                                    {sections?.map((item) => (
+                                        <Link
+                                            onClick={() => {
+                                                setCurrentSection(
+                                                    item.sectionTitle
+                                                );
+                                                setOpenSections(false);
+                                            }}
+                                            href={`#${item.sectionTitle
+                                                .split(" ")
+                                                .join("-")}`}
+                                            key={item.sectionTitle}
+                                            className={`py-[10px] px-[12px] w-full rounded-[3px]
                               cursor-pointer text-[14px] leading-[20px] hover:bg-primary-yellow
                                hover:text-white focus:bg-primary-yellow focus:text-white font-[500] `}
-                                    >
-                                        {item.title}
-                                    </Link>
-                                ))}
-                            </div>
+                                        >
+                                            {item.sectionTitle}
+                                        </Link>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className='mt-[16px] gap-[4px]  grid'>
+                                    {resumeSections?.map((item) => (
+                                        <Link
+                                            onClick={() => {
+                                                setCurrentSection(
+                                                    item.sectionTitle
+                                                );
+                                                setOpenSections(false);
+                                            }}
+                                            href={`#${item.sectionTitle
+                                                .split(" ")
+                                                .join("-")}`}
+                                            key={item.sectionTitle}
+                                            className={`py-[10px] px-[12px] w-full rounded-[3px]
+                              cursor-pointer text-[14px] leading-[20px] hover:bg-primary-yellow
+                               hover:text-white focus:bg-primary-yellow focus:text-white font-[500] `}
+                                        >
+                                            {item.sectionTitle}
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -106,6 +138,7 @@ const MobileModal = ({
                         </div>
                     </div> */}
                 </div>
+                x
                 <div className='bg-gray-500 py-[12] h-full'>
                     <div
                         onClick={() => setOpenSections(false)}

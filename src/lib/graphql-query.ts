@@ -200,25 +200,25 @@ export const queryTemplates = `query{
       id
       attributes{
         title
-
-        coverLetter{
-          previewImage{
-            data{
-              attributes{
-                url,
-                alternativeText
-              }
-            }
-          }
-        }
-        resume{
-            previewImage{
+        template{
+          coverLetter{
+           previewImage{
             data{
               attributes{
                 url
                 alternativeText
               }
             }
+          }
+          }
+          resume{
+          previewImage{
+            data{
+              attributes{
+                url
+              }
+            }
+          }
           }
         }
       }
@@ -274,7 +274,7 @@ export const getSingleTemplate = (templateId: string) => `query{
 }`;
 
 export const getUserDocumentById = (id: string) => `query{
-userDocument(id:6){
+userDocument(id:${IDBCursorWithValue}){
   data{
     id
     attributes{

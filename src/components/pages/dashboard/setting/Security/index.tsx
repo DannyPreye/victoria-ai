@@ -49,6 +49,8 @@ const SecurityPage = () => {
                         ...session,
                         jwt: data?.jwt,
                     });
+
+                    formik.resetForm();
                     toast.success("Password has successfully been changed");
                 }
             } catch (error) {

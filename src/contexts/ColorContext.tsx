@@ -19,14 +19,17 @@ const ColorContextProvider = ({ children }: Props) => {
     const [currentColor, setCurrentColor] = useState("#0D646B");
     const [resumeSections, setResumeSections] = useState<TemplateSection[]>([]);
 
+    console.log(resumeSections);
     const handleChangeColor = (color: string) => {
         setCurrentColor(color);
     };
     const handleAddMoreSections = (sections: TemplateSection[]) => {
         setResumeSections((prev) => [...prev, ...sections]);
     };
-    const handleAllResumeSections = (sections: TemplateSection[]) =>
-        setResumeSections(sections);
+    const handleAllResumeSections = (sections: TemplateSection[]) => {
+        console.log(sections);
+        setResumeSections([...sections]);
+    };
 
     return (
         <documentContext.Provider
