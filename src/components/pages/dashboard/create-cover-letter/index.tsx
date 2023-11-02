@@ -59,7 +59,6 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
 
   const formik = useFormik({
     onSubmit: async (values) => {
-      handleCreate();
       const { data } = await axios.post(
         `/api/cover-letter`,
         { ...values, document_url: fileUrl },
@@ -71,6 +70,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
       );
       // Just doing a console.log for now
       console.log(data);
+      handleCreate();
     },
     initialValues: {
       job_listing_url: "",
@@ -100,7 +100,9 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
       );
       setFileName(`${data?.original_filename}.${data?.format}`);
       setFileUrl(data?.url);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCreate = async () => {
@@ -144,7 +146,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
         <div className="mt-[12px] w-full max-w-[796px] mx-auto flex flex-col items-center  ">
           <FileUploader
             name="file"
-            maxSize={10}
+            //maxSize={10}
             handleChange={handleFile}
             types={fileFormats}
             classes="w-full"
