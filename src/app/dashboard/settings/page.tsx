@@ -1,7 +1,8 @@
 import React from "react";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+;
 import { getServerSession } from "next-auth";
 import UserDetailsPage from "@/components/pages/dashboard/setting/UserDetailsPage";
+import { authOptions } from "@/lib/auth";
 
 const page = async () => {
     const session = await getServerSession(authOptions);
