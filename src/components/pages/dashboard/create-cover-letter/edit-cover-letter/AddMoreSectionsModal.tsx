@@ -28,7 +28,11 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
     const [disableManualEntry, setDisableManualEntry] = useState(true);
 
     const handleAddSection = (section: string[]) => {
+        console.log(manualEntry);
         if (section) {
+            if (manualEntry) {
+                section.push(manualEntry);
+            }
             const sections = section.map((item) => ({
                 sectionTitle: item,
                 subheading: "",
@@ -87,10 +91,7 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
                             <input
                                 disabled={disableManualEntry}
                                 onChange={(e) => {
-                                    setSectionTitle((prev) => [
-                                        ...prev,
-                                        e.target.value,
-                                    ]);
+                                    setManualEntry(e.target.value);
                                 }}
                                 type='text'
                                 placeholder='Other'

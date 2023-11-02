@@ -3,6 +3,7 @@ const nextConfig = {
   images: {
     domains: ["agcnwo.com", "res.cloudinary.com"],
   },
+
 };
 
 module.exports = nextConfig;

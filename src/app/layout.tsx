@@ -1,12 +1,8 @@
 import LandingPageLayout from "@/components/layouts/landing";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "react-toastify/dist/ReactToastify.css";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import MainProvider from "@/providers/MainProvider";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: "Victoria AI",
