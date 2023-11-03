@@ -1,6 +1,6 @@
 "use client";
 import DashboardHeading from "@/components/shared/DashboardHeading";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { FiUploadCloud } from "react-icons/fi";
 import { UrlComponent } from "./UrlComponent";
@@ -15,6 +15,7 @@ import { singleUserPlan } from "@/lib/graphql-query";
 import axios, { AxiosProgressEvent } from "axios";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
+import { documentContext } from "@/contexts/ColorContext";
 
 interface Props {
   plans: Plans;
@@ -56,7 +57,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fileFormats = ["PDF"];
   const templateId = useSearchParams().get("template");
-
+  const { handleAllResumeSections } = useContext(documentContext);
   const formik = useFormik({
     onSubmit: async (values) => {
       const { data } = await axios.post(
@@ -69,8 +70,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
         }
       );
       // Just doing a console.log for now
-      console.log(data);
-      handleCreate();
+      handleCreate(data);
     },
     initialValues: {
       job_listing_url: "",
@@ -80,8 +80,6 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
     },
   });
 
-  console.log(uploadProgress);
-
   const onUploadProgress = (progressEvent: AxiosProgressEvent) => {
     const { loaded, total } = progressEvent;
     let percent = total && Math.floor((loaded * 100) / total);
@@ -89,6 +87,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
   };
 
   const handleFile = async (file: File) => {
+    console.log({ session });
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -105,7 +104,13 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
     }
   };
 
-  const handleCreate = async () => {
+  const handleCreate = async (response: any) => {
+    if (response.status == 200) {
+      console.log(response.coverletter);
+      handleAllResumeSections(response.coverletter);
+    } else {
+      throw new Error();
+    }
     setIsLoading(true);
     try {
       const data: any = await gqlQery(
@@ -134,6 +139,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
       }
       setIsLoading(false);
     } catch (error) {
+      console.log(error);
       setIsLoading(false);
       toast.error("Something went wrong. Please try again");
     }

@@ -123,31 +123,15 @@ export async function POST(req: NextRequest) {
     //   conclusionSchema
     // );
 
-    // const bio = await queryOpenAiToRefineResume(prompt(" bio "), documents[0]);
-    const about = await queryOpenAiToRefineResume(
-      `Extract   about section from this document. Dont use he , use I. dont say i dont now.`,
-      documents[0]
-    );
-    const education = await queryOpenAiToRefineResume(
-      `Extract   education section in bullets with course name and course duration from this document. Don't include my name or I. dont say i dont now.`,
-      documents[0]
-    );
-    const skills = await queryOpenAiToRefineResume(
-      `Extract   skill section from this document. each skill should be separated by | dont say i dont now.`,
-      documents[0]
-    );
-    const experience = await queryOpenAiToRefineResume(
-      `Extract   work experience section in bullets with job name and course duration from this document. Don't include my name or I.  dont say i dont now.`,
-      documents[0]
-    );
-    const contact = await queryOpenAiToRefineResume(
-      `Extract contact section from this document. give name , phone and email in a json format. dont say i dont now.`,
-      documents[0]
-    );
-    const conclusion = await queryOpenAiToRefineResume(
-      `Extract   conclusion section from this document. Dont use name , use I. dont say i dont now.`,
-      documents[0]
-    );
+    const {
+      greeting,
+      opener,
+      body1,
+      body2,
+      contact,
+      conclusion,
+      call_to_action,
+    } = await forCoverLetter(documents);
 
     // console.log({ bio, middle, bottom });
     //await createPineconeIndex(indexName);
@@ -182,18 +166,75 @@ export async function POST(req: NextRequest) {
     //   Dont say i dont know.`
     // );
     const data = {
-      about: about,
-      education: education,
-      skills: skills,
-      experience: experience,
-      contact: contact,
-      conclusion: conclusion,
+      status: 200,
+      coverletter: [
+        {
+          content: null,
+          heading: "Dear Hiring Manage",
+          sectionTitle: "Sub Header",
+          subheading: "[company name]",
+        },
+        {
+          content: null,
+          heading: "[First & Last Name], [ Job Title Applying To]",
+          sectionTitle: "Header / Contact Info",
+          subheading: "[phone number] — [email]",
+        },
+        {
+          content: greeting,
+          heading: "",
+          sectionTitle: "Greetings",
+          subheading: "",
+        },
+        {
+          content: opener,
+          heading: "",
+          sectionTitle: "Opener",
+          subheading: "",
+        },
+        {
+          content: body1,
+          heading: "",
+          sectionTitle: "Body 1",
+          subheading: "",
+        },
+        {
+          content: body2,
+          heading: "",
+          sectionTitle: "Body 2",
+          subheading: "",
+        },
+        // {
+        //   content: contact,
+        //   heading: "",
+        //   sectionTitle: "",
+        //   subheading: "",
+        // },
+        {
+          content: conclusion,
+          heading: "",
+          sectionTitle: "Conclusion",
+          subheading: "",
+        },
+        {
+          content: call_to_action,
+          heading: "",
+          sectionTitle: "Call to Action",
+          subheading: "",
+        },
+        {
+          content: null,
+          heading: "",
+          sectionTitle: "Signature",
+          subheading: "",
+        },
+      ],
     };
     console.log(" data is ", data);
     return NextResponse.json(data);
   } catch (err) {
     console.log("error: ", err);
-    return NextResponse.json({ error: err });
+    return NextResponse.json({ status: 500, error: err });
   }
 }
 
@@ -227,4 +268,81 @@ function parseJson(input: any) {
     console.log("error occured for this ", input);
     return {};
   }
+}
+
+async function forCoverLetter(documents: any[]) {
+  const greeting = await queryOpenAiToRefineResume(
+    `generate a  greeting section for a cover letter from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
+    documents[0]
+  );
+  const opener = await queryOpenAiToRefineResume(
+    `generate a  Opener section for a cover letter from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
+    documents[0]
+  );
+  const body1 = await queryOpenAiToRefineResume(
+    `generate a  body paragraph for a cover letter from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
+    documents[0]
+  );
+  const body2 = await queryOpenAiToRefineResume(
+    `generate a  middle paragraph for a cover letter from this document. Dont use he , use I.  Don't use \n as line breaker. dont say i dont now.`,
+    documents[0]
+  );
+  const contact = await queryOpenAiToRefineResume(
+    `Extract contact section from this document. give name , phone and email in a json format. Don't use \n as line breaker. dont say i dont now.`,
+    documents[0]
+  );
+  const conclusion = await queryOpenAiToRefineResume(
+    `generate a  conclusion section for a cover letter from this document. Dont use he , use I.. Don't use \n as line breaker. dont say i dont now.`,
+    documents[0]
+  );
+  const call_to_action = await queryOpenAiToRefineResume(
+    `generate a  call to action section for a cover letter from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
+    documents[0]
+  );
+
+  return {
+    greeting,
+    opener,
+    body1,
+    body2,
+    contact,
+    conclusion,
+    call_to_action,
+  };
+}
+
+async function forResume(documents: any[]) {
+  const about = await queryOpenAiToRefineResume(
+    `Extract   about section from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
+    documents[0]
+  );
+  const education = await queryOpenAiToRefineResume(
+    `Extract   education section in bullets with course name and course duration from this document. Don't include my name or I. Don't use \n as line breaker. dont say i dont now.`,
+    documents[0]
+  );
+  const skills = await queryOpenAiToRefineResume(
+    `Extract   skill section from this document. each skill should be separated by | Don't use \n as line breaker. dont say i dont now.`,
+    documents[0]
+  );
+  const experience = await queryOpenAiToRefineResume(
+    `Extract   work experience section in bullets with job name and course duration from this document. Don't include my name or I.  Don't use \n as line breaker. dont say i dont now.`,
+    documents[0]
+  );
+  const contact = await queryOpenAiToRefineResume(
+    `Extract contact section from this document. give name , phone and email in a json format. Don't use \n as line breaker. dont say i dont now.`,
+    documents[0]
+  );
+  const conclusion = await queryOpenAiToRefineResume(
+    `Extract   conclusion section from this document. Dont use name , use I. Don't use \n as line breaker. dont say i dont now.`,
+    documents[0]
+  );
+
+  return {
+    contact,
+    education,
+    experience,
+    skills,
+    conclusion,
+    about,
+  };
 }
