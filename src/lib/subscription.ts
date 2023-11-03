@@ -1,7 +1,8 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 import axios from "axios";
 import { getServerSession } from "next-auth";
 import { stripe } from "./stripe";
+import { authOptions } from "./auth";
 export async function getUserSubscriptionPlan()
 {
 
