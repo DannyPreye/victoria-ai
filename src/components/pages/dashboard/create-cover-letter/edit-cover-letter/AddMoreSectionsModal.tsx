@@ -3,6 +3,7 @@ import Modal from "@/components/shared/Modal";
 import { documentContext } from "@/contexts/ColorContext";
 import { TemplateSection } from "@/lib/types";
 import { Label } from "@radix-ui/react-label";
+import { escape } from "querystring";
 import React, { useContext, useState } from "react";
 import { BiPlus } from "react-icons/bi";
 
@@ -65,13 +66,10 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
                                 className='flex items-center gap-[14px]'
                             >
                                 <CheckBox
+                                    sectionTitle={sectionTitle}
+                                    section={section}
                                     id={section.split(" ").join("-")}
-                                    onChange={() =>
-                                        setSectionTitle((prev) => [
-                                            ...prev,
-                                            section,
-                                        ])
-                                    }
+                                    setSectionTitle={setSectionTitle}
                                 />
                                 <label
                                     htmlFor={section.split(" ").join("-")}
@@ -85,7 +83,8 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
                             <CheckBox
                                 onChange={() => {
                                     setDisableManualEntry((prev) => !prev);
-                                }}
+                                } }
+                                isManual={true}
                                 id='other'
                             />
                             <input
@@ -114,11 +113,35 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
 export default AddMoreSectionsModal;
 
 interface CheckBoxProps {
-    onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
+    onChange?: React.ChangeEventHandler<HTMLInputElement> | undefined;
     id: string;
+    section?: string;
+    sectionTitle?: string[];
+    setSectionTitle?: React.Dispatch<React.SetStateAction<string[]>>;
+    isManual?: boolean;
 }
-const CheckBox = ({ onChange, id }: CheckBoxProps) => {
+const CheckBox = ({
+    onChange,
+    id,
+    sectionTitle,
+    section,
+    setSectionTitle,
+    isManual,
+}: CheckBoxProps) => {
     const [isSelected, setIsSelected] = useState(false);
+
+    const handleChange = () => {
+        if (section && sectionTitle && setSectionTitle) {
+            if (!sectionTitle.includes(section)) {
+                setSectionTitle((prev) => [...prev, section]);
+            } else {
+                const filterOutCurrentSection = sectionTitle.filter(
+                    (item) => item !== section
+                );
+                setSectionTitle(filterOutCurrentSection);
+            }
+        }
+    };
     return (
         <label
             className={`h-[20px] w-[20px] rounded-[5px] border-[1px] border-base-primary-green ${
@@ -129,7 +152,7 @@ const CheckBox = ({ onChange, id }: CheckBoxProps) => {
             <input
                 onChange={(e) => {
                     setIsSelected((prev) => !prev);
-                    onChange && onChange(e);
+                    onChange && isManual ? onChange(e) : handleChange();
                 }}
                 type='checkbox'
                 hidden
