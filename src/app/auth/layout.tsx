@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { authOptions } from "@/lib/auth";
 interface Props {
     children: ReactNode;
 }
