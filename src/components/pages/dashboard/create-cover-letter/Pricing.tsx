@@ -12,7 +12,6 @@ import { Circles } from "react-loader-spinner";
 interface PricingProps {
     isModalOpen: boolean;
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    plans: Plans;
     callbackURL: string;
     templateId?: string;
 }
@@ -28,6 +27,8 @@ const Pricing = ({
     const subcriptionPlan = async () => await getUserSubscriptionPlan();
     const [plans, setPlans] = useState<any>([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    console.log(isModalOpen, isLoading, "Hello you trigged me");
 
     const fetchPlans = async () => {
         setIsLoading(true);
