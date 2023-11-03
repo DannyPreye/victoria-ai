@@ -56,9 +56,10 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
                     onClick={(e) => e.stopPropagation()}
                     className='w-[90%] pt-[60px] pb-[45px] max-w-[964px] flex flex-col items-center h-fit bg-white rounded-[20px]'
                 >
-                    <p className='text-[20px] leading-[40px] font-[600] text-center'>
+                    <p className='text-[30px] leading-[40px] font-[600] text-center'>
                         Additional Sections
                     </p>
+                    <p>Select up to 4</p>
                     <div className='grid lg:grid-cols-2 gap-[14px] pt-[86px]'>
                         {additionalSections?.map((section, id) => (
                             <div
@@ -83,7 +84,7 @@ const AddMoreSectionsModal = ({ setIsModalOpen, isModalOpen }: Props) => {
                             <CheckBox
                                 onChange={() => {
                                     setDisableManualEntry((prev) => !prev);
-                                } }
+                                }}
                                 isManual={true}
                                 id='other'
                             />
