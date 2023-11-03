@@ -3,6 +3,7 @@ import Button from "@/components/shared/Button";
 import React, { useState } from "react";
 import { IconType } from "react-icons";
 import { ImPencil } from "react-icons/im";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { VscKey } from "react-icons/vsc";
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -54,10 +55,16 @@ const SecurityPage = () => {
                     toast.success("Password has successfully been changed");
                 }
             } catch (error) {
+                console.log(error);
                 setIsLoading(false);
-                toast.error("Something went wrong");
+                if (axios.isAxiosError(error)) {
+                    toast.error(error.response?.data?.error?.message);
+                } else {
+                    toast.error("Something went wrong");
+                }
             }
         },
+        validationSchema,
     });
 
     return (
@@ -86,10 +93,10 @@ const SecurityPage = () => {
                     placeholder='Enter Current Password'
                     label='Current Password'
                     isError={
-                        formik.touched.password &&
-                        Boolean(formik.errors.password)
+                        formik.touched.currentPassword &&
+                        Boolean(formik.errors.currentPassword)
                     }
-                    errorMessage={formik.errors.password}
+                    errorMessage={formik.errors.currentPassword}
                 />
                 <InputElement
                     onChange={formik.handleChange}
@@ -114,13 +121,14 @@ const SecurityPage = () => {
                     placeholder='Confirm New Password'
                     label='Confirm New Password'
                     isError={
-                        formik.touched.password &&
-                        Boolean(formik.errors.password)
+                        formik.touched.passwordConfirmation &&
+                        Boolean(formik.errors.passwordConfirmation)
                     }
-                    errorMessage={formik.errors.password}
+                    errorMessage={formik.errors.passwordConfirmation}
                 />
                 <div className='flex justify-end items-center gap-[24px] '>
                     <Button
+                        onClick={() => formik.resetForm()}
                         title='Cancel'
                         type='button'
                         isTransparent
@@ -156,6 +164,7 @@ const InputElement = ({
     errorMessage,
     onBlur,
 }: InputProps) => {
+    const [showPassword, setShowPassword] = useState(false);
     return (
         <div className='grid gap-[12px] w-full'>
             <label
@@ -174,11 +183,21 @@ const InputElement = ({
                     onBlur={onBlur}
                     value={value}
                     onChange={onChange}
-                    type='password'
+                    type={showPassword ? "text" : "password"}
                     placeholder={placeholder}
                     id={id}
                     className='flex-1 bg-transparent border-none outline-none'
                 />
+                <div
+                    className='text-[1.3rem] cursor-pointer'
+                    onClick={() => setShowPassword((prev) => !prev)}
+                >
+                    {showPassword ? (
+                        <AiOutlineEyeInvisible />
+                    ) : (
+                        <AiOutlineEye />
+                    )}
+                </div>
             </div>
             {isError && errorMessage && (
                 <p className='text-red-500 font-inter text-[12px] '>

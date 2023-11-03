@@ -40,15 +40,16 @@ const PreferencesPage = ({ plans }: Props) => {
             }
         } catch (error) {
             setIsLoading(false);
+
             console.log(error);
         }
     };
 
+    console.log(isModalOpen);
+
     useEffect(() => {
         fetchUserPlan();
     }, [session?.user.id]);
-
-
 
     return (
         <div>
@@ -65,7 +66,9 @@ const PreferencesPage = ({ plans }: Props) => {
                     style={{
                         boxShadow: "0px 1px 2px 0px rgba(43, 37, 17, 0.05)",
                     }}
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={() => {
+                        setIsModalOpen(true);
+                    }}
                     className=' px-[16px] py-[10px] w-fit rounded-[8px] border-neutrals-500
                 flex gap-[8px] text-[14px] font-[500] leading-[120% border-[1px] bg-white items-center '
                 >
@@ -130,18 +133,19 @@ const PreferencesPage = ({ plans }: Props) => {
                             )}
                         </div>
                     </div>
-                    <Pricing
-                        plans={plans}
-                        isModalOpen={isModalOpen}
-                        setIsModalOpen={setIsModalOpen}
-                        callbackURL='/dashboard/settings/preferences'
-                    />
                 </div>
             ) : (
                 <div className='mt-[48px] p-16 border-[2px] rounded-[8px] border-gray-200 overflow-hidden'>
                     <p>You are not on any active plan. Please select a plan </p>
                 </div>
             )}
+
+            <Pricing
+                // plans={plans}
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+                callbackURL='/dashboard/settings/preferences'
+            />
         </div>
     );
 };

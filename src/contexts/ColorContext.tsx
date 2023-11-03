@@ -26,7 +26,13 @@ const ColorContextProvider = ({ children }: Props) => {
         setCurrentColor(color);
     };
     const handleAddMoreSections = (sections: TemplateSection[]) => {
-        console.log(defaultResumeSections.length, resumeSections.length);
+        // console.log(defaultResumeSections.length, resumeSections.length);
+        // console.log(sections)
+        if (sections.length > 4) {
+            toast.error("You cannot add more than 4 additional sections");
+            sections = [];
+            return;
+        }
         for (const section of sections) {
             if (
                 resumeSections.some(
@@ -37,11 +43,12 @@ const ColorContextProvider = ({ children }: Props) => {
                 toast.error(
                     `Duplicate section '${section.sectionTitle}' is not allowed.`
                 );
-            } else if (
-                defaultResumeSections.length + 4 ==
-                resumeSections.length
-            ) {
-                toast.error("You can add a maximum of 4 additional sections.");
+                sections = [];
+                break;
+            }
+            if (resumeSections.length >= defaultResumeSections.length + 4) {
+                toast.error("You cannot add more than 4 additional sections");
+                sections = [];
                 break; // Exit the loop if the limit is reached
             } else {
                 setResumeSections((prev) => [...prev, section]);
