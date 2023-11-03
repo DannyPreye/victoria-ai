@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
     // const fileUrl =
     //   "https://drive.google.com/uc?export=download&id=17plAwqxhHNX2wI2JHkFMfTvcy2-MYpRC";
 
-    //console.log("document_url is ", document_url);
+    console.log("document_url is ", document_url);
     const blob = await fetch(document_url)
       .then(async (response) => await response.blob())
 
