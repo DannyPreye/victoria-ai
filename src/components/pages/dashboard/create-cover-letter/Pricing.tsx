@@ -28,8 +28,6 @@ const Pricing = ({
     const [plans, setPlans] = useState<any>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    console.log(isModalOpen, isLoading, "Hello you trigged me");
-
     const fetchPlans = async () => {
         setIsLoading(true);
         try {

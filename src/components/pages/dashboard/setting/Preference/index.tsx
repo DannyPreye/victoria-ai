@@ -45,7 +45,6 @@ const PreferencesPage = ({ plans }: Props) => {
         }
     };
 
-    console.log(isModalOpen);
 
     useEffect(() => {
         fetchUserPlan();
