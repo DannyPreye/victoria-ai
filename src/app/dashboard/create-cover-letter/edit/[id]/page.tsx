@@ -22,13 +22,15 @@ const page = async ({ params }: Props) => {
     try {
         // template = await gqlQery(getSingleTemplate(id), session?.jwt);
         const { data } = await axios.get(
-            `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/document/${id}`,
+            `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/user-documents/${id}?populate=template.coverLetter.sections,template.coverLetter.previewImage,template.resume.sections,template.resume.previewImage`,
             {
                 headers: {
                     Authorization: `Bearer ${session?.jwt}`,
                 },
             }
         );
+
+        console.log(data);
         template = data.data;
     } catch (error) {
         console.log("This is the error", error);

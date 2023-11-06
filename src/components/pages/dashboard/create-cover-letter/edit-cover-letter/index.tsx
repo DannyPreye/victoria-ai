@@ -68,7 +68,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
     };
 
     useEffect(() => {
-        handleAllResumeSections(data?.template?.resume?.sections);
+        handleAllResumeSections(data?.attributes?.template?.resume?.sections);
     }, []);
 
     console.log(resumeSections);
@@ -80,7 +80,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                     setCurrentSection={setCurrentSection}
                     setOpenSections={setOpenSections}
                     currentTab={currentTab}
-                    sections={data?.template?.coverLetter?.sections}
+                    sections={data?.attributes?.template?.coverLetter?.sections}
                     currentSection={currentSection}
                 />
             ) : (
@@ -189,7 +189,10 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                                 key={"Cover Letter"}
                                 setCurrentSection={setCurrentSection}
                                 currentSection={currentSection}
-                                sections={data?.template.coverLetter.sections}
+                                sections={
+                                    data?.attributes?.template.coverLetter
+                                        .sections
+                                }
                             />,
                             <ResumeContent
                                 key={"Resume"}
@@ -205,7 +208,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
 
             <MobileModal
                 currentTab={currentTab}
-                sections={data?.template.coverLetter.sections}
+                sections={data?.attributes?.template.coverLetter.sections}
                 resumeSections={resumeSections}
                 setCurrentSection={setCurrentSection}
                 openSection={openSections}
@@ -214,7 +217,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
             {openModal && (
                 <DeleteModal
                     isModalOpen={openModal}
-                    projectName={data?.title}
+                    projectName={data?.attributes?.title}
                     handleDelete={handleDeleteCoverLetter}
                     setIsModalOpen={setOpenModal}
                 />
