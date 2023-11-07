@@ -21,7 +21,7 @@ const MyCoverLetterPage = () => {
     const getUserDocs = async () => {
         try {
             const { data } = await axios.get(
-                `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/documents`,
+                `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/documents?filters[users_permissions_user][$eq]=${session?.user.id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${session?.jwt}`,

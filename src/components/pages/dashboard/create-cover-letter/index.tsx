@@ -66,18 +66,33 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
         onSubmit: async (values) => {
             setIsLoading(true);
             if (fileUrl) {
-                const { data } = await axios.post(
-                    `/api/cover-letter`,
-                    { ...values, document_url: fileUrl },
+                await toast.promise(
+                    async () => {
+                        const { data } = await axios.post(
+                            `/api/cover-letter`,
+                            { ...values, document_url: fileUrl },
+                            {
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                            }
+                        );
+                        if (data) {
+                            handleCreate(data);
+                            setIsLoading(false);
+                        } else {
+                            setIsLoading(false);
+                        }
+                    },
                     {
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
+                        pending:
+                            "Your letter and resume are being populated, this can take a little time",
+                        success:
+                            "Congratulation! document has been succefully generated",
+                        error:"Something went wrong while trying to generate documents. Please try again"
                     }
                 );
                 // Just doing a console.log for now
-                handleCreate(data);
-                setIsLoading(false);
             } else {
                 setIsLoading(false);
                 toast.error("Please upload a resume");

@@ -53,6 +53,8 @@ export const authOptions: NextAuthOptions = {
                         );
                         const parsed_user_data = await user_data.json();
 
+                        console.log(parsed_user_data);
+
                         return {
                             ...parsed_user_data,
                             profile_picture: parsed_user_data?.profile_picture?.url,
