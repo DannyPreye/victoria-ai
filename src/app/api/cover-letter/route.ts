@@ -271,43 +271,36 @@ function parseJson(input: any) {
 }
 
 async function forCoverLetter(documents: any[]) {
-  const greeting = await queryOpenAiToRefineResume(
-    `generate a  greeting section for a cover letter from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
-    documents[0]
-  );
-  const opener = await queryOpenAiToRefineResume(
-    `generate a  Opener section for a cover letter from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
-    documents[0]
-  );
-  const body1 = await queryOpenAiToRefineResume(
-    `generate a  body paragraph for a cover letter from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
-    documents[0]
-  );
-  const body2 = await queryOpenAiToRefineResume(
-    `generate a  middle paragraph for a cover letter from this document. Dont use he , use I.  Don't use \n as line breaker. dont say i dont now.`,
-    documents[0]
-  );
-  const contact = await queryOpenAiToRefineResume(
+  const queries = [
+    `generate a greeting section for a cover letter from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
+    `generate a Opener section for a cover letter from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
+    `generate a body paragraph for a cover letter from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
+    `generate a middle paragraph for a cover letter from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
     `Extract contact section from this document. give name , phone and email in a json format. Don't use \n as line breaker. dont say i dont now.`,
-    documents[0]
-  );
-  const conclusion = await queryOpenAiToRefineResume(
-    `generate a  conclusion section for a cover letter from this document. Dont use he , use I.. Don't use \n as line breaker. dont say i dont now.`,
-    documents[0]
-  );
-  const call_to_action = await queryOpenAiToRefineResume(
-    `generate a  call to action section for a cover letter from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
-    documents[0]
-  );
+    `generate a conclusion section for a cover letter from this document. Dont use he , use I.. Don't use \n as line breaker. dont say i dont now.`,
+    `generate a call to action section for a cover letter from this document. Dont use he , use I. Don't use \n as line breaker. dont say i dont now.`,
+  ];
+
+  const promises = queries.map(async (query) => {
+    try {
+      return await queryOpenAiToRefineResume(query, documents[0]);
+    } catch (error) {
+      // Handle the error here, you can log it or take other actions.
+      console.error(`Error in promise: ${error}`);
+      return ""; // Return a placeholder value
+    }
+  });
+
+  const results = await Promise.all(promises);
 
   return {
-    greeting,
-    opener,
-    body1,
-    body2,
-    contact,
-    conclusion,
-    call_to_action,
+    greeting: results[0],
+    opener: results[1],
+    body1: results[2],
+    body2: results[3],
+    contact: results[4],
+    conclusion: results[5],
+    call_to_action: results[6],
   };
 }
 
