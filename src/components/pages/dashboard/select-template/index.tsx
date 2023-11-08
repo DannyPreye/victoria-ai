@@ -76,12 +76,12 @@ const EachTemplate = ({ template }: EachTemplateProps) => {
                 <div className='relative w-[50%] h-full '>
                     <Image
                         src={
-                            template.attributes.template?.coverLetter
+                            template?.attributes?.template?.coverLetter
                                 ?.previewImage.data.attributes.url
                         }
                         fill
                         alt={
-                            template.attributes.template?.coverLetter
+                            template?.attributes.template?.coverLetter
                                 ?.previewImage.data.attributes
                                 .alternativeText as string
                         }
