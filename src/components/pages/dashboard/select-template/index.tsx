@@ -77,12 +77,12 @@ const EachTemplate = ({ template }: EachTemplateProps) => {
                     <Image
                         src={
                             template?.attributes?.template?.coverLetter
-                                ?.previewImage.data.attributes.url
+                                ?.previewImage.data?.attributes.url
                         }
                         fill
                         alt={
                             template?.attributes.template?.coverLetter
-                                ?.previewImage.data.attributes
+                                ?.previewImage?.data?.attributes
                                 .alternativeText as string
                         }
                         className='object-contain'
