@@ -22,7 +22,6 @@ const SelectTemplatePage = () => {
                 setIsLoading(true);
                 const data = await gqlQery(queryTemplates, session?.jwt);
                 setTemplates(data.templates);
-                console.log(data);
             }
             setIsLoading(false);
         } catch (error) {
@@ -34,9 +33,6 @@ const SelectTemplatePage = () => {
     useEffect(() => {
         getCoverLetters();
     }, [session?.jwt]);
-
-    console.log(session);
-    console.log(templates);
 
     return (
         <div>
@@ -68,7 +64,6 @@ interface EachTemplateProps {
     template: any;
 }
 const EachTemplate = ({ template }: EachTemplateProps) => {
-    console.log("This is the template", template);
     const router = useRouter();
     return (
         <div className='grid gap-[16px] w-full '>
