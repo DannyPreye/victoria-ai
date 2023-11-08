@@ -161,12 +161,12 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                                 }}
                                 className='w-[184px] bg-white grid gap-[12px] absolute bottom-[-215.20%] text-[#15294B] px-[16px] rounded-[3px] right-0'
                             >
-                                <p className='py-[8px] text-[14px] leading-[140%] font-[400] '>
+                                <button className='py-[8px] text-[14px] leading-[140%] font-[400] '>
                                     Publish PDF
-                                </p>
-                                <p className='py-[8px] text-[14px] leading-[140%] font-[400] '>
+                                </button>
+                                <button className='py-[8px] text-[14px] leading-[140%] font-[400] '>
                                     Publish to Word
-                                </p>
+                                </button>
                             </div>
                         )}
                     </div>
@@ -251,7 +251,6 @@ const SectionsMenu = ({
     currentTab,
     setModalOpen,
 }: SectionsMenuProps) => {
-    console.log(sections);
     return (
         <div className='lg:px-[16px] lg:py-[42px] h-full lg:border-r-[1px]'>
             <div className='flex gap-[24px] px-[16px] py-[12px] lg:px-0 border-b-[1px] lg:border-b-0 items-center'>

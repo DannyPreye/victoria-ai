@@ -22,6 +22,7 @@ const SelectTemplatePage = () => {
                 setIsLoading(true);
                 const data = await gqlQery(queryTemplates, session?.jwt);
                 setTemplates(data.templates);
+                console.log(data);
             }
             setIsLoading(false);
         } catch (error) {
@@ -34,6 +35,7 @@ const SelectTemplatePage = () => {
         getCoverLetters();
     }, [session?.jwt]);
 
+    console.log(session);
     console.log(templates);
 
     return (
@@ -74,13 +76,14 @@ const EachTemplate = ({ template }: EachTemplateProps) => {
                 <div className='relative w-[50%] h-full '>
                     <Image
                         src={
-                            template.attributes.template?.coverLetter?.previewImage.data
-                                .attributes.url
+                            template.attributes.template?.coverLetter
+                                ?.previewImage.data.attributes.url
                         }
                         fill
                         alt={
-                            template.attributes.template?.coverLetter?.previewImage.data
-                                .attributes.alternativeText as string
+                            template.attributes.template?.coverLetter
+                                ?.previewImage.data.attributes
+                                .alternativeText as string
                         }
                         className='object-contain'
                     />

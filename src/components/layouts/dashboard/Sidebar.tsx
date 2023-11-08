@@ -18,7 +18,7 @@ const dashboardLinks = [
         link: "/dashboard",
     },
     {
-        title: "My Document",
+        title: "My Documents",
         icon: "/assets/icons/text-snippet.png",
         link: "/dashboard/my-cover-letters",
     },
@@ -49,7 +49,7 @@ const Sidebar = ({ minimizeSideBar }: Props) => {
                     priority
                     width={31.928}
                     height={31.928}
-                    src='/logo.png'
+                    src='/insta.png'
                     alt='insta apply'
                 />
                 {!minimizeSideBar || !checkEdit ? (

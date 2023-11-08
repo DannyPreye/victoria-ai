@@ -77,6 +77,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                                 },
                             }
                         );
+                        setIsLoading(false)
                         if (data) {
                             handleCreate(data);
                             setIsLoading(false);
@@ -92,6 +93,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                         error:"Something went wrong while trying to generate documents. Please try again"
                     }
                 );
+                setIsLoading(false)
                 // Just doing a console.log for now
             } else {
                 setIsLoading(false);
