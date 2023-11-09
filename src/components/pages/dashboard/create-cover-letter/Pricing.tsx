@@ -104,12 +104,6 @@ const Pricing = ({
                         </div>
                     )}
                     <div className='text-[20px] text-center text-gray-600 font-[400] my-4 leading-[30px]'>
-                        {/* <p className=' '>
-                            <span className='text-bold r'> IMPORTANT:</span>
-                            Each cover letter stays on your account for 72 hours
-                            post-creation. Please edit and publish within this
-                            period!
-                        </p> */}
                         <p>All documents are deleted after 60 days.</p>
                     </div>
                 </div>

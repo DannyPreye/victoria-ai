@@ -158,9 +158,6 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
 
     const handleCreate = async (response: any) => {
         if (response.status == 200) {
-            // console.log(response);
-            // console.log(response.coverletter);
-            // handleAllResumeSections(response.coverletter);
             try {
                 const data: any = await gqlQery(
                     singleUserPlan(session?.user.id as string),

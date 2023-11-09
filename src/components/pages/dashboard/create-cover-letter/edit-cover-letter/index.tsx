@@ -34,6 +34,9 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
     const router = useRouter();
     const [currentTab, setCurrentTab] = useState(0);
     const [moreSectionModal, setMoreSectionModal] = useState(false);
+    const [addProfilePics, setAddProfilePics] = useState(
+        data?.attributes?.addProfilePicture || false
+    );
     const {
         handleChangeColor,
         handleAllResumeSections,
@@ -43,7 +46,14 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
 
     console.log(data);
 
-    const colors = ["#0D646B", "#025084", "#072446", "#E1C67E", "#333"];
+    const colors = [
+        "#000000",
+        "#0a3f86",
+        "#6ab3e4",
+        "#609f82",
+        "#404564",
+        "#800020",
+    ];
 
     const handleDeleteCoverLetter = async () => {
         const res = await toast.promise(
@@ -70,8 +80,6 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
     useEffect(() => {
         handleAllResumeSections(data?.attributes?.template?.resume?.sections);
     }, []);
-
-    console.log(resumeSections);
 
     return (
         <div className='flex lg:flex-row flex-col '>
@@ -299,4 +307,15 @@ const SectionsMenu = ({
             )}
         </div>
     );
+};
+
+const AddPhotoSwitch = ({
+    checkProfilePics,
+}: {
+    checkProfilePics: boolean;
+}) => {
+    const [isTrue, setIsTrue] = useState(false);
+    return <div className=' w-[100px] h-[10px] rounded-[20px] bg-gray-300 relative'>
+
+    </div>;
 };

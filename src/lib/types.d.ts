@@ -94,3 +94,25 @@ type ResponseStructureTemplate = {
 };
 //********************************************
 
+
+
+export type DisplayTemplate = {
+    attributes: {
+        addProfilePicture: boolean,
+        createdAt: string,
+        updatedAt: string,
+        publishedAt: string,
+        companyName: string | undefined,
+        color: '#0000',
+        templateType: string,
+        template: Template,
+        profilePicture: {
+            data: {
+                attributes: {
+                    url: string;
+                };
+            };
+        };
+    };
+
+};

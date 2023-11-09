@@ -124,7 +124,7 @@ export const EachPricing = ({
                     <div key={id} className='flex gap-[12px] items-center'>
                         <HiOutlineCheckCircle
                             size={24}
-                            className='text-success-600'
+                            className='text-success-600 flex-shrink-0'
                         />
                         <span className='text-gray-600 leading-[24px] font-inter text-[16px]'>
                             {benefit.text}
