@@ -43,6 +43,10 @@ const Pricing = ({
         fetchPlans();
     }, []);
 
+    const sortPlans = (a: any, b: any) => {
+        return a.id - b.id;
+    };
+
     return (
         <Modal>
             <div
@@ -83,26 +87,29 @@ const Pricing = ({
                         </div>
                     ) : (
                         <div className='flex lg:flex-nowrap flex-wrap justify-center gap-[32px]'>
-                            {plans.plans?.data?.map((item: any, id: any) => (
-                                <EachPricing
-                                    plan={item}
-                                    index={id}
-                                    callbackURL={callbackURL}
-                                    user={session?.user}
-                                    templateId={templateId as string}
-                                    subscriptionPlan={subcriptionPlan}
-                                    key={`pricing_${id}`}
-                                />
-                            ))}
+                            {plans?.plans?.data
+                                .slice() //This makes a shallow copy of the array to prevent error when sorting
+                                .sort(sortPlans)
+                                ?.map((item: any, id: any) => (
+                                    <EachPricing
+                                        plan={item}
+                                        index={id}
+                                        callbackURL={callbackURL}
+                                        user={session?.user}
+                                        templateId={templateId as string}
+                                        subscriptionPlan={subcriptionPlan}
+                                        key={`pricing_${id}`}
+                                    />
+                                ))}
                         </div>
                     )}
                     <div className='text-[20px] text-center text-gray-600 font-[400] my-4 leading-[30px]'>
-                        <p className=' '>
+                        {/* <p className=' '>
                             <span className='text-bold r'> IMPORTANT:</span>
                             Each cover letter stays on your account for 72 hours
                             post-creation. Please edit and publish within this
                             period!
-                        </p>
+                        </p> */}
                         <p>All documents are deleted after 60 days.</p>
                     </div>
                 </div>
