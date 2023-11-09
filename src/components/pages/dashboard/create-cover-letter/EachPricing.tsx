@@ -121,7 +121,7 @@ export const EachPricing = ({
             </button>
             <div className='mt-[32px] grid gap-[16px] border-t-[1px] border-gray-[200] py-[32px]'>
                 {plan.attributes.benefits.map((benefit, id) => (
-                    <div key={id} className='flex gap-[12px] items-center'>
+                    <div key={id} className='flex gap-[12px] items-start'>
                         <HiOutlineCheckCircle
                             size={24}
                             className='text-success-600 flex-shrink-0'
