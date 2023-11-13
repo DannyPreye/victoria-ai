@@ -315,7 +315,7 @@ const AddPhotoSwitch = ({
     checkProfilePics: boolean;
 }) => {
     const [isTrue, setIsTrue] = useState(false);
-    return <div className=' w-[100px] h-[10px] rounded-[20px] bg-gray-300 relative'>
-
-    </div>;
+    return (
+        <div className=' w-[100px] h-[10px] rounded-[20px] bg-gray-300 relative'></div>
+    );
 };
