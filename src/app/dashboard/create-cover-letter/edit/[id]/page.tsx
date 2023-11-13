@@ -1,7 +1,12 @@
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import EditCoverLetterPage from "@/components/pages/dashboard/create-cover-letter/edit-cover-letter";
 import { gqlQery } from "@/config/graphql.config";
-import { getSingleTemplate, getUserDocumentById } from "@/lib/graphql-query";
+import {
+    getSingleTemplate,
+    getSingleUserDocument,
+    getTemplates,
+    getUserDocumentById,
+} from "@/lib/graphql-query";
 import { TemplateData } from "@/lib/types";
 import axios from "axios";
 import { Session } from "next-auth";
@@ -21,13 +26,18 @@ const page = async ({ params }: Props) => {
 
     try {
         // template = await gqlQery(getSingleTemplate(id), session?.jwt);
-        const { data } = await axios.get(
-            `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/user-documents/${id}?populate=template.coverLetter.sections,template.coverLetter.previewImage,template.resume.sections,template.resume.previewImage,profilePicture.url,addProfilePicture`,
-            {
-                headers: {
-                    Authorization: `Bearer ${session?.jwt}`,
-                },
-            }
+        // const { data } = await axios.get(
+        //     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/user-documents/${id}?populate=template.coverLetter.sections,template.coverLetter.previewImage,template.resume.sections,template.resume.previewImage,profilePicture.url,addProfilePicture`,
+        //     {
+        //         headers: {
+        //             Authorization: `Bearer ${session?.jwt}`,
+        //         },
+        //     }
+        // );
+
+        const data = await gqlQery(
+            getSingleUserDocument(session?.user.id as string),
+            session?.jwt
         );
 
         console.log(data);
@@ -42,11 +52,11 @@ const page = async ({ params }: Props) => {
 
     return (
         <div>
-            <EditCoverLetterPage
+            {/* <EditCoverLetterPage
                 id={template?.id}
                 session={session as Session}
                 template={template}
-            />
+            /> */}
         </div>
     );
 };

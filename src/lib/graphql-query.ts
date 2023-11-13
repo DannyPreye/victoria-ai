@@ -303,3 +303,220 @@ userDocument(id:${IDBCursorWithValue}){
   }
 }
 }`;
+
+
+export const getUserDocuments = (userId: string, page?: number) => `query{
+  userDocuments(filters:{users_permissions_user:{id:{eq:${userId}}}} pagination:{page:1, pageSize:${page || 1}}){
+    data{
+      id
+      attributes{
+        companyName
+        template{
+          resume{
+            previewImage{
+              data{
+                attributes{
+                  url
+                  alternativeText
+                }
+              }
+            }
+          }
+          coverLetter{
+            previewImage{
+              data{
+                attributes{
+                  url
+                  alternativeText
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    meta{
+      pagination{
+        page
+        pageSize
+        pageCount
+        total
+      }
+    }
+  }
+}`;
+
+
+export const getTemplates = (page: number) => `query{
+  templates(pagination:{page:${page}, pageSize:10}){
+    data{
+      id
+      attributes{
+        title
+        template{
+          resume{
+            previewImage{
+              data{
+                attributes{
+                  url
+                  alternativeText
+                }
+              }
+            }
+          }
+          coverLetter{
+            previewImage{
+              data{
+                attributes{
+                  url
+                  alternativeText
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    meta{
+      pagination{
+        page
+        pageSize
+        pageCount
+        total
+      }
+    }
+  }
+}`;
+
+export const getSingleUserDocument = (docId: string) => `query{
+userDocument(id:${docId}){
+  data{
+    attributes{
+      addProfilePicture
+      companyName
+      color
+      profilePicture{
+        data{
+          attributes{
+            url
+            alternativeText
+          }
+        }
+      }
+      template{
+        resume{
+        sections{
+          heading{
+            username
+            professionalTitle
+            contact{
+              email
+              phone
+              socialLinks
+            }
+          }
+          professionalSummary
+          education
+          workExperience
+          otherSections
+          skills
+          reference
+        }
+        }
+        coverLetter{
+          sections{
+            heading{
+              username
+              contact{
+                email
+                phone
+                socialLinks
+              }
+              professionalTitle
+
+            }
+            greetings
+            opener
+            body_1
+            body_2
+            body_3
+            conclusion
+            call_to_action
+            signature
+          }
+        }
+      }
+    }
+  }
+}
+}`;
+
+export const getSingleTemplateWithId = (templateId: string) => `query{
+template(id:${templateId}){
+  data{
+    attributes{
+      title
+      template{
+        resume{
+              previewImage{
+            data{
+              attributes{
+                url
+                alternativeText
+                name
+              }
+            }
+          }
+              sections{
+          heading{
+            username
+            professionalTitle
+            contact{
+              email
+              phone
+              socialLinks
+            }
+          }
+          professionalSummary
+          education
+          workExperience
+          otherSections
+          skills
+          reference
+        }
+        }
+           coverLetter{
+                previewImage{
+            data{
+              attributes{
+                url
+                alternativeText
+                name
+              }
+            }
+          }
+          sections{
+            heading{
+              username
+              contact{
+                email
+                phone
+                socialLinks
+              }
+              professionalTitle
+            }
+            greetings
+            opener
+            body_1
+            body_2
+            body_3
+            conclusion
+            call_to_action
+            signature
+          }
+        }
+      }
+    }
+  }
+}
+}`;

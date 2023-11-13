@@ -11,15 +11,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Button from "../../auth/Shared/Button";
 import { useSession } from "next-auth/react";
 import { gqlQery } from "@/config/graphql.config";
-import { singleUserPlan } from "@/lib/graphql-query";
+import { getSingleTemplateWithId, singleUserPlan } from "@/lib/graphql-query";
 import axios, { AxiosProgressEvent } from "axios";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import { documentContext } from "@/contexts/ColorContext";
 import fetchTemplate from "@/lib/functions/fetchTemplats";
+import { cleangqlResponse } from "@/lib/functions/cleanGqlResponse";
 
 interface Props {
-    plans: Plans;
+    // plans: Plans;
 }
 
 const createCoverletterRadiobuttons = [
@@ -46,7 +47,7 @@ const createCoverletterRadiobuttons = [
     },
 ];
 
-const CreateCoverLetterPage = ({ plans }: Props) => {
+const CreateCoverLetterPage = ({}: Props) => {
     const [fileName, setFileName] = useState<string>();
     const [fileUrl, setFileUrl] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -56,6 +57,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
     const [resumeTemplate, setResumeTemplate] = useState<any>();
     const [coverLetterTemplate, setCoverLetterTemplate] = useState<any>();
     const [templateLoading, setTemplateLoading] = useState(true);
+    const [templateTitle, setTemplateTitle] = useState("");
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const fileFormats = ["PDF"];
@@ -69,7 +71,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                 await toast.promise(
                     async () => {
                         const { data } = await axios.post(
-                            `/api/cover-letter`,
+                            `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/generate-document`,
                             { ...values, document_url: fileUrl },
                             {
                                 headers: {
@@ -77,6 +79,7 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                                 },
                             }
                         );
+                        console.log(data);
                         setIsLoading(false);
                         if (data) {
                             handleCreate(data);
@@ -109,18 +112,33 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
     });
 
     const fetchTheTemplateSections = async () => {
-        setTemplateLoading(true);
-        // Fetch the template with the Id
-        const response = await fetchTemplate(
-            templateId as string,
-            session?.jwt as string
-        );
+        try {
+            console.log(templateId);
+            setTemplateLoading(true);
 
-        if (!response.error) {
-            setCoverLetterTemplate(response.coverLetter);
-            setResumeTemplate(response.resume);
+            const data = await gqlQery(
+                getSingleTemplateWithId(templateId as string),
+                session?.jwt
+            );
+            console.log(data);
+            console.log(data.template?.data?.attributes?.title);
+
+            if (data) {
+                const cleanResumeResponse = cleangqlResponse(
+                    data.template?.data?.attributes?.template?.resume
+                );
+                const cleanCoverLetterResponse = cleangqlResponse(
+                    data?.template?.data?.attributes.template?.coverLetter
+                );
+
+                setTemplateTitle(data.template?.data?.attributes?.title);
+                setCoverLetterTemplate(cleanCoverLetterResponse);
+                setResumeTemplate(cleanResumeResponse);
+            }
+            setTemplateLoading(false);
+        } catch (error) {
+            console.log(error);
         }
-        setTemplateLoading(false);
     };
 
     useEffect(() => {
@@ -156,6 +174,9 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
         }
     };
 
+    console.log(JSON.stringify(coverLetterTemplate));
+
+    console.log(templateTitle);
     const handleCreate = async (response: any) => {
         if (response.status == 200) {
             try {
@@ -170,10 +191,51 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                         {
                             data: {
                                 users_permissions_user: session?.user.id,
+                                templateType: templateTitle,
                                 template: {
                                     coverLetter: {
                                         ...coverLetterTemplate,
-                                        sections: response.coverletter,
+                                        sections: {
+                                            ...coverLetterTemplate.sections,
+                                            opener: response.coverletter?.find(
+                                                (item: any) =>
+                                                    item.sectionTitle ===
+                                                    "Opener"
+                                            )?.content,
+                                            greetings:
+                                                response.coverletter?.find(
+                                                    (item: any) =>
+                                                        item.sectionTitle ===
+                                                        "Greetings"
+                                                )?.content,
+                                            body_1: response.coverletter?.find(
+                                                (item: any) =>
+                                                    item.sectionTitle ===
+                                                    "Body 1"
+                                            )?.content,
+                                            body_2: response.coverletter?.find(
+                                                (item: any) =>
+                                                    item.sectionTitle ===
+                                                    "Body 2"
+                                            )?.content,
+                                            body_3: response.coverletter?.find(
+                                                (item: any) =>
+                                                    item.sectionTitle ===
+                                                    "Body 3"
+                                            )?.content,
+                                            conclusion:
+                                                response.coverletter?.find(
+                                                    (item: any) =>
+                                                        item.sectionTitle ===
+                                                        "Conclusion"
+                                                )?.content,
+                                            call_to_action:
+                                                response.coverletter?.find(
+                                                    (item: any) =>
+                                                        item.sectionTitle ===
+                                                        "Call To Action"
+                                                )?.content,
+                                        },
                                     },
                                     resume: resumeTemplate,
                                 },
@@ -186,13 +248,6 @@ const CreateCoverLetterPage = ({ plans }: Props) => {
                             },
                         }
                     );
-
-                    console.log(data);
-                    if (data?.data) {
-                        router.push(
-                            `/dashboard/create-cover-letter/edit/${data?.data?.id}`
-                        );
-                    }
                 } else {
                     setIsModalOpen(true);
                 }

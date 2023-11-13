@@ -2,7 +2,7 @@
 import DashboardHeading from "@/components/shared/DashboardHeading";
 import { gqlQery } from "@/config/graphql.config";
 import { coverLetterTemplates } from "@/lib/dummyData";
-import { queryTemplates } from "@/lib/graphql-query";
+import { getTemplates, queryTemplates } from "@/lib/graphql-query";
 import { Template, TemplateData } from "@/lib/types";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -20,11 +20,12 @@ const SelectTemplatePage = () => {
         try {
             if (session?.jwt) {
                 setIsLoading(true);
-                const data = await gqlQery(queryTemplates, session?.jwt);
+                const data = await gqlQery(getTemplates(1), session?.jwt);
                 setTemplates(data.templates);
             }
             setIsLoading(false);
         } catch (error) {
+            console.log(error);
             setIsLoading(false);
             setError(true);
         }
@@ -33,6 +34,8 @@ const SelectTemplatePage = () => {
     useEffect(() => {
         getCoverLetters();
     }, [session?.jwt]);
+
+    console.log("This is the templates", templates);
 
     return (
         <div>
