@@ -210,6 +210,9 @@ const CreateCoverLetterPage = ({}: Props) => {
                             (item: any) => item.sectionTitle === "heading"
                           )?.email,
                         },
+                        professionalTitle: response.coverletter?.find(
+                          (item: any) => item.sectionTitle === "heading"
+                        )?.professionalTitle,
                       },
                       opener: response.coverletter?.find(
                         (item: any) => item.sectionTitle === "Opener"
