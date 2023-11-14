@@ -168,6 +168,9 @@ const CheckSection = ({
         console.log(section);
         return <></>;
     }
+    if (sectionTitle === "professionalSummary") {
+        return <>{section}</>;
+    }
 
-    return <>{section}</>;
+    return <></>;
 };

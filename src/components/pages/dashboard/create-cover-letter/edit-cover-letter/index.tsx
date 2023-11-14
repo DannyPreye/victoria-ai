@@ -57,7 +57,7 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
     const handleDeleteCoverLetter = async () => {
         const res = await toast.promise(
             axios.delete(
-                `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/document/${id}`,
+                `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/user-documents/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${session.jwt}`,
@@ -235,14 +235,14 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
                 openSection={openSections}
                 setOpenSections={setOpenSections}
             /> */}
-            {/* {openModal && (
+            {openModal && (
                 <DeleteModal
                     isModalOpen={openModal}
                     projectName={data?.attributes?.title}
                     handleDelete={handleDeleteCoverLetter}
                     setIsModalOpen={setOpenModal}
                 />
-            )} */}
+            )}
 
             {/* {moreSectionModal && (
                 <AddMoreSectionsModal
