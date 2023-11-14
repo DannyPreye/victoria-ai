@@ -172,5 +172,5 @@ const CheckSection = ({
         return <>{section}</>;
     }
 
-    return <>""</>;
+    return <></>;
 };
