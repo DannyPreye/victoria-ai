@@ -8,7 +8,7 @@ import { BiPlus } from "react-icons/bi";
 interface Props {
     currentSection: string;
     setCurrentSection: React.Dispatch<React.SetStateAction<string>>;
-    sections: TemplateSection[];
+    sections: any;
     setOpenModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const ResumeContent = ({
@@ -19,6 +19,9 @@ const ResumeContent = ({
 }: Props) => {
     const { currentColor } = useContext(documentContext);
 
+    const extractSectionHeading =
+        typeof sections === "object" ? Object.keys(sections) : [];
+
     console.log(sections);
     return (
         <div className='mx-auto w-full lg:w-[778px] '>
@@ -27,20 +30,25 @@ const ResumeContent = ({
                     style={{ color: currentColor }}
                     className='text-[30px] uppercase font-[600]  leading-[140%]'
                 >
-                    {sections[0]?.heading}
+                    {sections["heading"].username}
                 </h2>
                 <p className='text-base-secondary-text font-inter text-[20px] font-[500] leading-[30px]'>
-                    {sections[0]?.subheading}
+                    {sections["heading"]?.professionalTitle}
                 </p>
             </div>
 
             <div className='grid gap-[12px]'>
-                {sections.slice(1)?.map((section, id) => (
-                    <SectionControl
-                        currentSection={currentSection}
-                        section={section}
-                        key={id}
-                    />
+                {extractSectionHeading.slice(1)?.map((title, id) => (
+                    <>
+                        {title !== "otherSections" && (
+                            <SectionControl
+                                currentSection={currentSection}
+                                section={sections[title]}
+                                key={id}
+                                sectionTitle={title}
+                            />
+                        )}
+                    </>
                 ))}
             </div>
 
@@ -57,31 +65,40 @@ const ResumeContent = ({
 export default ResumeContent;
 
 interface SectionControlProps {
-    section: TemplateSection;
+    section: any;
     currentSection: string;
+    sectionTitle: string;
 }
-const SectionControl = ({ section, currentSection }: SectionControlProps) => {
+const SectionControl = ({
+    section,
+    currentSection,
+    sectionTitle,
+}: SectionControlProps) => {
     const [openContent, setOpenContent] = useState(false);
 
     useEffect(() => {
-        setOpenContent(
-            currentSection.split("-").join(" ").toLowerCase() ==
-                section.sectionTitle.toLowerCase()
-        );
+        setOpenContent(currentSection == sectionTitle);
     }, [currentSection]);
+    const splitWord = (word: string) =>
+        word.replace(/([a-z])([A-Z])/g, "$1 $2");
     return (
         <div className='text-base-secondary-text relative'>
             <h3
-                id={section.sectionTitle.split(" ").join("-")}
+                id={sectionTitle}
                 onClick={() => setOpenContent((prev) => !prev)}
                 className='px-[20px] cursor-pointer  font-inter text-[20px] font-[500] leading-[30px] py-[12px] bg-[rgba(196,196,196,0.28)] uppercase '
             >
-                {section.sectionTitle}
+                {splitWord(sectionTitle)}
             </h3>
             {openContent && (
                 <div className='px-[10px] py-[30px]'>
                     <p className='pt-[23px] pb-[29px] px-[16px] py-[8px] border-r-[2px] border-primary-yellow bg-[rgba(226,187,83,0.10)] text-justify text-[16px] leading-[24px] font-[400] font-inter'>
-                        {section.content}
+                        {
+                            <CheckSection
+                                sectionTitle={sectionTitle}
+                                section={section}
+                            />
+                        }
                     </p>
                 </div>
             )}
@@ -89,11 +106,68 @@ const SectionControl = ({ section, currentSection }: SectionControlProps) => {
             {openContent && (
                 <EditButtons
                     removeAiEdit={
-                        section.sectionTitle.toLocaleLowerCase() !==
-                        "professional summary"
+                        sectionTitle.toLocaleLowerCase() !==
+                        "professionalsummary"
                     }
                 />
             )}
         </div>
     );
+};
+
+const CheckSection = ({
+    section,
+    sectionTitle,
+}: {
+    section: any;
+    sectionTitle: string;
+}) => {
+    if (sectionTitle === "skills") {
+        return (
+            <ul>
+                {Object.keys(section).map((item) => (
+                    <li className=' px-2' key={item}>
+                        {section[item]}
+                    </li>
+                ))}
+            </ul>
+        );
+    }
+    if (sectionTitle === "education") {
+        console.log(section);
+        return (
+            <div>
+                {Object.keys(section).map((item) => (
+                    <div key={item} className='grid grid-cols-2'>
+                        <p className=''>
+                            {" "}
+                            <span className='font-semibold '>School:</span>{" "}
+                            {section[item]?.school}
+                        </p>{" "}
+                        <div className='flex gap-4'>
+                            <p className=''>
+                                {" "}
+                                <span className='font-semibold '>
+                                    From:
+                                </span>{" "}
+                                {section[item]?.startYear}
+                            </p>
+                            <p className=''>
+                                {" "}
+                                <span className='font-semibold '>To:</span>{" "}
+                                {section[item]?.startYear}
+                            </p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
+    if (sectionTitle === "workExperience") {
+        console.log(section);
+        return <></>;
+    }
+
+    return <>{section}</>;
 };

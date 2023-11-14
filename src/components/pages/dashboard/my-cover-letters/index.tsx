@@ -1,6 +1,8 @@
 "use client";
 import DashboardHeading from "@/components/shared/DashboardHeading";
+import { gqlQery } from "@/config/graphql.config";
 import { coverLetterTemplates } from "@/lib/dummyData";
+import { getUserDocuments } from "@/lib/graphql-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -19,21 +21,22 @@ const MyCoverLetterPage = () => {
     const { data: session } = useSession();
 
     const getUserDocs = async () => {
-        try {
-            const { data } = await axios.get(
-                `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/documents?filters[users_permissions_user][$eq]=${session?.user.id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${session?.jwt}`,
-                    },
-                }
-            );
-            setTemplates(data?.data);
-            setIsLoading(false);
-        } catch (error) {
-            setIsLoading(false);
+        if (session?.jwt) {
+            try {
+                const data = await gqlQery(
+                    getUserDocuments(session?.user.id as string, 1),
+                    session?.jwt
+                );
+                console.log(data);
+                setTemplates(data?.userDocuments.data);
+                setIsLoading(false);
+            } catch (error) {
+                setIsLoading(false);
+            }
         }
     };
+
+    console.log(templates);
 
     useEffect(() => {
         getUserDocs();
@@ -52,11 +55,11 @@ const MyCoverLetterPage = () => {
                         visible={true}
                     />
                 </div>
-            ) : templates.length > 0 ? (
+            ) : templates?.length > 0 ? (
                 <section className='mt-[44px] px-[16px] lg:px-[24px]  grid grid-cols-1 lg:grid-cols-3 gap-[24px]'>
                     {templates.map((data, id) => (
                         <EachDocument
-                            template={data?.template}
+                            template={data?.attributes?.template}
                             docName={data?.title}
                             docId={data?.id}
                             key={data?.id}
@@ -81,26 +84,33 @@ interface EachDocProps {
 }
 const EachDocument = ({ template, docName, docId }: EachDocProps) => {
     const router = useRouter();
+
+    console.log(template);
     return (
         <div className='grid gap-[16px] w-full '>
             <div className='w-full   h-[512px] flex    relative mx-auto  group cursor-pointer bg-[#fafafa] '>
                 <div className='relative w-[50%] h-full '>
                     <Image
-                        src={template.coverLetter?.previewImage?.url}
+                        src={
+                            template.coverLetter?.previewImage?.data?.attributes
+                                .url
+                        }
                         fill
                         alt={
-                            template.coverLetter.previewImage
-                                .alternativeText as string
+                            template.coverLetter.previewImage.data?.attributes
+                                ?.alternativeText as string
                         }
                         className='object-contain'
                     />
                 </div>
                 <div className='relative w-[50%] h-full'>
                     <Image
-                        src={template.resume?.previewImage?.url}
+                        src={
+                            template.resume?.previewImage?.data?.attributes.url
+                        }
                         fill
                         alt={
-                            template.resume.previewImage
+                            template.resume.previewImage?.data?.attributes
                                 .alternativeText as string
                         }
                         className='object-contain'

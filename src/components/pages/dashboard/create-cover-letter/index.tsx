@@ -82,7 +82,7 @@ const CreateCoverLetterPage = ({}: Props) => {
                         console.log(data);
                         setIsLoading(false);
                         if (data) {
-                            handleCreate(data);
+                            await handleCreate(data);
                             setIsLoading(false);
                         } else {
                             setIsLoading(false);
@@ -152,6 +152,8 @@ const CreateCoverLetterPage = ({}: Props) => {
         setUploadProgress(percent as number);
     };
 
+    console.log(coverLetterTemplate);
+
     const handleFile = async (file: File) => {
         try {
             const formData = new FormData();
@@ -173,10 +175,6 @@ const CreateCoverLetterPage = ({}: Props) => {
             }
         }
     };
-
-    console.log(JSON.stringify(coverLetterTemplate));
-
-    console.log(templateTitle);
     const handleCreate = async (response: any) => {
         if (response.status == 200) {
             try {
@@ -194,20 +192,20 @@ const CreateCoverLetterPage = ({}: Props) => {
                                 templateType: templateTitle,
                                 template: {
                                     coverLetter: {
-                                        ...coverLetterTemplate,
+                                        previewImage:
+                                            coverLetterTemplate.previewImage
+                                                .data?.id,
                                         sections: {
                                             ...coverLetterTemplate.sections,
+                                            // heading:
+                                            //     coverLetterTemplate.sections
+                                            //         .heading,
                                             opener: response.coverletter?.find(
                                                 (item: any) =>
                                                     item.sectionTitle ===
                                                     "Opener"
                                             )?.content,
-                                            greetings:
-                                                response.coverletter?.find(
-                                                    (item: any) =>
-                                                        item.sectionTitle ===
-                                                        "Greetings"
-                                                )?.content,
+
                                             body_1: response.coverletter?.find(
                                                 (item: any) =>
                                                     item.sectionTitle ===
@@ -237,7 +235,14 @@ const CreateCoverLetterPage = ({}: Props) => {
                                                 )?.content,
                                         },
                                     },
-                                    resume: resumeTemplate,
+                                    resume: {
+                                        sections: {
+                                            ...resumeTemplate.sections,
+                                        },
+                                        previewImage:
+                                            resumeTemplate.previewImage.data
+                                                ?.id,
+                                    },
                                 },
                             },
                         },
@@ -248,6 +253,13 @@ const CreateCoverLetterPage = ({}: Props) => {
                             },
                         }
                     );
+                    if (data) {
+                        console.log(data);
+                        console.log(data?.data?.id);
+                        router.push(
+                            `/dashboard/create-cover-letter/edit/${data?.data?.id}`
+                        );
+                    }
                 } else {
                     setIsModalOpen(true);
                 }

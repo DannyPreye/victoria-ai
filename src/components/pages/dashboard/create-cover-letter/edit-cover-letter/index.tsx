@@ -20,13 +20,14 @@ import AddMoreSectionsModal from "./AddMoreSectionsModal";
 import ResumeContent from "./ResumeContent";
 import { documentContext } from "@/contexts/ColorContext";
 import { GrFormCheckmark } from "react-icons/gr";
+import { isArray } from "@apollo/client/utilities";
 
 interface Props {
-    template: any;
+    data: any;
     id: string;
     session: Session;
 }
-const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
+const EditCoverLetterPage = ({ data, id, session }: Props) => {
     const [currentSection, setCurrentSection] = useState("");
     const [openSections, setOpenSections] = useState(false);
     const [openPublish, setOpenPublish] = useState(false);
@@ -43,8 +44,6 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
         resumeSections,
         currentColor,
     } = useContext(documentContext);
-
-    console.log(data);
 
     const colors = [
         "#000000",
@@ -78,8 +77,10 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
     };
 
     useEffect(() => {
-        handleAllResumeSections(data?.attributes?.template?.resume?.sections);
+        handleAllResumeSections(data?.template?.resume?.sections);
     }, []);
+
+    console.log(resumeSections);
 
     return (
         <div className='flex lg:flex-row flex-col '>
@@ -88,18 +89,33 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                     setCurrentSection={setCurrentSection}
                     setOpenSections={setOpenSections}
                     currentTab={currentTab}
-                    sections={data?.attributes?.template?.coverLetter?.sections}
+                    sections={
+                        typeof data?.template?.coverLetter?.sections ===
+                        "object"
+                            ? Object?.keys(
+                                  data?.template?.coverLetter?.sections
+                              )
+                            : []
+                    }
                     currentSection={currentSection}
                 />
             ) : (
-                <SectionsMenu
-                    setCurrentSection={setCurrentSection}
-                    setOpenSections={setOpenSections}
-                    currentTab={currentTab}
-                    sections={resumeSections}
-                    currentSection={currentSection}
-                    setModalOpen={setMoreSectionModal}
-                />
+                <>
+                    <SectionsMenu
+                        setCurrentSection={setCurrentSection}
+                        setOpenSections={setOpenSections}
+                        currentTab={currentTab}
+                        sections={
+                            typeof resumeSections === "object"
+                                ? Object.keys(resumeSections).filter(
+                                      (item) => item !== "otherSections"
+                                  )
+                                : []
+                        }
+                        currentSection={currentSection}
+                        setModalOpen={setMoreSectionModal}
+                    />
+                </>
             )}
             <div className=' flex-1'>
                 <div className='lg:px-[24px] lg:pt-[32px] '>
@@ -197,10 +213,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                                 key={"Cover Letter"}
                                 setCurrentSection={setCurrentSection}
                                 currentSection={currentSection}
-                                sections={
-                                    data?.attributes?.template.coverLetter
-                                        .sections
-                                }
+                                sections={data?.template?.coverLetter?.sections}
                             />,
                             <ResumeContent
                                 key={"Resume"}
@@ -213,7 +226,7 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                     }
                 </div>
             </div>
-
+            {/*
             <MobileModal
                 currentTab={currentTab}
                 sections={data?.attributes?.template.coverLetter.sections}
@@ -221,22 +234,22 @@ const EditCoverLetterPage = ({ template: data, id, session }: Props) => {
                 setCurrentSection={setCurrentSection}
                 openSection={openSections}
                 setOpenSections={setOpenSections}
-            />
-            {openModal && (
+            /> */}
+            {/* {openModal && (
                 <DeleteModal
                     isModalOpen={openModal}
                     projectName={data?.attributes?.title}
                     handleDelete={handleDeleteCoverLetter}
                     setIsModalOpen={setOpenModal}
                 />
-            )}
+            )} */}
 
-            {moreSectionModal && (
+            {/* {moreSectionModal && (
                 <AddMoreSectionsModal
                     setIsModalOpen={setMoreSectionModal}
                     isModalOpen={moreSectionModal}
                 />
-            )}
+            )} */}
         </div>
     );
 };
@@ -259,6 +272,8 @@ const SectionsMenu = ({
     currentTab,
     setModalOpen,
 }: SectionsMenuProps) => {
+    const splitWord = (word: string) =>
+        word.replace(/([a-z])([A-Z])/g, "$1 $2");
     return (
         <div className='lg:px-[16px] lg:py-[42px] h-full lg:border-r-[1px]'>
             <div className='flex gap-[24px] px-[16px] py-[12px] lg:px-0 border-b-[1px] lg:border-b-0 items-center'>
@@ -276,23 +291,27 @@ const SectionsMenu = ({
                 </p>
             </div>
             <div className='mt-[24px]  py-[18px] hidden lg:grid'>
-                {sections?.map((item: any) => (
+                {sections?.map((item: any, id) => (
                     <Link
-                        href={`#${item?.sectionTitle?.split(" ").join("-")}`}
-                        key={item.title}
-                        onClick={() => setCurrentSection(item?.sectionTitle)}
+                        href={`#${item}`}
+                        key={item}
+                        onClick={() => setCurrentSection(item)}
                         className={`lg:max-w-[280px] w-full capitalize rounded-[3px]
                               cursor-pointer px-[12px]
                              text-[14px] leading-[20px]  font-inter focus:text-white focus:bg-primary-yellow font-[500]
                               text-primary-gray-700 py-[10px]
                               ${
-                                  currentSection == item?.sectionTitle
+                                  currentSection == item
                                       ? "bg-primary-yellow text-white"
                                       : ""
                               }
                               `}
                     >
-                        {item.sectionTitle}
+                        {item === "heading"
+                            ? "Heading/Contact Information"
+                            : currentTab == 1
+                            ? splitWord(item)
+                            : item.replace(/_/g, " ")}
                     </Link>
                 ))}
             </div>

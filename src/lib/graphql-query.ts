@@ -395,6 +395,7 @@ userDocument(id:${docId}){
       addProfilePicture
       companyName
       color
+      templateType
       profilePicture{
         data{
           attributes{
@@ -460,6 +461,7 @@ template(id:${templateId}){
         resume{
               previewImage{
             data{
+              id
               attributes{
                 url
                 alternativeText
@@ -488,6 +490,7 @@ template(id:${templateId}){
            coverLetter{
                 previewImage{
             data{
+              id
               attributes{
                 url
                 alternativeText

@@ -1,6 +1,7 @@
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import EditCoverLetterPage from "@/components/pages/dashboard/create-cover-letter/edit-cover-letter";
 import { gqlQery } from "@/config/graphql.config";
+import { cleangqlResponse } from "@/lib/functions/cleanGqlResponse";
 import {
     getSingleTemplate,
     getSingleUserDocument,
@@ -25,23 +26,11 @@ const page = async ({ params }: Props) => {
     let template: any;
 
     try {
-        // template = await gqlQery(getSingleTemplate(id), session?.jwt);
-        // const { data } = await axios.get(
-        //     `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/user-documents/${id}?populate=template.coverLetter.sections,template.coverLetter.previewImage,template.resume.sections,template.resume.previewImage,profilePicture.url,addProfilePicture`,
-        //     {
-        //         headers: {
-        //             Authorization: `Bearer ${session?.jwt}`,
-        //         },
-        //     }
-        // );
+        const data = await gqlQery(getSingleUserDocument(id), session?.jwt);
 
-        const data = await gqlQery(
-            getSingleUserDocument(session?.user.id as string),
-            session?.jwt
-        );
-
-        console.log(data);
-        template = data.data;
+        console.log(cleangqlResponse(data));
+        template = cleangqlResponse(data).userDocument;
+        console.log(template);
     } catch (error) {
         console.log("This is the error", error);
     }
@@ -52,11 +41,11 @@ const page = async ({ params }: Props) => {
 
     return (
         <div>
-            {/* <EditCoverLetterPage
-                id={template?.id}
+            <EditCoverLetterPage
+                id={id}
                 session={session as Session}
-                template={template}
-            /> */}
+                data={template?.data?.attributes}
+            />
         </div>
     );
 };
