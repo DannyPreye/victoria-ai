@@ -254,8 +254,6 @@ const CreateCoverLetterPage = ({}: Props) => {
                         }
                     );
                     if (data) {
-                        console.log(data);
-                        console.log(data?.data?.id);
                         router.push(
                             `/dashboard/create-cover-letter/edit/${data?.data?.id}`
                         );
@@ -264,7 +262,6 @@ const CreateCoverLetterPage = ({}: Props) => {
                     setIsModalOpen(true);
                 }
             } catch (error) {
-                console.log(error);
                 toast.error("Something went wrong. Please try again");
             }
         } else {
