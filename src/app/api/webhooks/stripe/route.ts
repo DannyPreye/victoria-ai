@@ -1,5 +1,3 @@
-import { NextRequest, NextResponse } from "next/server";
-import { headers } from "next/headers";
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { buffer } from "node:stream/consumers";
@@ -34,7 +32,6 @@ export async function POST(req: Request,)
         const userId = session.metadata.userId;
         const planId = session.metadata.planId;
         const jwt = session.metadata.jwt;
-        const templateId = session.metadata.templateId;
 
         if (jwt) {
             const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/users/${userId}`, {
@@ -50,20 +47,6 @@ export async function POST(req: Request,)
             const data = await res.json();
         }
 
-        if (templateId) {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/create-document`, {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${jwt}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    templateId: templateId
-                })
-            });
-
-            const data = await res.json();
-        }
     }
     return new Response(null, { status: 200 });
 

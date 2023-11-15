@@ -19,6 +19,8 @@ const LetterContent = ({
     const { currentColor } = useContext(documentContext);
     const extractSectionHeadings =
         typeof sections === "object" ? Object.keys(sections) : [];
+
+    console.log(extractSectionHeadings, sections);
     return (
         // <div className='flex flex-col lg:px-[24px] lg:py-[32px]  bg-gray-iron-50 py-[32px] px-[16px]  w-full'>
         <div className='mx-auto w-full  lg:w-[778px]'>
@@ -33,10 +35,12 @@ const LetterContent = ({
                                 style={{ color: currentColor }}
                                 className='text-base-primary-green text-[20px] lg:text-[30px] font-[600] leading-[30px] lg:leading-[140%]'
                             >
-                                {sections[text]?.username}
+                                {sections[text]?.username} -{" "}
+                                {sections[text]?.professionalTitle}
                             </h2>
                             <p className='text-[16px] lg:text-[20px] font-[500] leading-[24px] lg:leading-[30px] font-inter text-base-secondary-text'>
-                                {sections[text]?.professionalTitle}
+                                {sections[text]?.contact?.phone} -{" "}
+                                {sections[text]?.contact?.email}
                             </p>
                         </div>
                     ) : text == "greetings" ? (
@@ -49,7 +53,7 @@ const LetterContent = ({
                             {/* <p>{text?.heading}</p> */}
                             <p>{sections[text]}</p>
                         </div>
-                    ) : text !== "signature" ? (
+                    ) : text !== "signature" && text !== "address" ? (
                         <div
                             id={text}
                             className={`py-[8px] lg:py-[12px]
@@ -69,7 +73,7 @@ const LetterContent = ({
 
                             {currentSection == text && <EditButtons />}
                         </div>
-                    ) : (
+                    ) : text === "signature" && (
                         <div
                             style={{ color: currentColor }}
                             id={text}

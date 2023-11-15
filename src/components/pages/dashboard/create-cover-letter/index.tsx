@@ -80,9 +80,9 @@ const CreateCoverLetterPage = ({}: Props) => {
                             }
                         );
                         console.log(data);
-                        setIsLoading(false);
                         if (data) {
                             await handleCreate(data);
+
                             setIsLoading(false);
                         } else {
                             setIsLoading(false);
@@ -175,6 +175,8 @@ const CreateCoverLetterPage = ({}: Props) => {
             }
         }
     };
+
+    console.log(resumeTemplate);
     const handleCreate = async (response: any) => {
         if (response.status == 200) {
             try {
@@ -197,9 +199,37 @@ const CreateCoverLetterPage = ({}: Props) => {
                                                 .data?.id,
                                         sections: {
                                             ...coverLetterTemplate.sections,
-                                            // heading:
-                                            //     coverLetterTemplate.sections
-                                            //         .heading,
+                                            heading: {
+                                                ...coverLetterTemplate.sections
+                                                    .heading,
+                                                username:
+                                                    response.coverletter?.find(
+                                                        (item: any) =>
+                                                            item.sectionTitle ===
+                                                            "heading"
+                                                    )?.username,
+                                                contact: {
+                                                    ...coverLetterTemplate
+                                                        .sections?.heading
+                                                        .contact,
+                                                    phone: response.coverletter?.find(
+                                                        (item: any) =>
+                                                            item.sectionTitle ===
+                                                            "heading"
+                                                    )?.phone,
+                                                    email: response.coverletter?.find(
+                                                        (item: any) =>
+                                                            item.sectionTitle ===
+                                                            "heading"
+                                                    )?.email,
+                                                },
+                                                professionalTitle:
+                                                    response.coverletter?.find(
+                                                        (item: any) =>
+                                                            item.sectionTitle ===
+                                                            "heading"
+                                                    )?.professionalTitle,
+                                            },
                                             opener: response.coverletter?.find(
                                                 (item: any) =>
                                                     item.sectionTitle ===
@@ -254,6 +284,8 @@ const CreateCoverLetterPage = ({}: Props) => {
                         }
                     );
                     if (data) {
+                        console.log(data);
+                        console.log(data?.data?.id);
                         router.push(
                             `/dashboard/create-cover-letter/edit/${data?.data?.id}`
                         );
@@ -262,6 +294,7 @@ const CreateCoverLetterPage = ({}: Props) => {
                     setIsModalOpen(true);
                 }
             } catch (error) {
+                console.log(error);
                 toast.error("Something went wrong. Please try again");
             }
         } else {

@@ -1,5 +1,8 @@
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import PreviewDocumentPage from "@/components/pages/dashboard/my-cover-letters/Preview";
+import { gqlQery } from "@/config/graphql.config";
+import { cleangqlResponse } from "@/lib/functions/cleanGqlResponse";
+import { getSingleUserDocument } from "@/lib/graphql-query";
 import axios from "axios";
 import React from "react";
 
@@ -15,15 +18,11 @@ const page = async ({ params }: Props) => {
 
     try {
         // template = await gqlQery(getSingleTemplate(id), session?.jwt);
-        const { data } = await axios.get(
-            `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/document/${id}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${session?.jwt}`,
-                },
-            }
-        );
-        template = data.data;
+        const doc = await gqlQery(getSingleUserDocument(id), session?.jwt);
+
+        const cleanResponse = cleangqlResponse(doc);
+        console.log(cleanResponse);
+        template = cleanResponse?.userDocument?.data?.attributes;
     } catch (error) {
         console.log("This is the error", error);
     }

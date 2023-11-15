@@ -306,7 +306,7 @@ userDocument(id:${IDBCursorWithValue}){
 
 
 export const getUserDocuments = (userId: string, page?: number) => `query{
-  userDocuments(filters:{users_permissions_user:{id:{eq:${userId}}}} pagination:{page:1, pageSize:${page || 1}}){
+  userDocuments(filters:{users_permissions_user:{id:{eq:${userId}}}} pagination:{page:${page || 1}, pageSize:10} sort:"id:desc"){
     data{
       id
       attributes{
@@ -436,6 +436,7 @@ userDocument(id:${docId}){
               professionalTitle
 
             }
+            address
             greetings
             opener
             body_1

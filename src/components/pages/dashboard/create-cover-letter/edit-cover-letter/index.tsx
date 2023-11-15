@@ -21,6 +21,9 @@ import ResumeContent from "./ResumeContent";
 import { documentContext } from "@/contexts/ColorContext";
 import { GrFormCheckmark } from "react-icons/gr";
 import { isArray } from "@apollo/client/utilities";
+import { AddPhotoSwitch } from "./AddPhotoSwitch";
+import { FaUser } from "react-icons/fa6";
+import Image from "next/image";
 
 interface Props {
     data: any;
@@ -35,7 +38,7 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
     const router = useRouter();
     const [currentTab, setCurrentTab] = useState(0);
     const [moreSectionModal, setMoreSectionModal] = useState(false);
-    const [addProfilePics, setAddProfilePics] = useState(
+    const [addProfilePics, setAddProfilePics] = useState<boolean>(
         data?.attributes?.addProfilePicture || false
     );
     const {
@@ -53,6 +56,8 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
         "#404564",
         "#800020",
     ];
+
+    console.log(data);
 
     const handleDeleteCoverLetter = async () => {
         const res = await toast.promise(
@@ -79,8 +84,6 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
     useEffect(() => {
         handleAllResumeSections(data?.template?.resume?.sections);
     }, []);
-
-    console.log(resumeSections);
 
     return (
         <div className='flex lg:flex-row flex-col '>
@@ -162,6 +165,10 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
                                 ))}
                             </div>
                         </div>
+                        <AddPhotoSwitch
+                            setCheckProfilePics={setAddProfilePics}
+                            checkProfilePics={addProfilePics}
+                        />
                     </div>
                     <div className='flex gap-[8px]  w-fit relative items-center'>
                         <IoMdTime size-={20} />
@@ -195,6 +202,17 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
                         )}
                     </div>
                 </div>
+                {addProfilePics && (
+                    <div className='grid place-items-center'>
+                        <ProfilePicture
+                            TemplateId=''
+                            profilePicture={
+                                data.profilePicture?.data?.attributes
+                                    ?.url as string
+                            }
+                        />
+                    </div>
+                )}
                 <div className='flex relative flex-col mt-[86px] lg:px-[24px] lg:py-[32px]  bg-gray-iron-50 py-[32px] px-[16px]  w-full'>
                     <div className='flex gap-[21px] px-[23px] justify-center absolute top-[-3%] left-0 w-full'>
                         {["COVER LETTER", "RESUME"].map((text, index) => (
@@ -328,13 +346,27 @@ const SectionsMenu = ({
     );
 };
 
-const AddPhotoSwitch = ({
-    checkProfilePics,
-}: {
-    checkProfilePics: boolean;
-}) => {
-    const [isTrue, setIsTrue] = useState(false);
+interface ProfilePictureProps {
+    profilePicture: string;
+    TemplateId: string;
+}
+
+const ProfilePicture = ({
+    profilePicture,
+    TemplateId,
+}: ProfilePictureProps) => {
     return (
-        <div className=' w-[100px] h-[10px] rounded-[20px] bg-gray-300 relative'></div>
+        <div className='flex flex-col items-center gap-3'>
+            <div className='w-[80px] h-[80px] grid place-items-center rounded-full relative bg-gray-400 border-5 border-gray-600'>
+                {profilePicture ? (
+                    <Image src={profilePicture} alt='' fill />
+                ) : (
+                    <FaUser size={40} />
+                )}
+            </div>
+            <p className='text-semibold text-gray-600'>
+                Upload profile picture
+            </p>
+        </div>
     );
 };
