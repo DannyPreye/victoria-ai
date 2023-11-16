@@ -1,14 +1,45 @@
 "use client";
-import React from "react";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import React, { useEffect } from "react";
 
 export const AddPhotoSwitch = ({
     checkProfilePics,
     setCheckProfilePics,
+    templateId,
 }: {
+    templateId: string;
     checkProfilePics: boolean;
     setCheckProfilePics: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-    console.log(checkProfilePics);
+    const { data: session } = useSession();
+
+    useEffect(() => {
+        updateAddProfile();
+    }, [checkProfilePics]);
+
+    const updateAddProfile = async () => {
+        try {
+            const update = await axios.put(
+                `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/user-documents/${templateId}`,
+                {
+                    data: {
+                        addProfilePicture: checkProfilePics,
+                    },
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${session?.jwt}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            console.log(update.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <div className='flex items-center gap-3 mt-5'>
             <span>Add Profile Picture</span>

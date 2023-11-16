@@ -3,22 +3,18 @@ import { ResumeSectionType, TemplateDocumentType } from "@/lib/types/document";
 import { GoDotFill } from "react-icons/go";
 import React from "react";
 import { Contact } from "./Contact";
-import Image from "next/image";
 
 interface Props {
     document: TemplateDocumentType;
 }
 
-const LondonResume = ({ document }: Props) => {
+const ParisResume = ({ document }: Props) => {
     const resume: ResumeSectionType = document.template.resume;
     const firstName = resume?.sections?.heading?.username
         ?.trim()
         ?.split(" ")[0];
     const lastName = resume?.sections?.heading?.username?.trim().split(" ")[1];
 
-    console.log(resume.sections);
-
-    console.log(document);
     return (
         <div className='flex min-h-screen'>
             <div
@@ -28,17 +24,7 @@ const LondonResume = ({ document }: Props) => {
                 <div className=' flex flex-col gap-8'>
                     {/* Profile Picture */}
                     {document.addProfilePicture && (
-                        <div className='w-[200px] relative overflow-hidden h-[200px] border-gray-500 border-[5px] rounded-full bg-gray-100 mx-auto'>
-                            <Image
-                                src={
-                                    document.profilePicture.data?.attributes
-                                        ?.url as string
-                                }
-                                fill
-                                alt=''
-                                className='object-fit'
-                            />
-                        </div>
+                        <div className='w-[200px] h-[200px] border-gray-500 border-[5px] rounded-full bg-gray-100 mx-auto'></div>
                     )}
                     {/* Contact */}
                     <div className={``}>
@@ -220,7 +206,7 @@ const LondonResume = ({ document }: Props) => {
     );
 };
 
-export default LondonResume;
+export default ParisResume;
 
 const MainBodyHeading = ({ title }: { title: string }) => {
     return (

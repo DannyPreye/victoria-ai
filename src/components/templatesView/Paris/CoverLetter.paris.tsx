@@ -3,18 +3,16 @@ import { DisplayTemplate } from "@/lib/types";
 import { TemplateDocumentType } from "@/lib/types/document";
 
 import { Contact } from "./Contact";
-import Image from "next/image";
 
 interface Props {
     document: TemplateDocumentType;
 }
 
-const LondonCoverLetter = ({
+const ParisCoverLetter = ({
     document: {
         template: { coverLetter },
         color,
         addProfilePicture,
-        profilePicture,
     },
 }: Props) => {
     const firstName = coverLetter?.sections?.heading?.username
@@ -25,25 +23,21 @@ const LondonCoverLetter = ({
         .split(" ")[1];
 
     return (
-        <div className='flex min-h-screen'>
+        <div className='flex min-h-screen relative overflow-hidden'>
+            <div className='h-[280px] absolute flex justify-end -left-5 px-8 py-10 -top-12 rotate-[5deg] bg-black w-[120%]'>
+                <div className='absolute flex justify-end text-white top-10'>
+                    Hello form
+                </div>
+            </div>
+            {/* <div className='mt-[250px] flex'> */}
             <div
                 style={{ borderRight: `5px solid black` }}
-                className='w-[40%] bg-[#d7d5d5] p-12 flex flex-col gap-[250px]'
+                className='w-[40%] bg-[#d7d5d5] p-12 flex flex-col gap-[250px] pt-[250px]'
             >
                 <div className=' flex flex-col gap-8'>
                     {/* Profile Picture */}
                     {addProfilePicture && (
-                        <div className='w-[200px] h-[200px] relative border-gray-500 border-[5px] overflow-hidden rounded-full bg-gray-100 mx-auto'>
-                            <Image
-                                src={
-                                    profilePicture.data?.attributes
-                                        ?.url as string
-                                }
-                                fill
-                                alt=''
-                                className='object-fit'
-                            />
-                        </div>
+                        <div className='w-[200px] h-[200px] border-gray-500 border-[5px] rounded-full bg-gray-100 mx-auto'></div>
                     )}
                     <div className={``}>
                         <h2 className='text-gray-500 uppercase text-2xl font-semibold'>
@@ -72,7 +66,7 @@ const LondonCoverLetter = ({
                     </div>
                 </div>
             </div>
-            <div className='w-[70%] bg-gray-100 px-12 py-16 '>
+            <div className='w-[70%] bg-gray-100 px-12 py-16 pt-[250px] '>
                 {/* Heading */}
                 <div className='py-5 border-b-[5px] border-gray-400 grid gap-4'>
                     <h1
@@ -144,7 +138,8 @@ const LondonCoverLetter = ({
                 </div>
             </div>
         </div>
+        // </div>
     );
 };
 
-export default LondonCoverLetter;
+export default ParisCoverLetter;

@@ -25,6 +25,13 @@ import { AddPhotoSwitch } from "./AddPhotoSwitch";
 import { FaUser } from "react-icons/fa6";
 import Image from "next/image";
 
+import ReactDomServer from "react-dom/server";
+import LondonCoverLetter from "@/components/templatesView/London/CoverLetter";
+import { convertToWordDoc } from "@/lib/functions/convertToWordDoc";
+import { FileUploader } from "react-drag-drop-files";
+import { useSession } from "next-auth/react";
+import { RotatingLines } from "react-loader-spinner";
+
 interface Props {
     data: any;
     id: string;
@@ -39,8 +46,11 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
     const [currentTab, setCurrentTab] = useState(0);
     const [moreSectionModal, setMoreSectionModal] = useState(false);
     const [addProfilePics, setAddProfilePics] = useState<boolean>(
-        data?.attributes?.addProfilePicture || false
+        data?.addProfilePicture || false
     );
+
+    console.log(data);
+
     const {
         handleChangeColor,
         handleAllResumeSections,
@@ -57,7 +67,13 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
         "#800020",
     ];
 
-    console.log(data);
+    const handleConvertToWord = () => {
+        // const html = ReactDomServer.renderToString(
+        //     <LondonCoverLetter document={data} />
+        // );
+        // const url = convertToWordDoc(html, "template");
+        // router.push(url);
+    };
 
     const handleDeleteCoverLetter = async () => {
         const res = await toast.promise(
@@ -166,6 +182,7 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
                             </div>
                         </div>
                         <AddPhotoSwitch
+                            templateId={id}
                             setCheckProfilePics={setAddProfilePics}
                             checkProfilePics={addProfilePics}
                         />
@@ -192,7 +209,10 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
                                 }}
                                 className='w-[184px] bg-white grid gap-[12px] absolute bottom-[-215.20%] text-[#15294B] px-[16px] rounded-[3px] right-0'
                             >
-                                <button className='py-[8px] text-[14px] leading-[140%] font-[400] '>
+                                <button
+                                    onClick={handleConvertToWord}
+                                    className='py-[8px] text-[14px] leading-[140%] font-[400] '
+                                >
                                     Publish PDF
                                 </button>
                                 <button className='py-[8px] text-[14px] leading-[140%] font-[400] '>
@@ -205,7 +225,7 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
                 {addProfilePics && (
                     <div className='grid place-items-center'>
                         <ProfilePicture
-                            TemplateId=''
+                            templateId={id}
                             profilePicture={
                                 data.profilePicture?.data?.attributes
                                     ?.url as string
@@ -348,25 +368,104 @@ const SectionsMenu = ({
 
 interface ProfilePictureProps {
     profilePicture: string;
-    TemplateId: string;
+    templateId: string;
 }
 
 const ProfilePicture = ({
     profilePicture,
-    TemplateId,
+    templateId,
 }: ProfilePictureProps) => {
+    const [userProfile, setUserProfile] = useState();
+    const [loading, setLoading] = useState(false);
+    const fileFormats = ["JPG", "PNG", "JPEG"];
+    const { data: session } = useSession();
+
+    const handleUpload = async (file: any) => {
+        console.log(file);
+
+        const requiredSize = 5 * 1024 * 1024;
+
+        if (file && file?.size <= requiredSize) {
+            try {
+                setLoading(true);
+                const formData = new FormData();
+                formData.append("files", file);
+                const res: any = await fetch(
+                    `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/upload/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.jwt}`,
+                            // "Content-Type": "application/json",
+                        },
+                        body: formData,
+                        method: "POST",
+                    }
+                );
+                const data = await res.json();
+
+                if (data) {
+                    const update = await axios.put(
+                        `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/user-documents/${templateId}`,
+                        {
+                            data: {
+                                profilePicture: data[0]?.id,
+                            },
+                        },
+                        {
+                            headers: {
+                                Authorization: `Bearer ${session?.jwt}`,
+                                // "Content-Type": "application/json",
+                            },
+                        }
+                    );
+
+                    console.log(update);
+                }
+
+                console.log(data);
+                setUserProfile(data[0]?.url);
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                console.log(error);
+            }
+        }
+    };
     return (
-        <div className='flex flex-col items-center gap-3'>
-            <div className='w-[80px] h-[80px] grid place-items-center rounded-full relative bg-gray-400 border-5 border-gray-600'>
-                {profilePicture ? (
-                    <Image src={profilePicture} alt='' fill />
-                ) : (
-                    <FaUser size={40} />
-                )}
+        <FileUploader
+            name='file'
+            maxSize={5}
+            handleChange={handleUpload}
+            types={fileFormats}
+        >
+            <div className='flex flex-col items-center gap-3'>
+                <div className='w-[100px] overflow-hidden h-[100px] grid place-items-center rounded-full relative bg-gray-400 border-5 border-gray-600'>
+                    {profilePicture ? (
+                        <Image
+                            src={userProfile || profilePicture}
+                            alt=''
+                            fill
+                            className='object-fit'
+                        />
+                    ) : (
+                        <FaUser size={40} />
+                    )}
+                    {loading && (
+                        <span className='w-full h-full rounded-full absolute bg-[gray] grid place-items-center '>
+                            <RotatingLines
+                                strokeColor='#E2BB53'
+                                strokeWidth='5'
+                                animationDuration='0.75'
+                                width='40'
+                                visible={true}
+                            />
+                        </span>
+                    )}
+                </div>
+                <p className='text-semibold text-gray-600'>
+                    Click to upload profile picture
+                </p>
             </div>
-            <p className='text-semibold text-gray-600'>
-                Upload profile picture
-            </p>
-        </div>
+        </FileUploader>
     );
 };

@@ -378,7 +378,7 @@ const CreateCoverLetterPage = ({}: Props) => {
                             onChange={formik.handleChange}
                             value={formik.values.company_url}
                             title='Company URL'
-                            placeholder='Paste Job Listing URL here'
+                            placeholder='Paste Company URL here'
                             id='company_url'
                         />
                     </div>
@@ -396,7 +396,7 @@ const CreateCoverLetterPage = ({}: Props) => {
                                     "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
                             }}
                             name='job_description'
-                            placeholder='Paste the Job description here'
+                            placeholder='Paste the Job description here if instructed to'
                             className='w-full bg-white h-[138px] px-[14px] py-[16px]
                             rounded-[8px] border-[1px] border-gray-300 leading-[24px] outline-none text-[16px] font-inter text-gray-500'
                         ></textarea>

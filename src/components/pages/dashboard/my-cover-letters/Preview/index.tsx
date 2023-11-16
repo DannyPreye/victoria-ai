@@ -4,6 +4,7 @@ import CoverLetter from "./CoverLetter";
 import LondonCoverLetter from "@/components/templatesView/London/CoverLetter";
 import { TemplateDocumentType } from "@/lib/types/document";
 import LondonTemplate from "@/components/templatesView/London";
+import ParisTemplate from "@/components/templatesView/Paris";
 
 interface Props {
     document: TemplateDocumentType;
@@ -14,6 +15,7 @@ const PreviewDocumentPage = ({ document }: Props) => {
     return (
         <div className='grid gap-[16px] lg:px-[24px] p-[16px] w-full  '>
             <LondonTemplate document={document} />
+            {/* <ParisTemplate document={document} /> */}
         </div>
     );
 };
