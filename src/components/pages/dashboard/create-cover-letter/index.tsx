@@ -267,7 +267,7 @@ const CreateCoverLetterPage = ({}: Props) => {
                                     },
                                     resume: {
                                         sections: {
-                                            ...resumeTemplate.sections,
+                                            ...response.resume,
                                         },
                                         previewImage:
                                             resumeTemplate.previewImage.data
