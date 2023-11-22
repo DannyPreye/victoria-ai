@@ -1,0 +1,107 @@
+export const getUserDocuments = (userId: string, page?: number) => `query{
+  userDocuments(filters:{users_permissions_user:{id:{eq:${userId}}}} pagination:{page:${page || 1}, pageSize:10} sort:"id:desc"){
+    data{
+      id
+      attributes{
+        companyName
+        template{
+          resume{
+            previewImage{
+              data{
+                attributes{
+                  url
+                  alternativeText
+                }
+              }
+            }
+          }
+          coverLetter{
+            previewImage{
+              data{
+                attributes{
+                  url
+                  alternativeText
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    meta{
+      pagination{
+        page
+        pageSize
+        pageCount
+        total
+      }
+    }
+  }
+}`;
+
+
+export const getSingleUserDocument = (docId: string) => `query{
+userDocument(id:${docId}){
+  data{
+    attributes{
+      addProfilePicture
+      companyName
+      color
+      templateType
+      profilePicture{
+        data{
+          attributes{
+            url
+            alternativeText
+          }
+        }
+      }
+      template{
+        resume{
+        sections{
+          heading{
+            username
+            professionalTitle
+            contact{
+              email
+              phone
+              socialLinks
+            }
+          }
+          professionalSummary
+          education
+          workExperience
+          otherSections
+          skills
+          reference
+        }
+        }
+        coverLetter{
+          sections{
+            heading{
+              username
+              contact{
+                email
+                phone
+                socialLinks
+              }
+              professionalTitle
+
+            }
+            address
+            greetings
+            opener
+            body_1
+            body_2
+            body_3
+            conclusion
+            call_to_action
+            signature
+          }
+        }
+      }
+    }
+  }
+}
+}`;
+
