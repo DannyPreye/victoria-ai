@@ -29,9 +29,6 @@ const LondonResume = ({ document }: Props) => {
         ? convertObjectToArray(resume.sections.workExperience)
         : [];
 
-    console.log(workExperience);
-
-    console.log(document);
     return (
         <div className='flex min-h-screen'>
             <div
