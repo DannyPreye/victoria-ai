@@ -32,11 +32,11 @@ export const Contact = ({ contact, color }: ContactProps) => {
     };
 
     const IconContact = ({ Icon, text }: { Icon: IconType; text: string }) => (
-        <div className='grid grid-cols-3  gap-2 border-b-[2px] border-black py-2'>
+        <div className='grid grid-cols-4  w-full  py-2'>
             <span className='grid flex-shrink-0 place-items-center'>
-                <Icon color='black' size={24} />
+                <Icon color='grey' size={24} />
             </span>
-            <span className='text-gray-600 col-span-2'>{text}</span>
+            <span className='text-gray-600 col-span-3'>{text}</span>
         </div>
     );
     return (

@@ -37,7 +37,7 @@ const TemplateContextProvider = ({ children }: Props) => {
         }
         for (const section of sections) {
             if (
-                resumeSections.otherSections.some(
+                resumeSections.otherSections?.some(
                     (item: any) => item.title === section.title
                 )
             ) {
@@ -74,6 +74,7 @@ const TemplateContextProvider = ({ children }: Props) => {
     };
     const handleAllResumeSections = (sections: any) => {
         console.log(sections);
+
         setResumeSections({ ...sections, ...sections.otherSections });
     };
 
