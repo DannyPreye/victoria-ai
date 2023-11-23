@@ -74,6 +74,7 @@ const TemplateContextProvider = ({ children }: Props) => {
     };
     const handleAllResumeSections = (sections: any) => {
         console.log(sections);
+
         setResumeSections({ ...sections, ...sections.otherSections });
     };
 

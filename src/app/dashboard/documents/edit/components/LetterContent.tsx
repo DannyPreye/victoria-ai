@@ -1,10 +1,10 @@
 "use client";
-import { coverLetterEdit } from "@/lib/dummyData";
+
 import React, { useContext } from "react";
 import { TfiReload } from "react-icons/tfi";
-import { TemplateSection } from "@/lib/types";
+import { TemplateSection } from "@/types/template";
 import { EditButtons } from "./EditButtons";
-import { documentContext } from "@/contexts/ColorContext";
+import { documentContext } from "@/contexts/TemplateContext";
 
 interface Props {
     currentSection: string;

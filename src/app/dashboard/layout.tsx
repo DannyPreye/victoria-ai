@@ -1,4 +1,5 @@
 import DashboardLayout from "@/layouts/DashboardLayout";
+import DocumentProvider from "@/provider/DocumentProvider";
 // import ColorProvider from "@/providers/ColorProvider";
 import React, { ReactNode } from "react";
 
@@ -7,11 +8,13 @@ interface Props {
 }
 const layout = ({ children }: Props) => {
     return (
-        <DashboardLayout>
-            {/* <ColorProvider> */}
-            {children}
-            {/* </ColorProvider> */}
-        </DashboardLayout>
+        <DocumentProvider>
+            <DashboardLayout>
+                {/* <ColorProvider> */}
+                {children}
+                {/* </ColorProvider> */}
+            </DashboardLayout>
+        </DocumentProvider>
     );
 };
 
