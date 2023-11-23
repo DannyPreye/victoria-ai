@@ -41,41 +41,43 @@ const AmsterdamResume = ({ document }: Props) => {
                     profilePicture={document.profilePicture}
                     heading={resume.sections?.heading}
                 >
-                    {/* Education */}
-                    <div className='flex flex-col gap-3'>
-                        <SectionHeading title='Eductation' />
-                        <div className='grid gap-4'>
-                            {education.map((item, id) => (
-                                <div key={id}>
-                                    <p className='font-bold text-[1.2rem] '>
-                                        <span>{item?.school}</span> |{" "}
-                                        <span>
-                                            {item?.location || "Location"}
-                                        </span>
-                                    </p>
-                                    <p className='text-gray-500 font-semibold'>
-                                        {item?.courseOfStudy}
-                                    </p>
-                                    <p>{item?.endYear}</p>
-                                </div>
-                            ))}
+
+                        {/* Education */}
+                        <div className='flex flex-col gap-3'>
+                            <SectionHeading title='Eductation' />
+                            <div className='grid gap-4'>
+                                {education.map((item, id) => (
+                                    <div key={id}>
+                                        <p className='font-bold text-[1.2rem] '>
+                                            <span>{item?.school}</span> |{" "}
+                                            <span>
+                                                {item?.location || "Location"}
+                                            </span>
+                                        </p>
+                                        <p className='text-gray-500 font-semibold'>
+                                            {item?.courseOfStudy}
+                                        </p>
+                                        <p>{item?.endYear}</p>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                    {/* Skill */}
-                    <div className='flex flex-col gap-3'>
-                        <SectionHeading title='Skills' />
-                        <div className='grid gap-4'>
-                            {skills.map((skill) => (
-                                <div
-                                    className='flex items-center gap-8 text-gray-500'
-                                    key={skill}
-                                >
-                                    <GoDotFill />
-                                    <span>{skill}</span>
-                                </div>
-                            ))}
+                        {/* Skill */}
+                        <div className='flex flex-col gap-3'>
+                            <SectionHeading title='Skills' />
+                            <div className='grid gap-4'>
+                                {skills.map((skill) => (
+                                    <div
+                                        className='flex items-center gap-8 text-gray-500'
+                                        key={skill}
+                                    >
+                                        <GoDotFill size={18} />
+                                        <span>{skill}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+
                 </ContactSection>
             </div>
             <div className='w-[70%] bg-gray-100 px-12 py-16 '>
@@ -88,21 +90,11 @@ const AmsterdamResume = ({ document }: Props) => {
                     lastName={lastName}
                     color={document.color}
                 />
-                {/* <div className='py-5 border-b-[5px] border-gray-400 grid gap-4'>
-                    <h1
-                        style={{ color: "black" }}
-                        className={`font-bold text-4xl uppercase  flex gap-2 `}
-                    >
-                        <span>{firstName}</span>
-                        <span className='text-gray-500'>{lastName}</span>
-                    </h1>
-                    <p>{resume?.sections.heading?.professionalTitle}</p>
-                </div> */}
 
                 {/* Professional Summary */}
                 <div className='my-10 grid gap-3'>
                     <SectionHeading title='Profile' />
-                    <p className='text-justify text-gray-500'>
+                    <p className='text-justify font-exo text-gray-500'>
                         {resume.sections.professionalSummary}
                     </p>
                 </div>

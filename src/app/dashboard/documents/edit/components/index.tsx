@@ -30,6 +30,7 @@ import { Spinner, useToast } from "@chakra-ui/react";
 import { deleteDocument } from "@/utils/functions/asyncFunctions/deleteDocument";
 import LondonCoverLetter from "@/components/templates/London/CoverLetterTemplate";
 import LondonResume from "@/components/templates/London/ResumeTemplate";
+import ResumeContent from "./ResumeContent";
 
 interface Props {
     data: any;
@@ -49,7 +50,7 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
     );
     const toast = useToast();
 
-    console.log(data);
+    console.log("data is ", data);
 
     const {
         handleChangeColor,
@@ -100,7 +101,8 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
 
     useEffect(() => {
         handleAllResumeSections(data?.template?.resume?.sections);
-    }, []);
+        console.log("resumeSections are ", resumeSections);
+    }, [data]);
 
     return (
         <div className='flex lg:flex-row flex-col '>
@@ -246,10 +248,28 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
                             />
                         ))}
                     </div>
-                    {
+                    {/* {
                         [
                             <LondonCoverLetter document={data} key={0} />,
                             <LondonResume key={1} document={data} />,
+                        ][currentTab]
+                    } */}
+
+                    {
+                        [
+                            <LetterContent
+                                key={"Cover Letter"}
+                                setCurrentSection={setCurrentSection}
+                                currentSection={currentSection}
+                                sections={data?.template?.coverLetter?.sections}
+                            />,
+                            <ResumeContent
+                                key={"Resume"}
+                                setCurrentSection={setCurrentSection}
+                                currentSection={currentSection}
+                                sections={resumeSections}
+                                setOpenModal={setMoreSectionModal}
+                            />,
                         ][currentTab]
                     }
                 </div>
@@ -272,12 +292,12 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
                 />
             )}
 
-            {/* {moreSectionModal && (
+            {moreSectionModal && (
                 <AddMoreSectionsModal
                     setIsModalOpen={setMoreSectionModal}
                     isModalOpen={moreSectionModal}
                 />
-            )} */}
+            )}
         </div>
     );
 };

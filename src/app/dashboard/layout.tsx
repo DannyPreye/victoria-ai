@@ -1,4 +1,6 @@
+import TemplateContextProvider from "@/contexts/TemplateContext";
 import DashboardLayout from "@/layouts/DashboardLayout";
+import DocumentProvider from "@/provider/DocumentProvider";
 // import ColorProvider from "@/providers/ColorProvider";
 import React, { ReactNode } from "react";
 
@@ -9,7 +11,7 @@ const layout = ({ children }: Props) => {
     return (
         <DashboardLayout>
             {/* <ColorProvider> */}
-            {children}
+            <TemplateContextProvider>{children}</TemplateContextProvider>
             {/* </ColorProvider> */}
         </DashboardLayout>
     );

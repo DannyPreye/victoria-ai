@@ -30,7 +30,7 @@ const ResumeContent = ({
                     style={{ color: currentColor }}
                     className='text-[30px] uppercase font-[600]  leading-[140%]'
                 >
-                    {sections["heading"].username}
+                    {sections["heading"]?.username}
                 </h2>
                 <p className='text-base-secondary-text font-inter text-[20px] font-[500] leading-[30px]'>
                     {sections["heading"]?.professionalTitle}
