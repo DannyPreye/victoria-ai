@@ -24,9 +24,7 @@ const page = async ({ params }: Props) => {
         const cleanResponse = cleangqlResponse(doc);
 
         template = cleanResponse?.userDocument?.data?.attributes;
-    } catch (error) {
-        console.log("This is the error", error);
-    }
+    } catch (error) {}
     return <PreviewDocumentPage document={template} />;
 };
 
