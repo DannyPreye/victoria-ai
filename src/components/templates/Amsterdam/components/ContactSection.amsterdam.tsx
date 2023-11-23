@@ -11,6 +11,8 @@ interface ContactSectionProps {
     color: string;
 }
 
+//
+
 const ContactSection = ({
     addProfilePicture,
     profilePicture,
