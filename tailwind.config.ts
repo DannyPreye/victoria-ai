@@ -16,7 +16,15 @@ const config: Config = {
       fontFamily: {
         poppins: [ 'Poppins', "sans-serif" ],
         inter: [ "Inter", "sans-serif" ],
-        "plus-jakarta": [ "Plus Jakarta Sans", "sans-serif" ]
+        "plus-jakarta": [ "Plus Jakarta Sans", "sans-serif" ],
+        "barlow-condensed": [ "Barlow Condensed", "sans-serif" ],
+        "fuggles": [ "Fuggles", "cursive" ],
+        "oswald": [ "Oswald", "sans-serif" ],
+        lato: [ "Lato", "sans-serif" ],
+        "exo": [ "'Exo 2'", "sans-serif" ],
+        "raleway": [ "Raleway", "sans-serif" ],
+        "open-sans": [ "'Open Sans'", "san-serif" ]
+
       },
       colors: {
         "gray-600": "#475467",

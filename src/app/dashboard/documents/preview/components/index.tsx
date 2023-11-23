@@ -4,15 +4,20 @@ import React from "react";
 import { TemplateDocumentType } from "@/types/document";
 import LondonTemplate from "@/components/templates/London";
 import ParisTemplate from "@/components/templates/Paris";
+import { templateType } from "@/constants/templateType.constants";
 
 interface Props {
     document: TemplateDocumentType;
 }
 const PreviewDocumentPage = ({ document }: Props) => {
+    const Template = templateType.find(
+        (item) => "amsterdam" === item.title.toLowerCase()
+    )?.component;
+
     return (
         <div className='grid gap-[16px] lg:px-[24px] p-[16px] w-full  '>
             {/* <LondonTemplate document={document} /> */}
-            <ParisTemplate document={document} />
+            {Template ? <Template document={document} /> : ""}
         </div>
     );
 };

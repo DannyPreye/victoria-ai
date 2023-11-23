@@ -6,6 +6,7 @@ import { ResumeSectionType, TemplateDocumentType } from "@/types/document";
 import { convertObjectToArray } from "@/utils/functions/converNumericObjectToArray";
 import { ParisHeading } from "../components/ParisHeading.paris";
 import { ContactSection } from "../components/ContactSection";
+import MainBodyHeading from "../components/MainBodyHeading";
 
 interface Props {
     document: TemplateDocumentType;
@@ -30,7 +31,7 @@ const ParisResume = ({ document }: Props) => {
         : [];
 
     return (
-        <div className='flex min-h-screen relative overflow-hidden'>
+        <div className='flex min-h-screen relative overflow-hidden font-lato'>
             <ParisHeading
                 username={resume?.sections?.heading?.username}
                 professionalTitle={resume?.sections?.heading?.professionalTitle}
@@ -44,9 +45,7 @@ const ParisResume = ({ document }: Props) => {
             >
                 {/* Education */}
                 <div className={``}>
-                    <h2 className='text-gray-500 border-black uppercase mx-auto w-[80%] text-center border-b-[1px] text-2xl font-semibold'>
-                        Eductaion
-                    </h2>
+                    <MainBodyHeading title='Education' />
                     <div className='flex flex-col items-center w-[80%] mx-auto'>
                         {education.map((item, id) => (
                             <div
@@ -68,10 +67,8 @@ const ParisResume = ({ document }: Props) => {
 
                 {/*SKILLS  */}
                 <div className={``}>
-                    <h2 className='text-gray-500 border-black uppercase mx-auto w-[80%] text-center border-b-[1px] text-2xl font-semibold'>
-                        Skills
-                    </h2>
-                    <div className='flex flex-col gap-2 items-center w-[80%] mt-4 mx-auto'>
+                    <MainBodyHeading title='Skills' />
+                    <div className='flex font-lato  flex-col gap-2 items-center w-[80%] mt-4 mx-auto'>
                         {skills.map((skill, id) => (
                             <p key={id}>{skill}</p>
                         ))}
@@ -80,13 +77,38 @@ const ParisResume = ({ document }: Props) => {
             </ContactSection>
 
             {/* Main Body Section  */}
-            <section className='w-[70%] bg-gray-100 px-12 py-16 pt-[300px]'>
+            <section className='w-[70%]  bg-gray-100 px-12 py-16 pt-[300px]'>
                 <div className={``}>
-                    <h2 className='text-gray-500  border-black uppercase mx-auto mt-5  text-center border-b-[1px] text-2xl font-semibold'>
-                        About Me
-                    </h2>
-                    <div className='flex flex-col gap-2 text-gray-500 leading-[140%] text-justify items-center  mt-4 mx-auto'>
+                    <MainBodyHeading title='About Me' />
+                    <div className='flex flex-col gap-2  text-gray-500 leading-[140%] text-justify items-center  mt-5 mx-auto'>
                         {resume.sections.professionalSummary}
+                    </div>
+                </div>
+                <div className={`mt-4`}>
+                    <MainBodyHeading title='Work Experience' />
+                    <div className='flex flex-col gap-2 text-gray-500 leading-[140%] text-justify items-center  mt-5 mx-auto'>
+                        {workExperience.map((experience, id) => (
+                            <div key={`experience_${id}`}>
+                                <p className='text-gray-600 font-bold'>
+                                    Job Position
+                                </p>
+                                <p className='font-lato font-[400] text-black italic'>
+                                    {experience?.companyName || "Company name"},{" "}
+                                    {experience?.location || "Location"} /{" "}
+                                    {experience?.startYear} -{" "}
+                                    {experience?.endYear}
+                                </p>
+                                <ul className='pl-8'>
+                                    {experience?.achievement?.map(
+                                        (achievement: any) => (
+                                            <li key={achievement}>
+                                                {achievement}
+                                            </li>
+                                        )
+                                    )}
+                                </ul>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -95,11 +117,3 @@ const ParisResume = ({ document }: Props) => {
 };
 
 export default ParisResume;
-
-const MainBodyHeading = ({ title }: { title: string }) => {
-    return (
-        <h2 className='text-gray-600 uppercase text-2xl font-semibold'>
-            {title}
-        </h2>
-    );
-};
