@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import Image from "next/image";
 import { Contact } from "./Contact.paris";
+import MainBodyHeading from "./MainBodyHeading";
 
 interface ContactSectionProps {
     children: ReactNode;
@@ -31,10 +32,8 @@ export const ContactSection = ({
                     </div>
                 )}
                 <div className={``}>
-                    <h2 className='text-gray-500 border-black uppercase mx-auto w-[80%] text-center border-b-2 text-2xl font-semibold'>
-                        Contact
-                    </h2>
-                    <div className='flex flex-col items-center w-[80%] mx-auto'>
+                    <MainBodyHeading title='Contact' />
+                    <div className='flex text-gray-700 flex-col items-center w-[80%] mx-auto'>
                         <Contact contact={heading?.contact} color={color} />
                     </div>
                 </div>
