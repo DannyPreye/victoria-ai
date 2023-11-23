@@ -1,9 +1,8 @@
-import React, { ReactNode } from "react";
-
-import Image from "next/image";
+import React from "react";
 
 import { TemplateDocumentType } from "@/types/document";
-import { Contact } from "../components/Contact.paris";
+import { ParisHeading } from "../components/ParisHeading.paris";
+import { ContactSection } from "../components/ContactSection";
 
 interface Props {
     document: TemplateDocumentType;
@@ -26,51 +25,22 @@ const ParisCoverLetter = ({
 
     return (
         <div className='flex min-h-screen relative overflow-hidden'>
-            <div className='h-[300px] absolute flex justify-end -left-5 px-8 py-10 -top-11 rotate-[4deg] bg-black w-[120%]'></div>
-            <div className='absolute flex justify-end text-white right-0  w-full px-8 top-[6%] flex-col items-end '>
-                <h1
-                    style={{ color: "white" }}
-                    className={`font-bold text-5xl uppercase   flex gap-2 `}
-                >
-                    {coverLetter?.sections?.heading?.username}
-                </h1>
-                <p className='tracking-2'>
-                    {coverLetter?.sections.heading?.professionalTitle}
-                </p>
-            </div>
+            <ParisHeading
+                username={coverLetter?.sections?.heading?.username}
+                professionalTitle={
+                    coverLetter?.sections?.heading?.professionalTitle
+                }
+            />
             {/* Contact Section */}
-            <section className='w-[40%] bg-[rgb(227,225,225)] p-12 flex flex-col pt-[300px] gap-[250px]'>
-                <div className=' flex flex-col gap-8'>
-                    {/* Profile Picture */}
-                    {addProfilePicture && (
-                        <div className='w-[200px] h-[200px] relative border-gray-700 border-[5px] overflow-hidden rounded-full bg-gray-100 mx-auto'>
-                            <Image
-                                src={
-                                    profilePicture.data?.attributes
-                                        ?.url as string
-                                }
-                                fill
-                                alt=''
-                                className='object-fit'
-                            />
-                        </div>
-                    )}
-                    <div className={``}>
-                        <h2 className='text-gray-500 border-black uppercase text-center border-b-2 text-2xl font-semibold'>
-                            Contact
-                        </h2>
-                        <div className='flex flex-col items-center w-[80%] mx-auto'>
-                            <Contact
-                                contact={coverLetter.sections.heading.contact}
-                                color={color}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className='flex flex-col gap-3'>
+            <ContactSection
+                color={color}
+                addProfilePicture={addProfilePicture}
+                profilePicture={profilePicture}
+                heading={coverLetter.sections?.heading}
+            >
+                <div className='flex flex-col  items-center gap-3'>
                     <div>
-                        <h3 className='text-gray-500 text-[1.2rem] font-semibold'>
+                        <h3 className='text-gray-500 text-center text-[1.2rem] font-semibold'>
                             From
                         </h3>
                         <p className='font-bold'>
@@ -83,7 +53,7 @@ const ParisCoverLetter = ({
                         </h3>
                     </div>
                 </div>
-            </section>
+            </ContactSection>
 
             {/* Main Body Section  */}
             <section className='w-[70%] bg-gray-100 px-12 py-16 pt-[300px]'>
@@ -138,7 +108,7 @@ const ParisCoverLetter = ({
                 </div>
 
                 <div className='mt-11 flex flex-col items-end'>
-                    <p className='flex flex-col'>
+                    <p className='flex flex-col items-end'>
                         <span>{coverLetter.sections.signature} </span>
                         <span className='font-bold text-[1.2rem]'>
                             {coverLetter.sections.heading.username}
