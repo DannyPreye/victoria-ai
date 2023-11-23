@@ -1,3 +1,4 @@
+import TemplateContextProvider from "@/contexts/TemplateContext";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import DocumentProvider from "@/provider/DocumentProvider";
 // import ColorProvider from "@/providers/ColorProvider";
@@ -8,13 +9,11 @@ interface Props {
 }
 const layout = ({ children }: Props) => {
     return (
-        <DocumentProvider>
-            <DashboardLayout>
-                {/* <ColorProvider> */}
-                {children}
-                {/* </ColorProvider> */}
-            </DashboardLayout>
-        </DocumentProvider>
+        <DashboardLayout>
+            {/* <ColorProvider> */}
+            <TemplateContextProvider>{children}</TemplateContextProvider>
+            {/* </ColorProvider> */}
+        </DashboardLayout>
     );
 };
 

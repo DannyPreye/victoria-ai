@@ -50,7 +50,7 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
     );
     const toast = useToast();
 
-    console.log(data);
+    console.log("data is ", data);
 
     const {
         handleChangeColor,
@@ -67,8 +67,6 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
         "#404564",
         "#800020",
     ];
-
-    console.log(resumeSections);
 
     const handleConvertToWord = () => {
         // const html = ReactDomServer.renderToString(
@@ -101,10 +99,10 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
         });
     };
 
-    console.log(data?.template?.resume?.sections);
     useEffect(() => {
         handleAllResumeSections(data?.template?.resume?.sections);
-    }, []);
+        console.log("resumeSections are ", resumeSections);
+    }, [data]);
 
     return (
         <div className='flex lg:flex-row flex-col '>
@@ -294,12 +292,12 @@ const EditCoverLetterPage = ({ data, id, session }: Props) => {
                 />
             )}
 
-            {/* {moreSectionModal && (
+            {moreSectionModal && (
                 <AddMoreSectionsModal
                     setIsModalOpen={setMoreSectionModal}
                     isModalOpen={moreSectionModal}
                 />
-            )} */}
+            )}
         </div>
     );
 };
