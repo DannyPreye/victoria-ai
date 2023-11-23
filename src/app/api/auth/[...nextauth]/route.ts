@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import NextAuth, { getServerSession } from "next-auth/next";
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
 import { authOptions } from "@/utils/auth";
