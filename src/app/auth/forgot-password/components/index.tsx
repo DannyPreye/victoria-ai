@@ -98,12 +98,15 @@ const ForgetPassword = () => {
                         }
                         errorMessage={formik.errors.email}
                     />
-                    <PageButton
-                        isLoading={isLoading}
-                        text='Submit'
-                        className='mt-3 bg-base-secondary-text'
-                        variant='solid'
-                    />
+                    <div className='flex justify-end'>
+                        <PageButton
+                            isLoading={isLoading}
+                            text='Submit'
+                            type='submit'
+                            className='mt-3 text-gray-200 hover:bg-base-secondary-text bg-base-secondary-text'
+                            variant='solid'
+                        />
+                    </div>
                 </form>
             </div>
         </div>

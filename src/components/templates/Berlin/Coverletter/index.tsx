@@ -1,5 +1,7 @@
 import { TemplateDocumentType } from "@/types/document";
 import React from "react";
+import MainHeading from "../components/MainHeading.berlin";
+import ContactSection from "../components/ContactSection.berlin";
 
 interface Props {
     document: TemplateDocumentType;
@@ -15,14 +17,15 @@ const BerlinCoverletter = ({
 }: Props) => {
     return (
         <div className='flex min-h-screen relative'>
-            <div className='absolute top-[5%] gap-3 grid place-items-center uppercase border-b-[3px] py-7 bg-white border-t-[3px] border-black w-full '>
-                <h1 className='font-bold text-6xl'>
-                    {coverLetter?.sections?.heading?.username}
-                </h1>
-                <p className='tracking-widest uppercase'>
-                    {coverLetter?.sections?.heading?.professionalTitle}
-                </p>
-            </div>
+            <MainHeading
+                professionalTitle={
+                    coverLetter.sections?.heading?.professionalTitle
+                }
+                username={coverLetter.sections?.heading?.username}
+                color={color}
+                addProfilePicture={addProfilePicture}
+                profilePicture={profilePicture.data?.attributes?.url as string}
+            />
             <div className='w-[70%] bg-gray-100 pt-[320px] pb-4 px-8'>
                 {/* Address */}
                 <div>
@@ -89,7 +92,16 @@ const BerlinCoverletter = ({
                     </div>
                 </div>
             </div>
-            <div className='w-[40%] bg-black pt-[320px]'></div>
+            <div className='w-[40%] bg-black pt-[320px]'>
+                <ContactSection
+                    heading={coverLetter.sections?.heading}
+                    addProfilePicture={addProfilePicture}
+                    color={color}
+                    profilePicture={profilePicture}
+                >
+                    <div></div>
+                </ContactSection>
+            </div>
         </div>
     );
 };

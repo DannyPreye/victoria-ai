@@ -110,12 +110,15 @@ const ConfirmEmailPage = () => {
                             }
                             errorMessage={formik.errors.code}
                         />
-                        <PageButton
-                            isLoading={isLoading}
-                            className='mt-4'
-                            variant='outline'
-                            text='Confirm'
-                        />
+                        <div className='flex justify-end'>
+                            <PageButton
+                                isLoading={isLoading}
+                                text='Confirm'
+                                type='submit'
+                                className='mt-3 text-gray-200 hover:bg-base-secondary-text bg-base-secondary-text'
+                                variant='solid'
+                            />
+                        </div>
                     </form>
                 </div>
             </div>

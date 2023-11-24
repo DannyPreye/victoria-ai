@@ -10,9 +10,13 @@ interface Props {
     document: TemplateDocumentType;
 }
 const PreviewDocumentPage = ({ document }: Props) => {
+    // const Template = templateType.find(
+    //     (item) =>
+    //         document.templateType.toLowerCase() === item.title.toLowerCase()
+    // )?.component;
+
     const Template = templateType.find(
-        (item) =>
-            document.templateType.toLowerCase() === item.title.toLowerCase()
+        (item) => "berlin" === item.title.toLowerCase()
     )?.component;
 
     return (
