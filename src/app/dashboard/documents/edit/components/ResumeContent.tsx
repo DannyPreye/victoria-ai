@@ -19,8 +19,14 @@ const ResumeContent = ({
 }: Props) => {
     const { currentColor } = useContext(documentContext);
 
+    const otherSections = Array.isArray(sections?.otherSections)
+        ? sections?.otherSections
+        : [];
+    console.log(otherSections);
     const extractSectionHeading =
-        typeof sections === "object" ? Object.keys(sections) : [];
+        typeof sections === "object"
+            ? [...Object.keys(sections), ...Object.keys(otherSections)]
+            : [];
 
     console.log(sections);
     return (
@@ -79,8 +85,12 @@ const SectionControl = ({
     useEffect(() => {
         setOpenContent(currentSection == sectionTitle);
     }, [currentSection]);
-    const splitWord = (word: string) =>
-        word.replace(/([a-z])([A-Z])/g, "$1 $2");
+    const splitWord = (word: string) => {
+        console.log(word);
+        return word.replace(/([a-z])([A-Z])/g, "$1 $2");
+    };
+
+    console.log(sectionTitle);
     return (
         <div className='text-base-secondary-text relative'>
             <h3

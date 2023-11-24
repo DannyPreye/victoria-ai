@@ -12,7 +12,7 @@ interface Props {
 const PreviewDocumentPage = ({ document }: Props) => {
     const Template = templateType.find(
         (item) =>
-            document.templateType.toLowerCase() === item.title.toLowerCase()
+           document.templateType === item.title.toLowerCase()
     )?.component;
 
     return (

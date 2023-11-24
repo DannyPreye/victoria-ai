@@ -7,7 +7,8 @@ import { Session } from "next-auth";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { convertObjectToArray } from "../converNumericObjectToArray";
 
-interface GenerateDocumentProps {
+interface GenerateDocumentProps
+{
   handleCreateDocumentProps: {
     session: Session | null;
     templateTitle: string;
@@ -32,7 +33,8 @@ export const generateDocument = async ({
   handleCreateDocumentProps,
   values,
   document_url,
-}: GenerateDocumentProps) => {
+}: GenerateDocumentProps) =>
+{
   try {
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/generate-document`,
@@ -59,18 +61,16 @@ export const generateDocument = async ({
 
         throw Error();
       }
-      await handleCreate({ ...handleCreateDocumentProps, response: data });
+      const create = await handleCreate({ ...handleCreateDocumentProps, response: data });
     }
   } catch (error) {
     console.log("error is ", error);
-
-    handleCreateDocumentProps.toast({
-      title: "Eroo",
-    });
+    throw Error();
   }
 };
 
-interface HandleCreateProps {
+interface HandleCreateProps
+{
   response: any;
   session: Session | null;
   templateTitle: string;
@@ -89,7 +89,8 @@ const handleCreate = async ({
   templateTitle,
   coverLetterTemplate,
   resumeTemplate,
-}: HandleCreateProps) => {
+}: HandleCreateProps) =>
+{
   if (response.status == 200) {
     try {
       const data: any = await gqlQery(
@@ -97,11 +98,6 @@ const handleCreate = async ({
         session?.jwt as string
       );
 
-      console.log(response);
-      console.log(convertObjectToArray(response.resume.education));
-      console.log(convertObjectToArray(response.resume.skills));
-      console.log(convertObjectToArray(response.resume.reference));
-      console.log(convertObjectToArray(response.resume.workExperience));
 
       if (data?.usersPermissionsUser?.data.attributes.plan?.data) {
         const { data } = await axios.post(
@@ -199,6 +195,8 @@ const handleCreate = async ({
         duration: 9000,
         isClosable: true,
       });
+
+      throw new Error();
     }
   } else {
     console.log("response from ai is ", response);
