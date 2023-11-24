@@ -99,6 +99,7 @@ const handleCreate = async ({
       );
 
 
+
       if (data?.usersPermissionsUser?.data.attributes.plan?.data) {
         const { data } = await axios.post(
           `${process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL}/user-documents`,
