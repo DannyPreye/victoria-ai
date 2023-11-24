@@ -3,6 +3,7 @@ import { TemplateSection } from "@/types/template";
 import { useToast } from "@chakra-ui/react";
 import React, { ReactNode, useState } from "react";
 import { createContext } from "react";
+import { object } from "yup";
 export const documentContext = createContext({
     currentColor: "",
     handleChangeColor: (color: string) => {},
@@ -37,16 +38,16 @@ const TemplateContextProvider = ({ children }: Props) => {
         }
         for (const section of sections) {
             if (
-                resumeSections.otherSections?.some(
-                    (item: any) => item.title === section.title
+                typeof resumeSections.otherSection === "object" &&
+                Object.keys(resumeSections?.otherSections).includes(
+                    Object.keys(section)[0]
                 )
             ) {
-                // toast.error(
-                //     `Duplicate section '${section.title}' is not allowed.`
-                // );
                 toast({
                     title: "Error",
-                    description: `Duplicate section '${section.title}' is not allowed.`,
+                    description: `Duplicate section '${
+                        Object.keys(sections)[0]
+                    }' is not allowed.`,
                     status: "error",
                     isClosable: true,
                     duration: 3000,
@@ -54,7 +55,11 @@ const TemplateContextProvider = ({ children }: Props) => {
                 sections = [];
                 break;
             }
-            if (resumeSections.otherSections.length > 4) {
+
+            if (
+                typeof resumeSections.otherSection === "object" &&
+                Object.keys(resumeSections?.otherSection).length > 4
+            ) {
                 toast({
                     title: "Error",
                     description: `You cannot add more than 4 additional sections`,
@@ -64,17 +69,20 @@ const TemplateContextProvider = ({ children }: Props) => {
                 });
                 sections = [];
                 break; // Exit the loop if the limit is reached
-            } else {
-                setResumeSections((prev: any) => ({
-                    ...prev,
-                    otherSections: [...prev.otherSections, section],
-                }));
             }
+            // setResumeSections((prev: any) => ({
+            //     ...prev,
+            //     otherSections: [...prev.otherSections, section],
+            // }));
+
+            resumeSections.otherSections = {
+                ...resumeSections.othersections,
+                ...section,
+            };
         }
     };
-    const handleAllResumeSections = (sections: any) => {
-        console.log(sections);
 
+    const handleAllResumeSections = (sections: any) => {
         setResumeSections({ ...sections, ...sections.otherSections });
     };
 

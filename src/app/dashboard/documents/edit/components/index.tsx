@@ -389,6 +389,7 @@ const ProfilePicture = ({
     const [loading, setLoading] = useState(false);
     const fileFormats = ["JPG", "PNG", "JPEG"];
     const { data: session } = useSession();
+    const toast = useToast();
 
     const handleUpload = async (file: any) => {
         console.log(file);
@@ -437,10 +438,34 @@ const ProfilePicture = ({
                 setLoading(false);
             } catch (error) {
                 setLoading(false);
+                toast({
+                    title: "Error",
+                    status: "error",
+                    description:
+                        "Something went wrong. Please try uploading your profile picture again",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "top",
+                });
                 console.log(error);
             }
+        } else {
+            toast({
+                title: "Error",
+                status: "error",
+                description:
+                    "Picture size is too big. Picture must not be more than 5mb",
+                duration: 9000,
+                isClosable: true,
+                position: "top",
+            });
         }
     };
+    useEffect(() => {
+        console.log("This will just rerender the component");
+    }, [userProfile]);
+
+    console.log(userProfile);
     return (
         <FileUploader
             name='file'
@@ -450,7 +475,7 @@ const ProfilePicture = ({
         >
             <div className='flex flex-col items-center gap-3'>
                 <div className='w-[100px] overflow-hidden h-[100px] grid place-items-center rounded-full relative bg-gray-400 border-5 border-gray-600'>
-                    {profilePicture ? (
+                    {profilePicture || userProfile ? (
                         <Image
                             src={userProfile || profilePicture}
                             alt=''

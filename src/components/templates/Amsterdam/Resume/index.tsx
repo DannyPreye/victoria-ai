@@ -41,43 +41,44 @@ const AmsterdamResume = ({ document }: Props) => {
                     profilePicture={document.profilePicture}
                     heading={resume.sections?.heading}
                 >
+                    {/* Education */}
+                    <div className='flex flex-col gap-3'>
+                        <SectionHeading title='Eductation' />
+                        <div className='grid gap-4'>
+                            {education.map((item, id) => (
+                                <div key={id}>
+                                    <p className=' capitalize text-[1.2rem  font-open-sans font-bold'>
+                                        {item?.courseOfStudy}
+                                    </p>
+                                    <p className=' ] '>
+                                        <span>{item?.school}</span> |{" "}
+                                        <span>
+                                            {item?.location || "Location"}
+                                        </span>
+                                    </p>
 
-                        {/* Education */}
-                        <div className='flex flex-col gap-3'>
-                            <SectionHeading title='Eductation' />
-                            <div className='grid gap-4'>
-                                {education.map((item, id) => (
-                                    <div key={id}>
-                                        <p className='font-bold text-[1.2rem] '>
-                                            <span>{item?.school}</span> |{" "}
-                                            <span>
-                                                {item?.location || "Location"}
-                                            </span>
-                                        </p>
-                                        <p className='text-gray-500 font-semibold'>
-                                            {item?.courseOfStudy}
-                                        </p>
-                                        <p>{item?.endYear}</p>
-                                    </div>
-                                ))}
-                            </div>
+                                    <p className=' text-[1.2rem  font-open-sans font-bold'>
+                                        {item?.endYear}
+                                    </p>
+                                </div>
+                            ))}
                         </div>
-                        {/* Skill */}
-                        <div className='flex flex-col gap-3'>
-                            <SectionHeading title='Skills' />
-                            <div className='grid gap-4'>
-                                {skills.map((skill) => (
-                                    <div
-                                        className='flex items-center gap-8 text-gray-500'
-                                        key={skill}
-                                    >
-                                        <GoDotFill size={18} />
-                                        <span>{skill}</span>
-                                    </div>
-                                ))}
-                            </div>
+                    </div>
+                    {/* Skill */}
+                    <div className='flex flex-col gap-3'>
+                        <SectionHeading title='Skills' />
+                        <div className='grid gap-2'>
+                            {skills.map((skill) => (
+                                <div
+                                    className='flex pl-3 items-center gap-3 text-gray-500'
+                                    key={skill}
+                                >
+                                    <GoDotFill size={10} />
+                                    <span>{skill}</span>
+                                </div>
+                            ))}
                         </div>
-
+                    </div>
                 </ContactSection>
             </div>
             <div className='w-[70%] bg-gray-100 px-12 py-16 '>
